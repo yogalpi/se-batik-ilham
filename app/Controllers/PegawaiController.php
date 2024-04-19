@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\GajiModel;
+use App\Models\GajiProduksiModel;
 use App\Models\KaryawanModel;
 use App\Models\PenggunaModel;
 
@@ -9,9 +11,13 @@ class PegawaiController extends BaseController
 {
 
     private $karyawan;
+    private $gaji_pegawai_produksi;
+    private $gaji;
 
     public function __construct(){
         $this->karyawan = new KaryawanModel();
+        $this->gaji_pegawai_produksi = new GajiProduksiModel();
+        $this->gaji = new GajiModel();
     }
     public function pegawaiManage(){
         return view('inputPegawai');
@@ -32,8 +38,30 @@ class PegawaiController extends BaseController
         return view('gajiProduksi');
     }
     public function inputGajiProduksi(){
-        return view('inputGajiProduksi');
+        $data = [
+            'gaji' => $this->gaji->findAll()
+        ]; 
+
+        return view('inputGajiProduksi', $data);
     }
+
+    public function inputGajiKaryawanProduksi(){
+        $post = $this->request->getPost(['kode_gaji' ,'kode_karyawan', 'kode_produksi', 'jumlah_produksi', 'total_gaji']);
+        $this->gaji_pegawai_produksi->insert([
+            'kode_gaji'         => $post['kode_gaji'],
+            'kode'              => $post['kode_karyawan'],
+            'kode_produksi'     => $post['kode_produksi'],
+            'jumlah_produksi'   => $post['jumlah_produksi'],
+            'total_gaji'        => $post['total_gaji']
+        ]);
+
+        $data = [
+            'gaji' => $this->gaji_pegawai_produksi->findAll()
+        ]; 
+
+        return view('gajiProduksi', $data);
+    }
+
     public function gajiUmum(){
         return view('gajiUmum');
     }
