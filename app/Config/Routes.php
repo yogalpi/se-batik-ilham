@@ -32,6 +32,9 @@ $routes->get('/manajemen_pegawai', 'PegawaiController::pegawaiManage');
 $routes->get('/daftar_pegawai', 'PegawaiController::daftarPegawai');
 $routes->get('/manajemen_gaji', 'PegawaiController::manajemenGaji');
 
+$routes->post('/input_pegawai', 'PegawaiController::inputPegawai');
+
+
 $routes->get('/gaji_produksi', 'PegawaiController::gajiProduksi');
 $routes->get('/gaji_umum', 'PegawaiController::gajiUmum');
 

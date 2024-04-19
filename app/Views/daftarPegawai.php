@@ -15,17 +15,22 @@
                             <tr>
                             <th scope="col">NOMOR KARYAWAN</th>
                             <th scope="col">NAMA KARYAWAN</th>
-                            <th scope="col">JENIS</th>
-                            <th scope="col">NOMOR HP</th>
+                            <th scope="col">KARYAWAN</th>
+                            <th scope="col">JENIS KELAMIN</th>
                             <th scope="col">ACTION</th>
                             </tr>
                         </thead>
                         <tbody>
+                        <?php foreach ($karyawan as $kar) : ?>
                             <tr>
-                            <th scope="row">00001</th>
-                            <td>Nabagadi</td>
-                            <td>Produksi</td>
-                            <td>08569542154</td>
+                            <th scope="row"><?= $kar['kode']; ?></th>
+                            <td><?= $kar['nama']; ?></td>
+                            <?php if($kar['kode_jenis'] == "KP") : ?>
+                              <td>Karyawan Produksi</td>
+                            <?php elseif($kar['kode_jenis'] == "KU") : ?>
+                              <td>Karyawan Umum</td>
+                            <?php endif; ?>
+                            <td><?= $kar['jenis_kelamin']; ?></td>
                             <td>
                                 <a href="#" class="me-3">
                                     <i class="bi bi-pencil-square"></i>
@@ -43,6 +48,7 @@
 
                             </td>
                             </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
 
