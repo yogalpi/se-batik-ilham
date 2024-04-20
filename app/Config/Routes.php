@@ -49,6 +49,7 @@ $routes->get('/data_pembelian', 'PembelianController::dataPembelian');
 // GUDANG Jadi
 $routes->get('/data_gudang_jadi', 'GudangJadiController::dataGudangJadi');
 $routes->get('/input_gudang_jadi', 'GudangJadiController::inputGudangJadi');
+$routes->post('/simpan_gudang_jadi', 'GudangJadiController::simpanGudangJadi');
 
 // PENJUALAN
 $routes->get('/transaksi_penjualan', 'TransaksiController::transaksi');
