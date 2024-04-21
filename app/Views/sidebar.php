@@ -20,10 +20,10 @@
 
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu">Pembelian</span>
+              <span class="hide-menu">PENGADAAN</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/input_pembelian" aria-expanded="false">
+              <a class="sidebar-link" href="/input_pengadaan" aria-expanded="false">
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
@@ -31,7 +31,7 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/data_pembelian" aria-expanded="false">
+              <a class="sidebar-link" href="/data_pengadaan" aria-expanded="false">
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
@@ -100,19 +100,11 @@
               <span class="hide-menu">Keuangan</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/uang_masuk" aria-expanded="false">
+              <a class="sidebar-link" href="/uangMasukdanKeluar" aria-expanded="false">
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
-                <span class="hide-menu">Uang Masuk</span>
-              </a>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/uang_keluar" aria-expanded="false">
-                <span>
-                  <i class="ti ti-layout-dashboard"></i>
-                </span>
-                <span class="hide-menu">Uang Keluar</span>
+                <span class="hide-menu">Uang Masuk Dan Keluar</span>
               </a>
             </li>
             <li class="sidebar-item">
@@ -121,6 +113,14 @@
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
                 <span class="hide-menu">Buku Besar</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/datauangMasukdanKeluar" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Data Uang Masuk dan Keluar</span>
               </a>
             </li>
 

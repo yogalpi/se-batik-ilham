@@ -3,6 +3,7 @@
 <?= $this->section("content");?>
 <?= $this->include("sidebar");?>
 
+
         <div class="container-fluid">
           <div class="card">
             <div class="card-body">
@@ -13,17 +14,22 @@
                     <table class="table table-hover mb-5">
                         <thead>
                             <tr>
-                            <th scope="col">KODE PRODUKSI</th>
-                            <th scope="col">ESTIMASI WAKTU</th>
+                              <th scope="col">KODE PENGADAAN</th>
+                              <th scope="col">KODE PRODUKSI</th>
+                              <th scope="col">TANGGAL MULAI</th>
+                              <th scope="col">TANGGAL SELESAI</th>
                             <th scope="col">STATUS</th>
                             <th scope="col">ACTION</th>
                             </tr>
                         </thead>
                         <tbody>
+                          <?php foreach ($produksi as $prod) :?>
                             <tr>
-                            <th scope="row">A-001</th>
-                            <td>1 BULAN</td>
-                            <td>PENDING</td>
+                            <td scope="row"><?= $prod["kode_pengadaan"] ?></td>
+                            <td scope="row"><?= $prod["kode_produksi"] ?></td>
+                            <td scope="row"><?= $prod["tanggal_mulai"] ?></td>
+                            <td scope="row"><?= $prod["tanggal_selesai"] ?></td>
+                            <td scope="row"><?= $prod["status"] ?></td>
                             <td>
                                 <a href="#" class="me-3">
                                     <i class="bi bi-pencil-square"></i>
@@ -41,10 +47,11 @@
 
                             </td>
                             </tr>
+                          <?php endforeach ?>
                         </tbody>
                     </table>
 
-                    <a href="/manajemen_aset"><button type="submit" class="btn btn-primary">+ Tambah Data Produksi</button></a>
+                    <a href="/inputProduksi"><button type="submit" class="btn btn-primary">+ Tambah Data Produksi</button></a>
 
                 </div>
               </div>

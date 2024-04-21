@@ -16,14 +16,23 @@
                             <th scope="col">KODE BARANG</th>
                             <th scope="col">KODE PRODUKSI</th>
                             <th scope="col">NAMA BARANG</th>
+                            <th scope="col">JUMLAH</th>
+                            <th scope="col">JENIS</th>
+                            <th scope="col">KETERANGAN</th>
+                            <th scope="col">TANGGAL</th>
                             <th scope="col">ACTION</th>
                             </tr>
                         </thead>
                         <tbody>
+                        <?php foreach ($gudangBahan as $gb) :?>
                             <tr>
-                            <th scope="row">A-001</th>
-                            <td>A-002</td>
-                            <td>Kendaraan</td>
+                            <td scope="row"><?= $gb["kode_barang"] ?></td>
+                            <td scope="row"><?= $gb["kode_produksi"] ?></td>
+                            <td scope="row"><?= $gb["nama_barang"] ?></td>
+                            <td scope="row"><?= $gb["jumlah"] ?></td>
+                            <td scope="row"><?= $gb["jenis"] ?></td>
+                            <td scope="row"><?= $gb["keterangan"] ?></td>
+                            <td scope="row"><?= $gb["tanggal"] ?></td>
                             <td>
                                 <a href="#" class="me-3">
                                     <i class="bi bi-pencil-square"></i>
@@ -41,10 +50,11 @@
 
                             </td>
                             </tr>
+                          <?php endforeach ?>
                         </tbody>
                     </table>
 
-                    <a href="/manajemen_aset"><button type="submit" class="btn btn-primary">+ Tambah Data Gudang</button></a>
+                    <a href="/input_gudang"><button type="submit" class="btn btn-primary">+ Tambah Data Bahan Baku</button></a>
 
                 </div>
               </div>
