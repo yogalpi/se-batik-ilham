@@ -20,6 +20,8 @@ $routes->get('/input_produksi', 'ProduksiController::inputProduksi');
 // GUDANG
 $routes->get('/data_gudang', 'GudangController::dataGudang');
 $routes->get('/input_gudang', 'GudangController::inputGudang');
+$routes->post('/input_gudang', 'GudangController::simpanBahan');
+$routes->post('/gudang', 'GudangController::gudangBahan');
 
 // ASSET_MANAGEMEN
 $routes->get('/manajemen_aset', 'AsetManageController::asetManage');
@@ -45,6 +47,14 @@ $routes->get('/input_gaji_umum', 'PegawaiController::InputGajiUmum');
 // PEMBELIAN
 $routes->get('/input_pembelian', 'PembelianController::inputPembelian');
 $routes->get('/data_pembelian', 'PembelianController::dataPembelian');
+
+// PENGADAAN
+$routes->get('/input_pengadaan', 'PengadaanController::inputPengadaan');
+$routes->get('/data_pengadaan', 'PengadaanController::dataPengadaan');
+
+$routes->post('/input_pengadaan', 'PengadaanController::simpanPengadaan');
+$routes->post('/pengadaan', 'PengadaanController::pengadaan');
+$routes->get('/detail_pengadaan/(:any)', 'PengadaanController::detailPengadaan/$1');
 
 // GUDANG Jadi
 $routes->get('/data_gudang_jadi', 'GudangJadiController::dataGudangJadi');
