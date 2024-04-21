@@ -56,6 +56,7 @@ $routes->get('/transaksi_penjualan', 'TransaksiController::transaksi');
 $routes->get('/detail_transaksi/(:any)', 'TransaksiController::detailTransaksi/$1');
 $routes->get('/invoice', 'TransaksiController::invoice');
 $routes->get('/detail_invoice/(:any)', 'TransaksiController::detailInvoice/$1');
+$routes->post('/simpanStatus', 'TransaksiController::simpanStatus');
 
 // KEUANGAN
 $routes->get('/uang_masuk', 'KeuanganController::uangMasuk');

@@ -22,12 +22,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?php foreach($invoice as $inv) :?>
                             <tr>
-                                <th scope="row">19 Januari 2024</th>
-                                <td>TR-001</td>
-                                <td>Nabil</td>
-                                <td>400.000</td>
-                                <td>Dikirim</td>
+                                <th scope="row"><?= $inv["tanggal"] ?></th>
+                                <td><?= $inv["kode_penjualan"] ?></td>
+                                <td><?= $inv["username"] ?></td>
+                                <td><?= $inv["total"] ?></td>
+                                <td><?= $inv["status"] ?></td>
                                 <td>
                                     <a href="#" class="me-3">
                                         <i class="bi bi-pencil-square"></i>
@@ -39,7 +40,7 @@
                                                 d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                                         </svg>
                                     </a>
-                                    <a href="/detail_invoice/1" class="ms-3">
+                                    <a href="/detail_invoice/<?= $inv["kode_penjualan"] ?>" class="ms-3">
                                         <i class="bi bi-three-dots"></i>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
@@ -50,6 +51,7 @@
 
                                 </td>
                             </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
