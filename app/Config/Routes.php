@@ -36,6 +36,7 @@ $routes->get('/manajemen_gaji', 'PegawaiController::manajemenGaji');
 
 $routes->post('/input_pegawai', 'PegawaiController::inputPegawai');
 $routes->post('/input_gaji_produksi', 'PegawaiController::inputGajiKaryawanProduksi');
+$routes->post('/input_gaji_umum', 'PegawaiController::inputGajiKaryawanUmum');
 
 
 $routes->get('/gaji_produksi', 'PegawaiController::gajiProduksi');

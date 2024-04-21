@@ -21,11 +21,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                          <?php foreach ($gaji as $g) : ?>
+
                             <tr>
-                            <th scope="row">00001</th>
-                            <td>Tutu</td>
-                            <td>30</td>
-                            <td>3.000.000</td>
+                            <th scope="row"><?= $g['kode']; ?></th>
+                            <td><?= $g['nama']; ?></td>
+                            <td><?= $g['jumlah_absensi']; ?></td>
+                            <td><?= $g['total_gaji']; ?></td>
                             <td>
                                 <a href="#" class="me-3">
                                     <i class="bi bi-pencil-square"></i>
@@ -43,7 +45,9 @@
 
                             </td>
                             </tr>
-                        </tbody>
+
+                            <?php endforeach; ?>
+                          </tbody>
                     </table>
 
                     <a href="/input_gaji_umum"><button type="submit" class="btn btn-primary">+ Tambah Gaji Pegawai</button></a>

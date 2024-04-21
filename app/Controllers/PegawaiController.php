@@ -4,20 +4,27 @@ namespace App\Controllers;
 
 use App\Models\GajiModel;
 use App\Models\GajiProduksiModel;
+use App\Models\GajiUmumModel;
 use App\Models\KaryawanModel;
+use App\Models\KeuanganModel;
 use App\Models\PenggunaModel;
+use CodeIgniter\I18n\Time;
 
 class PegawaiController extends BaseController
 {
 
     private $karyawan;
     private $gaji_pegawai_produksi;
+    private $gaji_pegawai_umum;
     private $gaji;
+    private $keuangan;
 
     public function __construct(){
         $this->karyawan = new KaryawanModel();
         $this->gaji_pegawai_produksi = new GajiProduksiModel();
+        $this->gaji_pegawai_umum = new GajiUmumModel();
         $this->gaji = new GajiModel();
+        $this->keuangan = new KeuanganModel();
     }
     public function pegawaiManage(){
         return view('inputPegawai');
@@ -35,7 +42,15 @@ class PegawaiController extends BaseController
         return view('manajemenGaji');
     }
     public function gajiProduksi(){
-        return view('gajiProduksi');
+
+        $data = [
+            'gaji' => $this->karyawan->select('karyawan.kode, karyawan.nama, gaji_pegawai_produksi.jumlah_produksi, gaji_pegawai_produksi.total_gaji')
+                    ->join('gaji_pegawai_produksi', 'karyawan.kode = gaji_pegawai_produksi.kode')
+                    ->where('karyawan.kode_jenis', 'KP')
+                    ->findAll()
+        ]; 
+
+        return view('gajiProduksi', $data);
     }
     public function inputGajiProduksi(){
         $data = [
@@ -53,20 +68,61 @@ class PegawaiController extends BaseController
             'kode_produksi'     => $post['kode_produksi'],
             'jumlah_produksi'   => $post['jumlah_produksi'],
             'total_gaji'        => $post['total_gaji']
+        ]); 
+
+        $date = Time::today('Asia/Jakarta', );
+
+        $this->keuangan->insert([
+            'kode'          => $post['kode_gaji'],
+            'tanggal'       => $date->toDateString(),
+            'status'        => 'KREDIT',
+            'jumlah'        => $post['total_gaji'],
+            'keterangan'    => 'Gaji Karyawan Produksi Tanggal '. $date->toDateString(),
+            'kode_pengguna' => session()->get("user")[0]["kode"] 
         ]);
 
-        $data = [
-            'gaji' => $this->gaji_pegawai_produksi->findAll()
-        ]; 
-
-        return view('gajiProduksi', $data);
+        return redirect()->to('gaji_produksi');
     }
 
     public function gajiUmum(){
-        return view('gajiUmum');
+        $data = [
+            'gaji' => $this->karyawan->select('karyawan.kode, karyawan.nama, gaji_pegawai_umum.jumlah_absensi, gaji_pegawai_umum.total_gaji')
+                    ->join('gaji_pegawai_umum', 'karyawan.kode = gaji_pegawai_umum.kode')
+                    ->where('karyawan.kode_jenis', 'KU')
+                    ->findAll()
+        ]; 
+
+        return view('gajiUmum', $data);
     }
     public function inputGajiUmum(){
-        return view('inputGajiUmum');
+        $data = [
+            'gaji' => $this->gaji->findAll()
+        ]; 
+
+        return view('inputGajiUmum', $data);
+    }
+
+    public function inputGajiKaryawanUmum(){
+        $post = $this->request->getPost(['kode_gaji' ,'kode_karyawan', 'jumlah_absensi', 'total_gaji']);
+        $this->gaji_pegawai_umum->insert([
+            'kode_gaji'         => $post['kode_gaji'],
+            'kode'              => $post['kode_karyawan'],
+            'jumlah_absensi'   => $post['jumlah_absensi'],
+            'total_gaji'        => $post['total_gaji']
+        ]); 
+
+        $date = Time::today('Asia/Jakarta', );
+
+        $this->keuangan->insert([
+            'kode'          => $post['kode_gaji'],
+            'tanggal'       => $date->toDateString(),
+            'status'        => 'KREDIT',
+            'jumlah'        => $post['total_gaji'],
+            'keterangan'    => 'Gaji Karyawan Umum Tanggal '. $date->toDateString(),
+            'kode_pengguna' => session()->get("user")[0]["kode"] 
+        ]);
+
+        return redirect()->to('gaji_umum');
     }
 
     public function inputPegawai(){

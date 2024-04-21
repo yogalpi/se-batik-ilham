@@ -1,3 +1,4 @@
+
 <?php
 
 namespace App\Models;
@@ -8,5 +9,7 @@ class KeuanganModel extends Model
 {
     protected $table      = 'keuangan';
     protected $primaryKey = 'kode';
-    protected $allowedFields = ['kode','tanggal' ,'status', 'jumlah', 'keterangan', 'kode_pengguna'];
+
+    protected $allowedFields = ['kode' ,'tanggal', 'status', 'jumlah', 'keterangan', 'kode_pengguna'];
 }
+

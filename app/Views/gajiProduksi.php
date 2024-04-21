@@ -12,20 +12,22 @@
 
                     <table class="table table-hover mb-5">
                         <thead>
-                            <tr>
+                          <tr>
                             <th scope="col">KODE KARYAWAN</th>
                             <th scope="col">NAMA KARYAWAN</th>
                             <th scope="col">TOTAL PRODUKSI</th>
                             <th scope="col">TOTAL GAJI</th>
                             <th scope="col">ACTION</th>
-                            </tr>
+                          </tr>
                         </thead>
                         <tbody>
+                          <?php foreach ($gaji as $g) : ?>
+                          
                             <tr>
-                            <th scope="row">00001</th>
-                            <td>Tutu</td>
-                            <td>30</td>
-                            <td>150.000</td>
+                            <th scope="row"><?= $g['kode']; ?></th>
+                            <td><?= $g['nama']; ?></td>
+                            <td><?= $g['jumlah_produksi']; ?></td>
+                            <td><?= $g['total_gaji']; ?></td>
                             <td>
                                 <a href="#" class="me-3">
                                     <i class="bi bi-pencil-square"></i>
@@ -43,6 +45,8 @@
 
                             </td>
                             </tr>
+                            
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
 
