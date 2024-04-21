@@ -69,10 +69,19 @@ $routes->get('/detail_invoice/(:any)', 'TransaksiController::detailInvoice/$1');
 $routes->post('/simpanStatus', 'TransaksiController::simpanStatus');
 
 // KEUANGAN
-$routes->get('/uang_masuk', 'KeuanganController::uangMasuk');
-$routes->get('/uang_keluar', 'KeuanganController::uangKeluar');
+// $routes->get('/uang_masuk', 'KeuanganController::uangMasuk');
+// $routes->get('/uang_keluar', 'KeuanganController::uangKeluar');
+// $routes->get('/buku_besar', 'KeuanganController::bukuBesar');
+// $routes->get('/detail_buku_besar/(:any)', 'KeuanganController::detailbukuBesar/$1');
+
+// KEUANGAN
+$routes->get('/uangMasukdanKeluar', 'KeuanganController::uangMasukdanKeluar');
 $routes->get('/buku_besar', 'KeuanganController::bukuBesar');
 $routes->get('/detail_buku_besar/(:any)', 'KeuanganController::detailbukuBesar/$1');
+
+$routes->get('/datauangMasukdanKeluar', 'KeuanganController::datauangMasukdanKeluar');
+$routes->post('/simpanUang', 'KeuanganController::simpanUangMasukdanKeluar');
+
 
 // USER
 $routes->get('/akun_pelanggan', 'UserController::akunPelanggan');
