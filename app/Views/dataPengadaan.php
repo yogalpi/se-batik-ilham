@@ -23,7 +23,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <<?php foreach ($pengadaan as $peng) :?>
+                            <?php foreach ($pengadaan as $peng) :?>
                             <tr>
                             <td scope="row"><?= $peng["kode_pengadaan"] ?></td>
                             <td scope="row"><?= $peng["kode_pengguna"] ?></td>

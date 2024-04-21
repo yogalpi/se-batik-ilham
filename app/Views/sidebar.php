@@ -20,10 +20,10 @@
 
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu">Pembelian</span>
+              <span class="hide-menu">PENGADAAN</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/input_pembelian" aria-expanded="false">
+              <a class="sidebar-link" href="/input_pengadaan" aria-expanded="false">
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
@@ -31,7 +31,7 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/data_pembelian" aria-expanded="false">
+              <a class="sidebar-link" href="/data_pengadaan" aria-expanded="false">
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
