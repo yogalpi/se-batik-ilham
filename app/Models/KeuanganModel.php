@@ -11,3 +11,4 @@ class KeuanganModel extends Model
 
     protected $allowedFields = ['kode' ,'tanggal', 'status', 'jumlah', 'keterangan', 'kode_pengguna'];
 }
+

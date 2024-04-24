@@ -20,6 +20,8 @@ $routes->get('/input_produksi', 'ProduksiController::inputProduksi');
 // GUDANG
 $routes->get('/data_gudang', 'GudangController::dataGudang');
 $routes->get('/input_gudang', 'GudangController::inputGudang');
+$routes->post('/input_gudang', 'GudangController::simpanBahan');
+$routes->post('/gudang', 'GudangController::gudangBahan');
 
 // ASSET_MANAGEMEN
 $routes->get('/manajemen_aset', 'AsetManageController::asetManage');
@@ -47,21 +49,40 @@ $routes->get('/input_gaji_umum', 'PegawaiController::InputGajiUmum');
 $routes->get('/input_pembelian', 'PembelianController::inputPembelian');
 $routes->get('/data_pembelian', 'PembelianController::dataPembelian');
 
+// PENGADAAN
+$routes->get('/input_pengadaan', 'PengadaanController::inputPengadaan');
+$routes->get('/data_pengadaan', 'PengadaanController::dataPengadaan');
+
+$routes->post('/input_pengadaan', 'PengadaanController::simpanPengadaan');
+$routes->post('/pengadaan', 'PengadaanController::pengadaan');
+$routes->get('/detail_pengadaan/(:any)', 'PengadaanController::detailPengadaan/$1');
+
 // GUDANG Jadi
 $routes->get('/data_gudang_jadi', 'GudangJadiController::dataGudangJadi');
 $routes->get('/input_gudang_jadi', 'GudangJadiController::inputGudangJadi');
+$routes->post('/simpan_gudang_jadi', 'GudangJadiController::simpanGudangJadi');
 
 // PENJUALAN
 $routes->get('/transaksi_penjualan', 'TransaksiController::transaksi');
 $routes->get('/detail_transaksi/(:any)', 'TransaksiController::detailTransaksi/$1');
 $routes->get('/invoice', 'TransaksiController::invoice');
 $routes->get('/detail_invoice/(:any)', 'TransaksiController::detailInvoice/$1');
+$routes->post('/simpanStatus', 'TransaksiController::simpanStatus');
 
 // KEUANGAN
-$routes->get('/uang_masuk', 'KeuanganController::uangMasuk');
-$routes->get('/uang_keluar', 'KeuanganController::uangKeluar');
+// $routes->get('/uang_masuk', 'KeuanganController::uangMasuk');
+// $routes->get('/uang_keluar', 'KeuanganController::uangKeluar');
+// $routes->get('/buku_besar', 'KeuanganController::bukuBesar');
+// $routes->get('/detail_buku_besar/(:any)', 'KeuanganController::detailbukuBesar/$1');
+
+// KEUANGAN
+$routes->get('/uangMasukdanKeluar', 'KeuanganController::uangMasukdanKeluar');
 $routes->get('/buku_besar', 'KeuanganController::bukuBesar');
 $routes->get('/detail_buku_besar/(:any)', 'KeuanganController::detailbukuBesar/$1');
+
+$routes->get('/datauangMasukdanKeluar', 'KeuanganController::datauangMasukdanKeluar');
+$routes->post('/simpanUang', 'KeuanganController::simpanUangMasukdanKeluar');
+
 
 // USER
 $routes->get('/akun_pelanggan', 'UserController::akunPelanggan');
