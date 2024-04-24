@@ -32,7 +32,7 @@ class PegawaiController extends BaseController
 
     public function daftarPegawai(){
         $data = [
-            'karyawan' => $this->karyawan->findAll()
+            'karyawan' => $this->karyawan->where('status', 'aktif')->findAll()
         ];
 
         return view('daftarPegawai', $data);
@@ -107,7 +107,7 @@ class PegawaiController extends BaseController
         $this->gaji_pegawai_umum->insert([
             'kode_gaji'         => $post['kode_gaji'],
             'kode'              => $post['kode_karyawan'],
-            'jumlah_absensi'   => $post['jumlah_absensi'],
+            'jumlah_absensi'    => $post['jumlah_absensi'],
             'total_gaji'        => $post['total_gaji']
         ]); 
 
