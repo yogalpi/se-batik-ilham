@@ -12,10 +12,6 @@
 
                   <form action="/input_pegawai" method="post">
                     <div class="mb-3">
-                      <label for="kode_karyawan" class="form-label">Kode karyawan</label>
-                      <input name="kode_karyawan" type="text" class="form-control" id="kode_karyawan" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
                       <label for="nama_karyawan" class="form-label">Nama Karyawan</label>
                       <input name="nama_karyawan" type="text" class="form-control" id="nama_karyawan">
                     </div>
@@ -30,7 +26,7 @@
                     </div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-3 col-3">
                       <label for="tanggallahir" class="form-label">Tanggal Lahir</label>
                       <input name="tanggal_lahir" type="date" class="form-control" id="tanggallahir">
                     </div>

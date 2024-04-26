@@ -15,7 +15,7 @@
                       <input name="kode_aset" type="text" class="form-control" id="kode_aset" readonly aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                      <label for="exampleInputPassword1" class="form-label">Aset</label>
+                      <label for="exampleInputPassword1" class="form-label">Nama Barang</label>
                       <input name="aset" type="text" class="form-control" id="aset">
                     </div>
                     <div class="mb-3">
@@ -27,7 +27,7 @@
                       <input name="jumlah" type="number" class="form-control" id="jumlah">
                     </div>
                     <div class="mb-5">
-                      <label for="exampleInputPassword1" class="form-label">Tanggal</label>
+                      <label for="exampleInputPassword1" class="form-label">Tanggal Pembelian</label>
                       <input name="tanggal" type="date" class="form-control" id="tanggal">
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>

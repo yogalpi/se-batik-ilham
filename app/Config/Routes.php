@@ -28,8 +28,12 @@ $routes->get('/manajemen_aset', 'AsetManageController::asetManage');
 $routes->get('/daftar_aset', 'AsetManageController::daftarAset');
 
 $routes->post('/input_aset', 'AsetManageController::inputAset');
+$routes->post('/input_biaya_aset', 'AsetManageController::simpanBiayaAset');
+$routes->get('/pemeliharaan_aset', 'AsetManageController::inputBiayaAset');
+
 
 //KEPEGAWAIAN
+$routes->post('/cari_absen', 'PegawaiController::cariAbsen');
 $routes->get('/manajemen_pegawai', 'PegawaiController::pegawaiManage');
 $routes->get('/daftar_pegawai', 'PegawaiController::daftarPegawai');
 $routes->get('/manajemen_gaji', 'PegawaiController::manajemenGaji');
@@ -41,6 +45,10 @@ $routes->post('/input_gaji_umum', 'PegawaiController::inputGajiKaryawanUmum');
 
 $routes->get('/gaji_produksi', 'PegawaiController::gajiProduksi');
 $routes->get('/gaji_umum', 'PegawaiController::gajiUmum');
+$routes->get('/absensi_pegawai', 'PegawaiController::absensiPegawai');
+$routes->post('/input_absensi', 'PegawaiController::inputAbsensi');
+$routes->get('/daftar_absensi', 'PegawaiController::dataAbsensi');
+$routes->post('/filter_absen', 'PegawaiController::dataAbsensiBulanan');
 
 $routes->get('/input_gaji_produksi', 'PegawaiController::InputGajiProduksi');
 $routes->get('/input_gaji_umum', 'PegawaiController::InputGajiUmum');
