@@ -15,8 +15,9 @@
                       <input name="kode_pengadaan" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                      <label for="exampleInputPassword1" class="form-label">Kode Pengguna</label>
-                      <input name="kode_pengguna" type="text" class="form-control" id="exampleInputPassword1">
+                      <label for="exampleInputPassword1" class="form-label">Nama Pengguna</label>
+                      <input value="<?= session()->get('user')[0]['kode']; ?>" name="kode_pengguna" type="text" class="form-control" id="exampleInputPassword1" readonly style="display: none;">
+                      <input value="<?= session()->get('user')[0]['nama']; ?>" type="text" class="form-control" id="exampleInputPassword1" readonly>
                     </div>
                     <div class="mb-3">
                       <label for="exampleInputPassword1" class="form-label">Tanggal</label>
@@ -30,14 +31,18 @@
                     </div>
                     <div class="mb-3">
                       <label for="exampleInputPassword1" class="form-label">Jenis</label>
-                      <input name="jenis" type="text" class="form-control" id="exampleInputPassword1">
+                      <select name="jenis" id="status" class="form-control">
+                        <option value="hem">HEM</option>
+                        <option value="blues">Blues</option>
+                        <option value="kemeja">Kemeja</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Status</label>
                         <select name="status" id="status" class="form-control">
-                        <option value="Dikirim">Dikirim</option>
-                        <option value="Dikemas">Dikemas</option>
-                        <option value="Dibatalkan">Dibatalkan</option>
+                        <option value="pending">Pending</option>
+                        <option value="Dikemas">Acc</option>
+                        
                         </select>
                   </div>
                     <div class="mb-3 row">

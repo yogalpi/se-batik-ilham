@@ -70,6 +70,7 @@ class GudangController extends BaseController
         
         
         $this->gudangBahan->db->transComplete();
+        session()->setFlashdata('sukses', 'Berhasil Di Ubah');
         return redirect()->to("/data_gudang");
     }
 }

@@ -15,13 +15,18 @@
                       <input name="kode_produksi" type="text" value="<?=$produksi[0]["kode_produksi"]?>" class="form-control" id="kode_produksi" readonly aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
+                      <label for="kode_barang" class="form-label">Kode Barang</label>
+                      <input name="kode_barang" type="text" value="<?=$produksi[0]["kode_barang"]?>" class="form-control" id="kode_produksi" readonly aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                      <label for="kode_barang" class="form-label">Jumlah Barang</label>
+                      <input name="jumlah_barang" type="text" value="<?=$produksi[0]["jumlah_barang"]?>" class="form-control" id="kode_produksi" readonly aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
                       <label for="tanggal_mulai" class="form-label">Tanggal Mulai</label>
                       <input name="tanggal_mulai" type="date" value="<?=$produksi[0]["tanggal_mulai"]?>" class="form-control" id="tanggal_mulai">
                     </div>
-                    <div class="mb-3">
-                      <label for="tanggal_selesai" class="form-label">Tanggal Akhir</label>
-                      <input name="tanggal_selesai" type="date" value="<?=$produksi[0]["tanggal_selesai"]?>" class="form-control" id="tanggal_selesai">
-                    </div>
+                    
                     <div class="mb-3 col">
                       <label for="rencana_produksi" class="form-label">Rencana Produksi</label>
                       <div>

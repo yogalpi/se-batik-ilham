@@ -4,14 +4,17 @@ namespace App\Controllers;
 
 use App\Models\DetailPengadaanModel;
 use App\Models\PengadaanModel;
-
+use App\Models\SupplierModel;
+use App\Models\PenggunaModel;
 class PengadaanController extends BaseController
 {
-    private $pengadaan, $detail_pengadaan;
+    private $pengadaan, $detail_pengadaan, $supplier, $pengguna;
     public function __construct()
     {
         $this->pengadaan = new PengadaanModel();
         $this->detail_pengadaan = new DetailPengadaanModel();
+        $this->supplier = new SupplierModel();
+        $this->pengguna = new PenggunaModel();
     }
     public function pengadaan()
     {
@@ -21,7 +24,8 @@ class PengadaanController extends BaseController
     public function dataPengadaan()
     {
         $data = [
-            'pengadaan' => $this->pengadaan->findAll()
+            'pengadaan' => $this->pengadaan->select('pengadaan.*, pengguna.nama')
+            ->join('pengguna', 'pengadaan.kode_pengguna = pengguna.kode')->findAll()
         ];
         return view('dataPengadaan', $data);
     }
@@ -52,6 +56,7 @@ class PengadaanController extends BaseController
                 ]);
             }
         }
+        // dd($post);
         $this->pengadaan->db->transComplete();
         return redirect()->to("/data_pengadaan");
     }
@@ -59,7 +64,9 @@ class PengadaanController extends BaseController
     public function detailPengadaan($id)
     {
         $data = [
-            'detail_pengadaan' => $this->detail_pengadaan->where(['kode_pengadaan' => $id])->get()->getResultArray()
+            'detail_pengadaan' => $this->detail_pengadaan->select('detail_pengadaan.* , supplier.nama')
+            ->join('supplier', 'detail_pengadaan.kode_supplier = supplier.kode_supplier')
+            ->where(['detail_pengadaan.kode_pengadaan' => $id])->get()->getResultArray()
         ];
         return view('detailPengadaan', $data);
 
@@ -75,13 +82,14 @@ class PengadaanController extends BaseController
             'pengadaan' => $this->pengadaan->join("detail_pengadaan","detail_pengadaan.kode_pengadaan = pengadaan.kode_pengadaan")->where("pengadaan.kode_pengadaan",$kode_pengadaan)->findAll()
 
         ];
-        // dd($data['pengadaan']);
+        // dd($data['pengadaan'][0]['biaya']);
         return view('editPengadaan', $data);
+        
     }
 
     public function updatePengadaan()
     {
-        $post = $this->request->getPost(['kode_pengadaan', 'kode_pengguna', 'tanggal', 'rencana_pengadaan', 'jenis', 'status', 'barang_kebutuhan', 'estimasi_pengeluaran', 'supplier']);
+        $post = $this->request->getPost(['id','kode_pengadaan', 'kode_pengguna', 'tanggal', 'rencana_pengadaan', 'jenis', 'status', 'barang_kebutuhan', 'estimasi_pengeluaran', 'supplier']);
         $this->pengadaan->db->transStart();
         $this->pengadaan->where([
             'kode_pengadaan' => $post['kode_pengadaan'],
@@ -96,8 +104,10 @@ class PengadaanController extends BaseController
         
         for ($i = 0; $i < count($post["barang_kebutuhan"]); $i++) {
             if ($post['barang_kebutuhan'][$i] != "") {
+                echo "popo";
                 $this->detail_pengadaan->where([
                     'kode_pengadaan' => $post['kode_pengadaan'],
+                    'id' => $post['id'][$i],
                     
                 ])->set([
                     'kebutuhan' => $post['barang_kebutuhan'][$i],
@@ -107,6 +117,11 @@ class PengadaanController extends BaseController
             }
         }
         $this->pengadaan->db->transComplete();
+
+        session()->setFlashdata('sukses', 'Berhasil Di Ubah');
+
+        // dd($post['barang_kebutuhan'][0]);
+
         return redirect()->to("/data_pengadaan");
     }
 

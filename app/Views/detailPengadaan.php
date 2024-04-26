@@ -23,7 +23,7 @@
                                 <tr>
                                     <td scope="row"><?= $dp["kebutuhan"] ?></td>
                                     <td scope="row"><?= $dp["biaya"] ?></td>
-                                    <td scope="row"><?= $dp["kode_supplier"] ?></td>
+                                    <td scope="row"><?= $dp["nama"] ?></td>
                                 </tr>
                             <?php endforeach ?>
                         </tbody>

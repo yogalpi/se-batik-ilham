@@ -4,13 +4,17 @@ namespace App\Controllers;
 use App\Models\DetailProduksiModel;
 use App\Models\ProduksiModel;
 use App\Models\PenggunaModel;
+use App\Models\GudangBahanBakuModel;
+use App\Models\PengadaanModel;
 
 class ProduksiController extends BaseController
 {
-    private $produksi, $detail_produksi;
+    private $produksi, $detail_produksi, $bahan_baku, $pengadaan;
     public function __construct(){
         $this->produksi = new ProduksiModel();
         $this->detail_produksi = new DetailProduksiModel();
+        $this->bahan_baku = new GudangBahanBakuModel();
+        $this->pengadaan = new PengadaanModel();
     }
     public function produksi(){
         
@@ -23,18 +27,23 @@ class ProduksiController extends BaseController
         return view('dataProduksi', $data);
     }
     public function inputProduksi(){
+        $data = [
+            'bahan_baku' => $this->bahan_baku->orderBy('kode_barang', 'DESC')->findAll(),
+            'pengadaan' => $this->pengadaan->orderBy('kode_pengadaan', 'DESC')->findAll()
+        ];
 
-        return view('inputProduksi');
+        return view('inputProduksi', $data);
     }
 
     public function simpanProduksi(){
-        $post = $this->request->getPost(['kode_pengadaan','kode_produksi', 'tanggal_mulai', 'tanggal_selesai', 'rencana_produksi', 'jenis_baju', 'ukuran']);
+        $post = $this->request->getPost(['kode_pengadaan','kode_barang','jumlah_barang','kode_produksi', 'tanggal_mulai', 'rencana_produksi', 'jenis_baju', 'ukuran']);
         $this->produksi->db->transStart();
         $this->produksi->insert([
             'kode_pengadaan'   => $post['kode_pengadaan'],
+            'kode_barang'   => $post['kode_barang'],
+            'jumlah_barang'   => $post['jumlah_barang'],
             'kode_produksi'  => $post['kode_produksi'],
             'tanggal_mulai' => $post['tanggal_mulai'],
-            'tanggal_selesai'    => $post['tanggal_selesai'],
             'rencana_produksi'    => $post['rencana_produksi']
         ]);
 
@@ -48,6 +57,7 @@ class ProduksiController extends BaseController
                 ]);
             }
         }
+        // dd($post);
         $this->produksi->db->transComplete();
         return redirect()->to("/data_produksi");
     }
@@ -70,7 +80,7 @@ class ProduksiController extends BaseController
     public function updateProduksi()
     {
     
-        $post = $this->request->getPost(['kode_pengadaan', 'kode_produksi', 'tanggal_mulai', 'tanggal_selesai', 'rencana_produksi', 'jenis_baju', 'ukuran']);
+        $post = $this->request->getPost(['kode_pengadaan', 'kode_barang','jumlah_barang', 'kode_produksi','tanggal_mulai', 'rencana_produksi', 'jenis_baju', 'ukuran']);
         // dd($post);
         $this->produksi->db->transStart();
         $this->produksi->where([
@@ -78,8 +88,8 @@ class ProduksiController extends BaseController
             'kode_produksi' => $post['kode_produksi'],
             
         ])->set([
+            'jumlah_barang' => $post['jumlah_barang'],
             'tanggal_mulai' => $post['tanggal_mulai'],
-            'tanggal_selesai' => $post['tanggal_selesai'],
             'rencana_produksi' => $post['rencana_produksi'],
             
         ])->update();
@@ -98,6 +108,7 @@ class ProduksiController extends BaseController
         
         
         $this->produksi->db->transComplete();
+        session()->setFlashdata('sukses', 'Berhasil Di Ubah');
         return redirect()->to("/data_produksi");
     }
 

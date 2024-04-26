@@ -7,5 +7,6 @@ use CodeIgniter\Model;
 class DetailPengadaanModel extends Model
 {
     protected $table      = 'detail_pengadaan';
-    protected $allowedFields = ['kode_pengadaan' ,'kebutuhan', 'biaya', 'kode_supplier'];
+    protected $primaryKey = 'id';
+    protected $allowedFields = ['id', 'kode_pengadaan' ,'kebutuhan', 'biaya', 'kode_supplier'];
 }
