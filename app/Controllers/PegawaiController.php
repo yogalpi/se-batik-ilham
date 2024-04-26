@@ -8,6 +8,7 @@ use App\Models\GajiUmumModel;
 use App\Models\KaryawanModel;
 use App\Models\KeuanganModel;
 use App\Models\PenggunaModel;
+use App\Models\ProduksiModel;
 use CodeIgniter\I18n\Time;
 
 class PegawaiController extends BaseController
@@ -18,6 +19,7 @@ class PegawaiController extends BaseController
     private $gaji_pegawai_umum;
     private $gaji;
     private $keuangan;
+    private $produksi;
 
     public function __construct(){
         $this->karyawan = new KaryawanModel();
@@ -25,6 +27,7 @@ class PegawaiController extends BaseController
         $this->gaji_pegawai_umum = new GajiUmumModel();
         $this->gaji = new GajiModel();
         $this->keuangan = new KeuanganModel();
+        $this->produksi = new ProduksiModel();
     }
     public function pegawaiManage(){
         return view('inputPegawai');
@@ -47,6 +50,7 @@ class PegawaiController extends BaseController
             'gaji' => $this->karyawan->select('karyawan.kode, karyawan.nama, gaji_pegawai_produksi.jumlah_produksi, gaji_pegawai_produksi.total_gaji')
                     ->join('gaji_pegawai_produksi', 'karyawan.kode = gaji_pegawai_produksi.kode')
                     ->where('karyawan.kode_jenis', 'KP')
+                    ->where('karyawan.status', 'aktif')
                     ->findAll()
         ]; 
 
@@ -54,7 +58,13 @@ class PegawaiController extends BaseController
     }
     public function inputGajiProduksi(){
         $data = [
-            'gaji' => $this->gaji->findAll()
+            'gaji'                  => $this->gaji->select('karyawan.* ,gaji.*')
+                                    ->join('karyawan', 'karyawan.kode_jenis = gaji.kode_jenis')
+                                    ->where('karyawan.kode_jenis', 'KP')
+                                    ->where('karyawan.status', 'aktif')
+                                    ->findAll(),
+            'produksi'              => $this->produksi->orderBy('kode_produksi', 'DESC')->findAll(5),
+            'kode_gaji'             => $this->gaji_pegawai_produksi->select('RIGHT(kode_gaji, 3) AS kode_gaji')->orderBy('kode_gaji', 'desc')->first()
         ]; 
 
         return view('inputGajiProduksi', $data);
