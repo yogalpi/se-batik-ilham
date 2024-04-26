@@ -33,9 +33,13 @@
                       <input name="jenis" type="text" class="form-control" id="exampleInputPassword1">
                     </div>
                     <div class="mb-3">
-                      <label for="exampleInputPassword1" class="form-label">Status</label>
-                      <input name="status" type="text" class="form-control" id="exampleInputPassword1">
-                    </div>
+                        <label for="exampleInputPassword1" class="form-label">Status</label>
+                        <select name="status" id="status" class="form-control">
+                        <option value="Dikirim">Dikirim</option>
+                        <option value="Dikemas">Dikemas</option>
+                        <option value="Dibatalkan">Dibatalkan</option>
+                        </select>
+                  </div>
                     <div class="mb-3 row">
                     <label for="" class="col-sm-12 col-form-label">Detail Pengadaan</label>
                         
