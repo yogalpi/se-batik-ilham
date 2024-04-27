@@ -15,37 +15,74 @@
                       })(this)" id="notif" class="alert alert-success" role="alert">
                       <?= session()->getFlashdata('sukses')?>
                     </div>
+                <?php elseif(session()->getFlashdata('gagal')):?>
+                    <div onclick="(function(notif){
+                        notif.style.display = 'none';
+                        })(this)" id="notif" class="alert alert-danger" role="alert">
+                        <?= session()->getFlashdata('gagal')?>
+                      </div>
                   <?php endif; ?>
-                  <form action="input_absensi" method="post">
-                    <div class="mb-3">
-                      <label for="exampleInputEmail1" class="form-label">ID Karyawan</label>
-                      <select name="kode_karyawan" type="text" class="form-control" id="karyawan" aria-describedby="emailHelp">
-                        <option selected>-- Pilih Karyawan --</option>
-                        <?php foreach($data as $g) : ?>
-                          <option id="id_karyawan" value="<?= $g['kode']?>"><?= $g['kode']?> - - <?= $g['nama']?></option>
-                        <?php endforeach; ?>
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                      <label for="exampleInputPassword1" class="form-label">Tanggal</label>
-                      <input name="tanggal" type="date" class="form-control" id="exampleInputPassword1">
-                    </div>
-                    <div class="mb-5">
-                      <label for="total_gaji" class="form-label">Status</label>
-                        <div class="form-check m-3">
-                            <input name="status" type="radio" class="form-check-input" id="hadir" value="hadir"><label class="form-check-label" for="hadir">Hadir</label>
-                        </div>
-                        <div class="form-check m-3">
-                            <input name="status" type="radio" class="form-check-input" id="tidakMasuk" value="tidak masuk"><label class="form-check-label" for="tidakMasuk">Tidak Masuk</label>
-                        </div>
-                    </div>
+                  <form action="input_absensi" method="post">  
 
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                  </form>
+                  <input name="tanggal" type="date" class="form-control" id="tanggal" style="display: none;">
+
+                    <div class="table-responsive mb-5">
+                      <table class="table">
+                        <tr>
+                          <th>KODE KARYAWAN</th>
+                          <th>NAMA KARYAWAN</th>
+                          <th>STATUS KEHADIRAN</th>
+                        </tr>
+
+                        <?php foreach($data as $g) : ?>
+                          <tr>
+                            <td>
+                              <div class="m-1">
+                                  <input name="kode_karyawan[]" readonly value="<?= $g['kode']?>" type="text" class="form-control" id="kode">
+                              </div>
+                            </td>
+                            <td>
+                              <div class="m-1">
+                                  <input name="nama[]" type="text" readonly value="<?= $g['nama']?>" class="form-control" id="nama">
+                              </div>
+                            </td>
+                            <td>
+                            <div class="m-1">
+                                <select name="status[]" type="text" class="form-control" id="karyawan" aria-describedby="emailHelp">
+                                  <option value="hadir" selected>HADIR</option>
+                                <option value="tidak masuk">TIDAK MASUK</option>
+                              </select>
+                            </div>
+                            </td>
+                          </tr>
+
+                          <?php endforeach; ?>
+
+                        </table>
+                      </div>
+
+                        
+                        <button id="button" type="submit" class="btn btn-primary">Simpan</button>
+                      </form>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
           </div>
         </div>
+        <script>
+          window.onload = (function loadDate() {
+              let date = new Date(),
+                  day = date.getDate(),
+                  month = date.getMonth() + 1,
+                  year = date.getFullYear();
+
+              if (month < 10) month = "0" + month;
+              if (day < 10) day = "0" + day;
+
+              const todayDate = `${year}-${month}-${day}`;
+
+              document.getElementById("tanggal").defaultValue = todayDate;
+          })();
+        </script>
 
 <?= $this->endSection();?>

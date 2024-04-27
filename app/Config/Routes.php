@@ -31,6 +31,9 @@ $routes->post('/input_aset', 'AsetManageController::inputAset');
 $routes->post('/input_biaya_aset', 'AsetManageController::simpanBiayaAset');
 $routes->get('/pemeliharaan_aset', 'AsetManageController::inputBiayaAset');
 
+$routes->get('/edit_aset/(:any)', 'AsetManageController::editAset/$1');
+$routes->post('/update_aset', 'AsetManageController::updateAset');
+$routes->post('/hapus_aset/(:any)', 'AsetManageController::hapusAset/$1');
 
 //KEPEGAWAIAN
 $routes->post('/cari_absen', 'PegawaiController::cariAbsen');

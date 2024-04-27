@@ -38,7 +38,8 @@ class PegawaiController extends BaseController
 
     public function daftarPegawai(){
         $data = [
-            'karyawan' => $this->karyawan->where('status', 'aktif')->findAll()
+            'karyawan'          => $this->karyawan->where('status', 'aktif')->findAll(),
+            'karyawan_nonaktif' => $this->karyawan->where('status', 'nonaktif')->findAll()
         ];
 
         return view('daftarPegawai', $data);
@@ -58,16 +59,34 @@ class PegawaiController extends BaseController
 
     public function inputAbsensi(){
         $post = $this->request->getPost(['kode_karyawan', 'tanggal', 'status']);
-        // dd($post);
-        $this->absensi->insert([
-            'kode_karyawan' => $post['kode_karyawan'],
-            'tanggal'       => $post['tanggal'],
-            'status'        => $post['status']
-        ]);
+
+        $tanggal = $this->absensi->select('tanggal')->orderBy('tanggal', 'desc')->findAll(1);
+
+        if(empty($tanggal[0]['tanggal'])){
+            for($i = 0; $i < count($post['kode_karyawan']); $i++){
+                $this->absensi->insert([
+                    'kode_karyawan' => $post['kode_karyawan'][$i],
+                    'tanggal'       => $post['tanggal'],
+                    'status'        => $post['status'][$i]
+                ]);
+            }
+        }elseif($tanggal[0]['tanggal'] == $post['tanggal']){
+            session()->setFlashdata('gagal', 'Absensi Sudah Dilakukan Untuk Hari Ini!!.');
+            return redirect()->to('absensi_pegawai');
+        }else{
+            for($i = 0; $i < count($post['kode_karyawan']); $i++){
+                $this->absensi->insert([
+                    'kode_karyawan' => $post['kode_karyawan'][$i],
+                    'tanggal'       => $post['tanggal'],
+                    'status'        => $post['status'][$i]
+                ]);
+            }
+        }
 
         session()->setFlashdata('sukses', 'Data Presensi Berhasil Diinputkan.');
 
         return redirect()->to('absensi_pegawai');
+
     }
 
     public function dataAbsensi(){

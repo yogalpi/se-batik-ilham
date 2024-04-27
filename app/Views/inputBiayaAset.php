@@ -27,18 +27,18 @@
                       </select>
                     </div>
                     <div class="mb-3">
-                      <label for="exampleInputPassword1" class="form-label">Biaya Pemeliharaan</label>
-                      <input name="biaya" type="text" class="form-control" id="exampleInputPassword1">
+                      <label for="biaya" class="form-label">Biaya Pemeliharaan</label>
+                      <input name="biaya" type="text" class="form-control" id="biaya">
                     </div>
                     <div class="mb-3">
-                      <label for="exampleInputPassword1" class="form-label">Keterangan</label>
+                      <label for="keterangan" class="form-label">Keterangan</label>
                       <div>
                         <textarea name="keterangan" id="keterangan" class="form-control" rows="4"></textarea>
                       </div>
                     </div>
                     <div class="mb-5 col-3">
-                      <label for="exampleInputPassword1" class="form-label">Tanggal Pembelian</label>
-                      <input name="tanggal" type="date" class="form-control" id="exampleInputPassword1">
+                      <label for="tanggal"  class="form-label">Tanggal Pemeliharaan</label>
+                      <input name="tanggal" type="date" id="tanggal" class="form-control" id="tanggal">
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                   </form>

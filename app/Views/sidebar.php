@@ -86,7 +86,7 @@
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
-                <span class="hide-menu">Daftar Data</span>
+                <span class="hide-menu">Daftar Data Aset</span>
               </a>
             </li>
             <li class="sidebar-item">
@@ -169,7 +169,7 @@
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
-                <span class="hide-menu">Daftar Data</span>
+                <span class="hide-menu">Daftar Data Pegawai</span>
               </a>
             </li>
             <li class="sidebar-item">
