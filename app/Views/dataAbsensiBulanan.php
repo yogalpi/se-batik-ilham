@@ -15,7 +15,7 @@
                       <label for="exampleInputEmail1" class="form-label">Filter Berdasarkan Bulan</label>
                       <div class="d-flex col-5 mt-3">
                         <select name="bulan" type="text" class="form-control mr-3" id="karyawan" aria-describedby="emailHelp">
-                          <option selected disabled value="0">-- Pilih Bulan --</option>
+                          <option selected hidden value="0">-- Pilih Bulan --</option>
                           <option value="0">-- Seluruh Data --</option>
                           <option id="bulan" value="1">Januari</option>
                           <option id="bulan" value="2">Februari</option>
@@ -67,7 +67,7 @@
                         </tbody>
                     </table>
 
-                    <a href="/absensi_pegawai"><button type="submit" class="btn btn-primary">+ Tambah Data Absensi</button></a>
+                    <a href="/absensi_pegawai"><button class="btn btn-primary">+ Tambah Data Absensi</button></a>
 
                 </div>
               </div>

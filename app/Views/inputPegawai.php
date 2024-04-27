@@ -19,7 +19,7 @@
                     <div class="row mb-3">
                       <label for="" class="form-label">Jenis Kelamin</label>
                     <div class="form-check m-3">
-                        <input name="jenis_kelamin" type="radio" class="form-check-input" id="laki-laki" value="Laki-Laki"><label class="form-check-label" for="laki-laki">Laki-laki</label>
+                        <input name="jenis_kelamin" type="radio" class="form-check-input" id="laki-laki" value="Laki-laki"><label class="form-check-label" for="laki-laki">Laki-laki</label>
                     </div>
                     <div class="form-check m-3">
                         <input name="jenis_kelamin" type="radio" class="form-check-input" id="perempuan" value="Perempuan"><label class="form-check-label" for="perempuan">Perempuan</label>

@@ -15,7 +15,13 @@
                       })(this)" id="notif" class="alert alert-success" role="alert">
                       <?= session()->getFlashdata('sukses')?>
                     </div>
-                  <?php endif; ?>
+                <?php elseif(session()->getFlashdata('edit')):?>
+                    <div onclick="(function(notif){
+                      notif.style.display = 'none';
+                      })(this)" id="notif" class="alert alert-primary" role="alert">
+                      <?= session()->getFlashdata('edit')?>
+                    </div>
+                <?php endif; ?>
                     <table class="table table-hover mb-5">
                         <thead>
                             <tr>
@@ -38,7 +44,7 @@
                             <?php endif; ?>
                             <td><?= $kar['jenis_kelamin']; ?></td>
                             <td>
-                                <a href="#" class="ms-3">
+                                <a href="/edit_pegawai/<?= $kar['kode']; ?>" class="ms-3">
                                     <i class="bi bi-three-dots"></i>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
                                     <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
@@ -78,7 +84,7 @@
                             <?php endif; ?>
                             <td><?= $kar['jenis_kelamin']; ?></td>
                             <td>
-                                <a href="#" class="ms-3">
+                                <a href="/edit_pegawai/<?= $kar['kode']; ?>" class="ms-3">
                                     <i class="bi bi-three-dots"></i>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
                                     <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>

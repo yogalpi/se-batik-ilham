@@ -27,8 +27,8 @@
                       <input name="jumlah" value="<?= $aset[0]['jumlah']; ?>" type="number" class="form-control" id="jumlah">
                     </div>
                     <div class="mb-5 col-3">
-                      <label for="exampleInputPassword1" class="form-label">Tanggal Pembelian</label>
-                      <input name="tanggal" value="value="<?= $aset[0]['tanggal']; ?>"" type="date" class="form-control" id="tanggal">
+                      <label for="tanggal" class="form-label">Tanggal Pembelian</label>
+                      <input name="tanggal" value="value="<?= $aset[0]['tanggal']; ?> type="date" class="form-control" id="tanggal">
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                   </form>

@@ -38,8 +38,8 @@ class PegawaiController extends BaseController
 
     public function daftarPegawai(){
         $data = [
-            'karyawan'          => $this->karyawan->where('status', 'aktif')->findAll(),
-            'karyawan_nonaktif' => $this->karyawan->where('status', 'nonaktif')->findAll()
+            'karyawan'          => $this->karyawan->where('status', 'aktif')->orderBy('nama')->findAll(),
+            'karyawan_nonaktif' => $this->karyawan->where('status', 'nonaktif')->orderBy('nama')->findAll()
         ];
 
         return view('daftarPegawai', $data);
@@ -72,6 +72,7 @@ class PegawaiController extends BaseController
             }
         }elseif($tanggal[0]['tanggal'] == $post['tanggal']){
             session()->setFlashdata('gagal', 'Absensi Sudah Dilakukan Untuk Hari Ini!!.');
+
             return redirect()->to('absensi_pegawai');
         }else{
             for($i = 0; $i < count($post['kode_karyawan']); $i++){
@@ -99,15 +100,13 @@ class PegawaiController extends BaseController
                         ->findAll()
         ];
 
-        // dd($data['karyawan']);
-
-        return view('dataAbsensi', $data);
+        return view('dataAbsensiBulanan', $data);
     }
 
     public function dataAbsensiBulanan(){
         $post = $this->request->getPost(['bulan']);
 
-        if(($post['bulan'] == '0')){
+        if($post['bulan'] == '0' || $post['bulan'] == null){
             $data = [
                 'karyawan'  => $this->absensi->select('karyawan.kode, karyawan.nama, absensi.tanggal, absensi.status')
                             ->join('karyawan', 'karyawan.kode = absensi.kode_karyawan')
@@ -128,7 +127,7 @@ class PegawaiController extends BaseController
             ];
         };
 
-        if($post['bulan'] == '0'){
+        if($post['bulan'] == '0' || $post['bulan'] == null){
             session()->setFlashdata('bulan', 'Januari - Desember');
         }elseif ($post['bulan'] == '1'){
             session()->setFlashdata('bulan', 'Januari');
@@ -163,12 +162,15 @@ class PegawaiController extends BaseController
 
     public function cariAbsen(){
         $searchTerm = $this->request->getPost('search');
+
         $db = db_connect();
+
         $sql = "SELECT COUNT(kode_karyawan) as absen FROM absensi WHERE kode_karyawan = ? AND MONTH(tanggal) = MONTH(now()) AND status = 'hadir'";
+
         $data = [
             'absen' => $db->query($sql, [$searchTerm])->getResultArray()
         ];
-        // dd($searchTerm);
+
         return json_encode($data);
     }
 
@@ -220,6 +222,7 @@ class PegawaiController extends BaseController
         ]);
 
         $karyawan = $this->karyawan->select('nama')->where('kode', $post['kode_karyawan'])->findAll();
+
         session()->setFlashdata('sukses', 'Data Penggajian <strong> '.$karyawan[0]['nama'].'</strong> Berhasil Diinputkan.');
 
         return redirect()->to('gaji_produksi');
@@ -273,6 +276,7 @@ class PegawaiController extends BaseController
         ]);
 
         $karyawan = $this->karyawan->select('nama')->where('kode', $post['kode_karyawan'])->findAll();
+
         session()->setFlashdata('sukses', 'Data Penggajian <strong> '.$karyawan[0]['nama'].'</strong> Berhasil Diinputkan.');
 
         return redirect()->to('gaji_umum');
@@ -323,4 +327,30 @@ class PegawaiController extends BaseController
         return view('daftarPegawai', $data);
     }
 
+    public function editPegawai($kode){
+        $data   = [
+            'data'  => $this->karyawan->where('kode', $kode)->findAll(1)
+        ];
+
+        return view('editPegawai', $data);
+    }
+
+    public function updatePegawai(){
+        $post = $this->request->getPost(['kode_karyawan' ,'nama_karyawan', 'jenis_kelamin', 'tanggal_lahir', 'jenis_karyawan', 'alamat', 'status']);
+
+        $this->karyawan->where(
+            ['kode'  => $post['kode_karyawan']
+        ])->set([
+            'tanggal'       => $post['tanggal_lahir'],
+            'nama'          => $post['nama_karyawan'],
+            'alamat'        => $post['alamat'],
+            'jenis_kelamin' => $post['jenis_kelamin'],
+            'status'        => $post['status'],
+            'kode_jenis'    => $post['jenis_karyawan']
+        ])->update();
+
+        session()->setFlashdata('edit', 'Data Untuk Karyawan <strong>'.$post['nama_karyawan'].' ('.$post['kode_karyawan'].')</strong> Berhasil Di Ubah.');
+
+        return redirect()->to('daftar_pegawai');
+    }
 }

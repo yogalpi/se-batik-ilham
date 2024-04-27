@@ -56,6 +56,10 @@ $routes->post('/filter_absen', 'PegawaiController::dataAbsensiBulanan');
 $routes->get('/input_gaji_produksi', 'PegawaiController::InputGajiProduksi');
 $routes->get('/input_gaji_umum', 'PegawaiController::InputGajiUmum');
 
+$routes->get('/edit_pegawai/(:any)', 'PegawaiController::editPegawai/$1');
+$routes->post('/update_pegawai', 'PegawaiController::updatePegawai');
+
+
 // PEMBELIAN
 $routes->get('/input_pembelian', 'PembelianController::inputPembelian');
 $routes->get('/data_pembelian', 'PembelianController::dataPembelian');
