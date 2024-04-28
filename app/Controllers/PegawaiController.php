@@ -38,8 +38,8 @@ class PegawaiController extends BaseController
 
     public function daftarPegawai(){
         $data = [
-            'karyawan'          => $this->karyawan->where('status', 'aktif')->orderBy('nama')->findAll(),
-            'karyawan_nonaktif' => $this->karyawan->where('status', 'nonaktif')->orderBy('nama')->findAll()
+            'karyawan'          => $this->karyawan->where('status', 'aktif')->orderBy('kode')->findAll(),
+            'karyawan_nonaktif' => $this->karyawan->where('status', 'nonaktif')->orderBy('kode')->findAll()
         ];
 
         return view('daftarPegawai', $data);
@@ -51,7 +51,7 @@ class PegawaiController extends BaseController
 
     public function absensiPegawai(){
         $data = [
-            'data'  => $this->karyawan->where('kode_jenis', 'KU')->where('status', 'aktif')->findAll()
+            'data'  => $this->karyawan->where('kode_jenis', 'KU')->where('status', 'aktif')->orderBy('nama')->findAll()
         ];
 
         return view('absensiPegawai', $data);
@@ -97,6 +97,7 @@ class PegawaiController extends BaseController
                         ->where('karyawan.kode_jenis', 'KU')
                         ->where('karyawan.status', 'aktif')
                         ->orderBy('absensi.tanggal')
+                        ->orderBy('karyawan.nama')
                         ->findAll()
         ];
 
@@ -118,12 +119,12 @@ class PegawaiController extends BaseController
         }else{
             $data = [
                 'karyawan'  => $this->absensi->select('karyawan.kode, karyawan.nama, absensi.tanggal, absensi.status')
-                ->join('karyawan', 'karyawan.kode = absensi.kode_karyawan')
-                ->where('karyawan.kode_jenis', 'KU')
-                ->where('karyawan.status', 'aktif')
-                ->where('MONTH(absensi.tanggal)', $post['bulan'])
-                ->orderBy('absensi.tanggal')
-                ->findAll()
+                            ->join('karyawan', 'karyawan.kode = absensi.kode_karyawan')
+                            ->where('karyawan.kode_jenis', 'KU')
+                            ->where('karyawan.status', 'aktif')
+                            ->where('MONTH(absensi.tanggal)', $post['bulan'])
+                            ->orderBy('absensi.tanggal')
+                            ->findAll()
             ];
         };
 
@@ -165,7 +166,7 @@ class PegawaiController extends BaseController
 
         $db = db_connect();
 
-        $sql = "SELECT COUNT(kode_karyawan) as absen FROM absensi WHERE kode_karyawan = ? AND MONTH(tanggal) = MONTH(now()) AND status = 'hadir'";
+        $sql = "SELECT COUNT(kode_karyawan) as absen FROM absensi WHERE kode_karyawan = ? AND MONTH(tanggal) = MONTH(now()) AND status = 'HADIR'";
 
         $data = [
             'absen' => $db->query($sql, [$searchTerm])->getResultArray()
@@ -177,11 +178,11 @@ class PegawaiController extends BaseController
     public function gajiProduksi(){
 
         $data = [
-            'gaji' => $this->karyawan->select('karyawan.kode, karyawan.nama, gaji_pegawai_produksi.jumlah_produksi, gaji_pegawai_produksi.total_gaji')
+            'gaji'  => $this->karyawan->select('karyawan.kode, karyawan.nama, gaji_pegawai_produksi.kode_gaji, gaji_pegawai_produksi.jumlah_produksi, gaji_pegawai_produksi.total_gaji')
                     ->join('gaji_pegawai_produksi', 'karyawan.kode = gaji_pegawai_produksi.kode')
                     ->where('karyawan.kode_jenis', 'KP')
                     ->where('karyawan.status', 'aktif')
-                    ->findAll()
+                    ->findAll(),
         ]; 
 
         return view('gajiProduksi', $data);
@@ -223,16 +224,17 @@ class PegawaiController extends BaseController
 
         $karyawan = $this->karyawan->select('nama')->where('kode', $post['kode_karyawan'])->findAll();
 
-        session()->setFlashdata('sukses', 'Data Penggajian <strong> '.$karyawan[0]['nama'].'</strong> Berhasil Diinputkan.');
+        session()->setFlashdata('sukses', 'Data Penggajian <strong> '.$karyawan[0]['nama'].' ('.$post['kode_karyawan'].')</strong> Berhasil Diinputkan.');
 
         return redirect()->to('gaji_produksi');
     }
 
     public function gajiUmum(){
         $data = [
-            'gaji'  => $this->karyawan->select('karyawan.kode, karyawan.nama, gaji_pegawai_umum.jumlah_absensi, gaji_pegawai_umum.total_gaji')
+            'gaji'  => $this->karyawan->select('karyawan.kode, karyawan.nama, gaji_pegawai_umum.kode_gaji, gaji_pegawai_umum.jumlah_absensi, gaji_pegawai_umum.total_gaji')
                     ->join('gaji_pegawai_umum', 'karyawan.kode = gaji_pegawai_umum.kode')
                     ->where('karyawan.kode_jenis', 'KU')
+                    ->where('karyawan.status', 'aktif')
                     ->findAll()
         ]; 
 
@@ -277,7 +279,7 @@ class PegawaiController extends BaseController
 
         $karyawan = $this->karyawan->select('nama')->where('kode', $post['kode_karyawan'])->findAll();
 
-        session()->setFlashdata('sukses', 'Data Penggajian <strong> '.$karyawan[0]['nama'].'</strong> Berhasil Diinputkan.');
+        session()->setFlashdata('sukses', 'Data Penggajian <strong> '.$karyawan[0]['nama'].' ('.$post['kode_karyawan'].')</strong> Berhasil Diinputkan.');
 
         return redirect()->to('gaji_umum');
     }
@@ -318,13 +320,9 @@ class PegawaiController extends BaseController
             'kode_jenis'    => $post['jenis_karyawan']
         ]);
 
-        $data = [
-            'karyawan' => $this->karyawan->findAll()
-        ];
-
         session()->setFlashdata('sukses', 'Data Karyawan Berhasil Diinputkan.');
 
-        return view('daftarPegawai', $data);
+        return redirect()->to('daftar_pegawai');
     }
 
     public function editPegawai($kode){
@@ -339,7 +337,7 @@ class PegawaiController extends BaseController
         $post = $this->request->getPost(['kode_karyawan' ,'nama_karyawan', 'jenis_kelamin', 'tanggal_lahir', 'jenis_karyawan', 'alamat', 'status']);
 
         $this->karyawan->where(
-            ['kode'  => $post['kode_karyawan']
+            ['kode'         => $post['kode_karyawan']
         ])->set([
             'tanggal'       => $post['tanggal_lahir'],
             'nama'          => $post['nama_karyawan'],
@@ -352,5 +350,114 @@ class PegawaiController extends BaseController
         session()->setFlashdata('edit', 'Data Untuk Karyawan <strong>'.$post['nama_karyawan'].' ('.$post['kode_karyawan'].')</strong> Berhasil Di Ubah.');
 
         return redirect()->to('daftar_pegawai');
+    }
+
+    public function editAbsensiPegawai($kode, $tanggal){
+        $data = [
+            'karyawan'  => $this->absensi   ->select('karyawan.nama, absensi.*')
+                                            ->join('karyawan', 'karyawan.kode = absensi.kode_karyawan')
+                                            ->where('absensi.kode_karyawan', $kode)
+                                            ->where('absensi.tanggal', $tanggal)
+                                            ->findAll()
+        ];
+
+        return view('editAbsensiPegawai', $data);
+    }
+
+    public function updateAbsensi(){
+        $post = $this->request->getPost(['kode_karyawan', 'tanggal', 'status']);
+
+        $this->absensi  ->where('kode_karyawan', $post['kode_karyawan'])
+                        ->where('tanggal', $post['tanggal'])
+                        ->set([
+                            'status'    => $post['status']
+                        ])->update();
+
+        $karyawan = $this->karyawan->select('nama')->where('kode', $post['kode_karyawan'])->findAll();
+
+        session()->setFlashdata('edit', 'Data Absensi Untuk Karyawan <strong>'.$karyawan[0]['nama'].' ('.$post['kode_karyawan'].')</strong> Berhasil Di Ubah.');
+
+        return redirect()->to('daftar_absensi');
+    }
+
+    public function editGajiPegawaiProduksi($kode){
+        $data = [
+            'gaji'  => $this->gaji_pegawai_produksi->where('kode_gaji', $kode)->findAll(1)
+        ];
+
+        return view('editGajiProduksi', $data);
+    }
+
+    public function editGajiPegawaiUmum($kode){
+        $data = [
+            'gaji'              => $this->gaji_pegawai_umum->where('kode_gaji', $kode)->findAll(1)
+        ];
+
+        return view('editGajiUmum', $data);
+    }
+
+    public function updateGajiPegawaiProduksi(){
+        $post = $this->request->getPost(['kode_gaji', 'kode_karyawan', 'kode_produksi', 'jumlah_produksi', 'total_gaji']);
+
+        $this->gaji_pegawai_produksi->where('kode_gaji', $post['kode_gaji'])
+                                    ->set([
+                                        'kode_karyawan'     => $post['kode_karyawan'],
+                                        'kode_produksi'     => $post['kode_produksi'],
+                                        'jumlah_produksi'   => $post['jumlah_produksi'],
+                                        'total_gaji'        => $post['total_gaji']
+                                    ])->update();
+
+        $this->keuangan->where('kode', $post['kode_gaji'])
+                                    ->set([
+                                        'jumlah'        => $post['total_gaji'],
+                                    ])->update();
+
+        $karyawan = $this->karyawan->where('kode', $post['kode_karyawan'])->findAll(1);
+
+        session()->setFlashdata('edit', 'Data Penggajian Untuk Karyawan <strong>'.$karyawan[0]['nama'].' ('.$post['kode_karyawan'].')</strong> Berhasil Di Ubah.');
+        
+        return redirect()->to('gaji_produksi');
+    }
+    public function updateGajiPegawaiUmum(){
+        $post = $this->request->getPost(['kode_gaji', 'kode_karyawan', 'jumlah_absensi', 'total_gaji']);
+
+        $this->gaji_pegawai_umum->where('kode_gaji', $post['kode_gaji'])
+                                    ->set([
+                                        'kode_karyawan'     => $post['kode_karyawan'],
+                                        'jumlah_absensi'    => $post['jumlah_absensi'],
+                                        'total_gaji'        => $post['total_gaji']
+                                    ])->update();
+
+        $this->keuangan->where('kode', $post['kode_gaji'])
+                                    ->set([
+                                        'jumlah'        => $post['total_gaji'],
+                                    ])->update();
+
+        $karyawan = $this->karyawan->where('kode', $post['kode_karyawan'])->findAll(1);
+        
+        session()->setFlashdata('edit', 'Data Penggajian Untuk Karyawan <strong>'.$karyawan[0]['nama'].' ('.$post['kode_karyawan'].')</strong> Berhasil Di Ubah.');
+        
+        return redirect()->to('gaji_umum');
+    }
+
+    public function hapusGajiProduksi($kode_gaji, $kode_karyawan, $nama){
+
+        $this->gaji_pegawai_produksi->where('kode_gaji', $kode_gaji)->delete();
+
+        $this->keuangan->where('kode', $kode_gaji)->delete();
+
+        session()->setFlashdata('hapus', 'Data Penggajian Untuk Karyawan <strong>'.$nama.' ('.$kode_karyawan.')</strong> Dengan Kode Penggajian <strong>'.$kode_gaji.'</strong> Berhasil Di Hapus.');
+        
+        return redirect()->to('gaji_produksi');
+    }
+    public function hapusGajiUmum($kode_gaji, $kode_karyawan, $nama){
+
+        $this->gaji_pegawai_umum->where('kode_gaji', $kode_gaji)->delete();
+
+        $this->keuangan->where('kode', $kode_gaji)->delete();
+
+        session()->setFlashdata('hapus', 'Data Penggajian Untuk Karyawan <strong>'.$nama.' ('.$kode_karyawan.')</strong> Dengan Kode Penggajian <strong>'.$kode_gaji.'</strong> Berhasil Di Hapus.');
+        
+        return redirect()->to('gaji_umum');
     }
 }

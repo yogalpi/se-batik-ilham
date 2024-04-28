@@ -56,9 +56,19 @@ $routes->post('/filter_absen', 'PegawaiController::dataAbsensiBulanan');
 $routes->get('/input_gaji_produksi', 'PegawaiController::InputGajiProduksi');
 $routes->get('/input_gaji_umum', 'PegawaiController::InputGajiUmum');
 
+$routes->get('/edit_absensi_pegawai/(:any)/(:any)', 'PegawaiController::editAbsensiPegawai/$1/$2');
+$routes->post('/update_absensi', 'PegawaiController::updateAbsensi');
+
 $routes->get('/edit_pegawai/(:any)', 'PegawaiController::editPegawai/$1');
 $routes->post('/update_pegawai', 'PegawaiController::updatePegawai');
 
+$routes->get('/edit_gaji_pegawai_produksi/(:any)', 'PegawaiController::editGajiPegawaiProduksi/$1');
+$routes->post('/update_gaji_produksi', 'PegawaiController::updateGajiPegawaiProduksi');
+$routes->post('/hapus_gaji_produksi/(:any)/(:any)/(:any)', 'PegawaiController::hapusGajiProduksi/$1/$2/$3');
+
+$routes->get('/edit_gaji_pegawai_umum/(:any)', 'PegawaiController::editGajiPegawaiUmum/$1');
+$routes->post('/update_gaji_umum', 'PegawaiController::updateGajiPegawaiUmum');
+$routes->post('/hapus_gaji_umum/(:any)/(:any)/(:any)', 'PegawaiController::hapusGajiUmum/$1/$2/$3');
 
 // PEMBELIAN
 $routes->get('/input_pembelian', 'PembelianController::inputPembelian');

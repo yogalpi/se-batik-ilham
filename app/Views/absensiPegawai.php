@@ -21,7 +21,7 @@
                         })(this)" id="notif" class="alert alert-danger" role="alert">
                         <?= session()->getFlashdata('gagal')?>
                       </div>
-                  <?php endif; ?>
+                <?php endif; ?>
                   <form action="input_absensi" method="post">  
 
                   <input name="tanggal" type="date" class="form-control" id="tanggal" style="display: none;">
@@ -49,8 +49,8 @@
                             <td>
                             <div class="m-1">
                                 <select name="status[]" type="text" class="form-control" id="karyawan" aria-describedby="emailHelp">
-                                  <option value="hadir" selected>HADIR</option>
-                                <option value="tidak masuk">TIDAK MASUK</option>
+                                  <option value="HADIR" selected>HADIR</option>
+                                <option value="TIDAK MASUK">TIDAK MASUK</option>
                               </select>
                             </div>
                             </td>

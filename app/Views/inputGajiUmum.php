@@ -29,7 +29,7 @@
 
                         ?>
 
-                      <label for="exampleInputEmail1" class="form-label">Kode Gaji</label>
+                      <label for="exampleInputEmail1" class="form-label">Kode Penggajian</label>
                       <input name="kode_gaji" value="G-<?=
                         $bulan.'-'.$nol.$kode+1;
                       ?>" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" readonly>
@@ -45,9 +45,7 @@
                     </div>
                     <div class="mb-3">
                       <label for="jumlah" class="form-label">Jumlah Presensi</label>
-                      <input id="jumlah" value="" name="jumlah_absensi" onkeyup="(function(data, v){
-                        document.getElementById('total_gaji').value = v.value*data
-                      })(<?= $gaji[1]['gaji']; ?>, this)" type="number" class="form-control" id="jumlah">
+                      <input id="jumlah" value="" name="jumlah_absensi" type="number" class="form-control" id="jumlah">
                     </div>
                     <div class="mb-5">
                       <label for="total_gaji" class="form-label">Total Gaji</label>
@@ -62,7 +60,6 @@
           </div>
         </div>
 
-
         <script>
             $(document).ready(function () {
                 function cariAbsen(searchTerm) {
@@ -72,7 +69,6 @@
                         data: { search: searchTerm },
                         dataType: 'json',
                         success: function (data) {
-                            // $('#tableSiswa').html(data);
                             $('#jumlah').val(data.absen[0].absen)
                             console.log(data.absen[0].absen);
                             $('#total_gaji').val(data.absen[0].absen * <?= $gaji[1]['gaji']; ?>);
@@ -82,7 +78,7 @@
 
                 $('#karyawan').on('change', function () {
                   var searchTerm = $(this).val();
-                  // console.log(searchTerm);
+                  console.log(searchTerm);
                     cariAbsen(searchTerm); 
                 });
             });

@@ -24,13 +24,8 @@
                       </select>
                     </div>
 
-                    <!-- <div class="mb-3">
-                      <label for="exampleInputEmail1" class="form-label">Kode Karyawan</label>
-                      <input name="kode_karyawan" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    </div> -->
                     <div class="mb-3">
                       <label for="exampleInputEmail2" class="form-label">Kode Produksi</label>
-                      <!-- <input name="kode_produksi" type="text" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp"> -->
                       <select onchange="(function(k){
                         <?php $kode = null; ?>
                         <?php if(empty($kode_gaji['kode_gaji'])) : ?>
@@ -53,10 +48,6 @@
                         <?php endforeach; ?>
                       </select>
                     </div>
-                    <!-- <div class="mb-3">
-                      <label for="exampleInputPassword1" class="form-label">Nama Karyawan</label>
-                      <input name="nama_karyawan" type="text" class="form-control" id="exampleInputPassword1">
-                    </div> -->
                     <div class="mb-3">
                       <label for="exampleInputPassword1" class="form-label">Jumlah Produksi</label>
                       <input name="jumlah_produksi" onkeyup="(function(data, v){

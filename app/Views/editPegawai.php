@@ -58,7 +58,7 @@
                     </div>
                     </div>
                     <?php else: ?>
-                    <div class="row mb-5">
+                    <div class="row mb-3">
                       <label class="form-label">Jenis Karyawan</label>
                     <div class="form-check m-3">
                         <input name="jenis_karyawan" type="radio" class="form-check-input" id="KP" value="KP"><label class="form-check-label" for="KP">Karyawan Produksi</label>
@@ -70,7 +70,7 @@
                     <?php endif; ?>
                     <?php if($data[0]['status'] == 'aktif') : ?>
                       <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Status</label>
+                        <label for="exampleInputEmail1" class="form-label">Status Kepegawaian</label>
                         <select name="status" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                             <option value="<?= $data[0]['status'] ?>" selected>Aktif</option>
                             <option value="nonaktif">Non-Aktif</option>
@@ -78,7 +78,7 @@
                       </div>
                     <?php else: ?>
                       <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Status</label>
+                        <label for="exampleInputEmail1" class="form-label">Status Pegawai</label>
                         <select name="status" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                           <option value="aktif">Aktif</option>
                             <option value="<?= $data[0]['status'] ?>" selected>Non-Aktif</option>
