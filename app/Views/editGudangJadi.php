@@ -5,26 +5,26 @@
 <div class="container-fluid">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title fw-semibold mb-4">Form Data Input Gudang Jadi</h5>
+      <h5 class="card-title fw-semibold mb-4">Form Data Edit Gudang Jadi</h5>
       <div class="card">
         <div class="card-body">
-          <form action="/simpan_gudang_jadi" method="post">
+          <form action="/update_gudang_jadi" method="post">
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Kode Barang</label>
-              <input name="kode_barang" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <input name="kode_barang" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?= $detail_gudang_jadi[0]["kode"] ?>" readonly>
             </div>
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Kode Produksi</label>
               <select name="kode_produksi" id="" class="form-control">
                 <option selected disabled>Silahkan Pilih Dari Produksi apa</option>
                 <?php foreach ($produksi as $prod) : ?>
-                  <option value="<?= $prod["kode_produksi"] ?>">[ <?= $prod["tanggal_mulai"] ?> ] <?= $prod["kode_produksi"] ?></option>
+                  <option <?= ($prod["kode_produksi"] == $detail_gudang_jadi[0]["kode_produksi"]) ? 'selected' : '' ?> value="<?= $prod["kode_produksi"] ?>">[ <?= $prod["tanggal_mulai"] ?> ] <?= $prod["kode_produksi"] ?></option>
                 <?php endforeach; ?>
               </select>
             </div>
             <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Nama Barang</label>
-              <input name="nama_barang" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <label for="exampleInputPassword1" class="form-label">Nama Barang</label>
+              <input name="nama_barang" type="text" class="form-control" id="exampleInputPassword1" value="<?= $detail_gudang_jadi[0]["nama_pakaian"] ?>">
             </div>
             <table class="table" id="mytable">
               <thead>
@@ -36,26 +36,22 @@
                 </tr>
               </thead>
               <tbody>
-                <tr id="mytr">
-                  <td>
-                    <input name="ukuran[]" type="text" class="form-control" id="exampleInputPassword1">
-                  </td>
-                  <td>
-                    <input name="jumlah[]" type="number" class="form-control" id="exampleInputPassword1">
-                  </td>
-                  <td>
-                    <input name="harga[]" type="number" class="form-control" id="exampleInputPassword1">
-                  </td>
-                  <td>
-                    <span href="#" class="btn btn-danger form-control delete-row" onclick="(function(){
-                      document.querySelectorAll('.delete-row').forEach(function(button) {
-                          button.addEventListener('click', function() {
-                            this.parentNode.parentNode.remove();
-                          });
-                      });
-                    }())">Hapus</span>
-                  </td>
-                </tr>
+                <?php foreach ($detail_gudang_jadi as $dgj) :?>
+                  <tr>
+                    <td>
+                      <input name="ukuran[]" type="text" class="form-control" id="exampleInputPassword1" value="<?= $dgj["ukuran"] ?>">
+                    </td>
+                    <td>
+                      <input name="jumlah[]" type="number" class="form-control" id="exampleInputPassword1" value="<?= $dgj["jumlah"] ?>">
+                    </td>
+                    <td>
+                      <input name="harga[]" type="number" class="form-control" id="exampleInputPassword1" value="<?= $dgj["harga"] ?>">
+                    </td>
+                    <td>
+                      <a href="/item_gudang_jadi/<?= $dgj["kode"] ?>/delete/<?= $dgj["ukuran"] ?>" class="btn btn-danger form-control" onclick="return confirm('Ingin menghapus data ini?')">Hapus</a>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
               </tbody>
             </table>
             <div class="d-flex justify-content-center mb-5">

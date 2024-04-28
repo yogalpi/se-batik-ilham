@@ -28,15 +28,8 @@ $routes->get('/manajemen_aset', 'AsetManageController::asetManage');
 $routes->get('/daftar_aset', 'AsetManageController::daftarAset');
 
 $routes->post('/input_aset', 'AsetManageController::inputAset');
-$routes->post('/input_biaya_aset', 'AsetManageController::simpanBiayaAset');
-$routes->get('/pemeliharaan_aset', 'AsetManageController::inputBiayaAset');
-
-$routes->get('/edit_aset/(:any)', 'AsetManageController::editAset/$1');
-$routes->post('/update_aset', 'AsetManageController::updateAset');
-$routes->post('/hapus_aset/(:any)', 'AsetManageController::hapusAset/$1');
 
 //KEPEGAWAIAN
-$routes->post('/cari_absen', 'PegawaiController::cariAbsen');
 $routes->get('/manajemen_pegawai', 'PegawaiController::pegawaiManage');
 $routes->get('/daftar_pegawai', 'PegawaiController::daftarPegawai');
 $routes->get('/manajemen_gaji', 'PegawaiController::manajemenGaji');
@@ -48,17 +41,9 @@ $routes->post('/input_gaji_umum', 'PegawaiController::inputGajiKaryawanUmum');
 
 $routes->get('/gaji_produksi', 'PegawaiController::gajiProduksi');
 $routes->get('/gaji_umum', 'PegawaiController::gajiUmum');
-$routes->get('/absensi_pegawai', 'PegawaiController::absensiPegawai');
-$routes->post('/input_absensi', 'PegawaiController::inputAbsensi');
-$routes->get('/daftar_absensi', 'PegawaiController::dataAbsensi');
-$routes->post('/filter_absen', 'PegawaiController::dataAbsensiBulanan');
 
 $routes->get('/input_gaji_produksi', 'PegawaiController::InputGajiProduksi');
 $routes->get('/input_gaji_umum', 'PegawaiController::InputGajiUmum');
-
-$routes->get('/edit_pegawai/(:any)', 'PegawaiController::editPegawai/$1');
-$routes->post('/update_pegawai', 'PegawaiController::updatePegawai');
-
 
 // PEMBELIAN
 $routes->get('/input_pembelian', 'PembelianController::inputPembelian');
@@ -76,6 +61,11 @@ $routes->get('/detail_pengadaan/(:any)', 'PengadaanController::detailPengadaan/$
 $routes->get('/data_gudang_jadi', 'GudangJadiController::dataGudangJadi');
 $routes->get('/input_gudang_jadi', 'GudangJadiController::inputGudangJadi');
 $routes->post('/simpan_gudang_jadi', 'GudangJadiController::simpanGudangJadi');
+$routes->get('/detail_gudang_jadi/(:any)', 'GudangJadiController::detailGudangJadi/$1');
+$routes->get('/edit_gudang_jadi/(:any)', 'GudangJadiController::editGudangJadi/$1');
+$routes->get('/delete_gudang_jadi/(:any)', 'GudangJadiController::deleteGudangJadi/$1');
+$routes->get('/item_gudang_jadi/(:any)/delete/(:any)', 'GudangJadiController::deleteItemGudangJadi/$1/$2');
+$routes->post('/update_gudang_jadi', 'GudangJadiController::updateGudangJadi');
 
 // PENJUALAN
 $routes->get('/transaksi_penjualan', 'TransaksiController::transaksi');
