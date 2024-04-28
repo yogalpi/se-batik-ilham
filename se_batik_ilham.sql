@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 24, 2024 at 05:23 AM
+-- Generation Time: Apr 26, 2024 at 03:06 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -44,6 +44,22 @@ CREATE TABLE `akses` (
   `akses` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `akses`
+--
+
+INSERT INTO `akses` (`kode`, `akses`) VALUES
+('AGBB', 'AdminGudangBahanBaku'),
+('AGP', 'AdminGudangProduk'),
+('AMA', 'AdminManajemenAset'),
+('AOS', 'AdminOnlineShop'),
+('CUS', 'Customer'),
+('HRD', 'HRD'),
+('KE', 'Keuangan'),
+('KP', 'KepalaProduksi'),
+('KSR', 'Kasir'),
+('OWN', 'Owner');
+
 -- --------------------------------------------------------
 
 --
@@ -55,6 +71,14 @@ CREATE TABLE `akun_pelanggan` (
   `username` varchar(25) NOT NULL,
   `password` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `akun_pelanggan`
+--
+
+INSERT INTO `akun_pelanggan` (`kode`, `username`, `password`) VALUES
+('CUS-000', 'Offline', 'Offline'),
+('CUS-001', 'nabil', 'nabil');
 
 -- --------------------------------------------------------
 
@@ -69,6 +93,16 @@ CREATE TABLE `aset` (
   `jumlah` smallint(5) UNSIGNED NOT NULL,
   `jenis_aset` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `aset`
+--
+
+INSERT INTO `aset` (`kode_aset`, `tanggal`, `nama_aset`, `jumlah`, `jenis_aset`) VALUES
+('0001', '2024-04-05', 'Meja', 15, 'Furnitur'),
+('0002', '2024-04-05', 'Kursi', 10, 'Furnitur'),
+('0003', '2024-04-05', 'Kursi smackdown', 10, 'Alat Perang'),
+('0004', '2024-04-21', 'Tayo Jasmani', 3, 'Kendaraan');
 
 -- --------------------------------------------------------
 
@@ -85,6 +119,13 @@ CREATE TABLE `bahan_baku` (
   `keterangan` varchar(30) NOT NULL,
   `tanggal` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bahan_baku`
+--
+
+INSERT INTO `bahan_baku` (`kode_barang`, `kode_produksi`, `nama_barang`, `jumlah`, `jenis`, `keterangan`, `tanggal`) VALUES
+('000', 'P-001', 'benang', '2', 'perlengkapan produks', 'baik', '2024-04-25');
 
 -- --------------------------------------------------------
 
@@ -113,6 +154,14 @@ CREATE TABLE `detail_gudang_jadi` (
   `harga` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `detail_gudang_jadi`
+--
+
+INSERT INTO `detail_gudang_jadi` (`kode_gudang_jadi`, `kode`, `ukuran`, `jumlah`, `harga`) VALUES
+('P-001', 'P-001', 'M', 10, 75000),
+('P-002', 'P-002', 'XL', 20, 100000);
+
 -- --------------------------------------------------------
 
 --
@@ -133,11 +182,24 @@ CREATE TABLE `detail_pelanggan` (
 --
 
 CREATE TABLE `detail_pengadaan` (
+  `id` int(11) NOT NULL,
   `kode_pengadaan` char(10) NOT NULL,
   `kebutuhan` varchar(40) NOT NULL,
   `biaya` int(11) NOT NULL,
   `kode_supplier` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `detail_pengadaan`
+--
+
+INSERT INTO `detail_pengadaan` (`id`, `kode_pengadaan`, `kebutuhan`, `biaya`, `kode_supplier`) VALUES
+(1, 'PN-001', '4g499999922', 1198, 'S01'),
+(2, 'PN-001', '4g4999999', 1198, 'S01'),
+(3, 'PN-001', '4g499999900', 1198, 'S01'),
+(4, 'PN-001', '4g4999999', 1198, 'S01'),
+(5, 'PN-002', 'oitddd', 3, 'S01'),
+(6, 'PN-002', 'oitddd', 3, 'S01');
 
 -- --------------------------------------------------------
 
@@ -151,6 +213,15 @@ CREATE TABLE `detail_penjualan` (
   `qty` int(11) NOT NULL,
   `harga` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `detail_penjualan`
+--
+
+INSERT INTO `detail_penjualan` (`kode_penjualan`, `kode_detail_gudang_jadi`, `qty`, `harga`) VALUES
+('PEN-001', 'P-001', 2, 75000),
+('PEN-001', 'P-002', 5, 100000),
+('PEN-002', 'P-002', 10, 100000);
 
 --
 -- Triggers `detail_penjualan`
@@ -168,8 +239,20 @@ DELIMITER ;
 
 CREATE TABLE `detail_produksi` (
   `kode_produksi` char(10) NOT NULL,
-  `kode_aset` char(10) NOT NULL
+  `jenis_baju` varchar(25) NOT NULL,
+  `ukuran` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `detail_produksi`
+--
+
+INSERT INTO `detail_produksi` (`kode_produksi`, `jenis_baju`, `ukuran`) VALUES
+('P-006', 'kemeja panjang', 'xl'),
+('P-006', 'kemeja pendek', 'l'),
+('P-007', 'x', 'x'),
+('P-007', 'x', 'x'),
+('P-002', 's', 's');
 
 -- --------------------------------------------------------
 
@@ -182,6 +265,13 @@ CREATE TABLE `detail_tipe` (
   `kode_akun_pelanggan` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `detail_tipe`
+--
+
+INSERT INTO `detail_tipe` (`kode_tipe`, `kode_akun_pelanggan`) VALUES
+('ON', 'CUS-001');
+
 -- --------------------------------------------------------
 
 --
@@ -191,33 +281,6 @@ CREATE TABLE `detail_tipe` (
 CREATE TABLE `gaji` (
   `kode_jenis` char(10) NOT NULL,
   `gaji` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gaji_pegawai_produksi`
---
-
-CREATE TABLE `gaji_pegawai_produksi` (
-  `kode_gaji` char(10) NOT NULL,
-  `jumlah_produksi` int(11) NOT NULL,
-  `total_gaji` int(11) NOT NULL,
-  `kode` char(10) NOT NULL,
-  `kode_produksi` char(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gaji_pegawai_umum`
---
-
-CREATE TABLE `gaji_pegawai_umum` (
-  `kode_gaji` char(10) NOT NULL,
-  `jumlah_absensi` int(11) NOT NULL,
-  `total_gaji` int(11) NOT NULL,
-  `kode` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -243,6 +306,14 @@ CREATE TABLE `gudang_jadi` (
   `kode` char(10) NOT NULL,
   `nama_pakaian` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `gudang_jadi`
+--
+
+INSERT INTO `gudang_jadi` (`kode_produksi`, `kode`, `nama_pakaian`) VALUES
+('P-001', 'P-001', 'Baju Batik'),
+('P-001', 'P-002', 'Barang Coba');
 
 -- --------------------------------------------------------
 
@@ -270,9 +341,16 @@ CREATE TABLE `keuangan` (
   `tanggal` date NOT NULL,
   `status` varchar(25) NOT NULL,
   `jumlah` int(11) NOT NULL,
-  `keterangan` varchar(500) NOT NULL,
+  `keterangan` varchar(25) NOT NULL,
   `kode_pengguna` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `keuangan`
+--
+
+INSERT INTO `keuangan` (`kode`, `tanggal`, `status`, `jumlah`, `keterangan`, `kode_pengguna`) VALUES
+(' k001', '2024-04-23', 'kredit', 87, 'nh', 'KE001');
 
 -- --------------------------------------------------------
 
@@ -289,6 +367,14 @@ CREATE TABLE `pengadaan` (
   `status` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `pengadaan`
+--
+
+INSERT INTO `pengadaan` (`kode_pengadaan`, `kode_pengguna`, `tanggal`, `rencana_pengadaan`, `jenis`, `status`) VALUES
+('PN-001', 'AGBB001', '2024-04-02', 'u', 'HEM', 'Pending'),
+('PN-002', 'AGBB001', '2024-04-26', 'asd', 'HEM', 'Pending');
+
 -- --------------------------------------------------------
 
 --
@@ -302,6 +388,22 @@ CREATE TABLE `pengguna` (
   `password` varchar(25) NOT NULL,
   `kode_akses` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pengguna`
+--
+
+INSERT INTO `pengguna` (`kode`, `nama`, `username`, `password`, `kode_akses`) VALUES
+('AGBB001', 'Muhammad Nabil', 'nabil', 'nabil', 'AGBB'),
+('AGP001', 'Muhammad Said Alkhudri', 'said', 'said', 'AGP'),
+('AMA001', 'Yoga Sugiono', 'yoga', 'yoga', 'AMA'),
+('AOS001', 'sadi', 'sadi', 'sadi', 'AOS'),
+('CUS001', 'Abana', 'abana', 'abana', 'CUS'),
+('HRD001', 'Yogaa', 'yogahr', 'yogahr', 'HRD'),
+('KE001', 'Akhmad Reyhan Syabana', 'bana', 'bana', 'KE'),
+('KP001', 'NabilKP', 'nabilkp', 'nabillkp', 'KP'),
+('KSR001', 'sadikasir', 'sadikasir', 'sadikasir', 'KSR'),
+('OWN001', 'Oliq', 'oliq', 'oliq', 'OWN');
 
 -- --------------------------------------------------------
 
@@ -319,6 +421,14 @@ CREATE TABLE `penjualan` (
   `jenis_pengiriman` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `penjualan`
+--
+
+INSERT INTO `penjualan` (`kode`, `kode_tipe`, `tanggal`, `kode_pelanggan`, `status`, `metode_pembayaran`, `jenis_pengiriman`) VALUES
+('PEN-001', 'OFF', '2024-04-20', 'CUS-000', 'Dibatalkan', 'CASH', 'Offline'),
+('PEN-002', 'ON', '2024-04-20', 'CUS-001', 'Dikirim', 'BCA', 'JNE');
+
 -- --------------------------------------------------------
 
 --
@@ -327,11 +437,19 @@ CREATE TABLE `penjualan` (
 
 CREATE TABLE `produksi` (
   `kode_pengadaan` char(10) NOT NULL,
+  `kode_barang` char(10) NOT NULL,
+  `jumlah_barang` int(11) NOT NULL,
   `kode_produksi` char(10) NOT NULL,
   `tanggal_mulai` date NOT NULL,
-  `tanggal_selesai` date NOT NULL,
-  `status` varchar(30) NOT NULL
+  `rencana_produksi` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `produksi`
+--
+
+INSERT INTO `produksi` (`kode_pengadaan`, `kode_barang`, `jumlah_barang`, `kode_produksi`, `tanggal_mulai`, `rencana_produksi`) VALUES
+('PN-001', '000', 2, 'P-001', '2024-05-02', 'n');
 
 -- --------------------------------------------------------
 
@@ -358,6 +476,13 @@ CREATE TABLE `supplier` (
   `nomor_hp` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `supplier`
+--
+
+INSERT INTO `supplier` (`kode_supplier`, `nama`, `alamat`, `nomor_hp`) VALUES
+('S01', 'cibaduyud', 'cibaduyud', 987);
+
 -- --------------------------------------------------------
 
 --
@@ -368,6 +493,14 @@ CREATE TABLE `tipe` (
   `kode` char(10) NOT NULL,
   `keterangan` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tipe`
+--
+
+INSERT INTO `tipe` (`kode`, `keterangan`) VALUES
+('OFF', 'Offline'),
+('ON', 'Online');
 
 --
 -- Indexes for dumped tables
@@ -428,6 +561,7 @@ ALTER TABLE `detail_pelanggan`
 -- Indexes for table `detail_pengadaan`
 --
 ALTER TABLE `detail_pengadaan`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `kode_pengadaan` (`kode_pengadaan`),
   ADD KEY `kode_supplier` (`kode_supplier`);
 
@@ -442,8 +576,7 @@ ALTER TABLE `detail_penjualan`
 -- Indexes for table `detail_produksi`
 --
 ALTER TABLE `detail_produksi`
-  ADD KEY `kode_produksi` (`kode_produksi`),
-  ADD KEY `kode_aset` (`kode_aset`);
+  ADD KEY `kode_produksi` (`kode_produksi`);
 
 --
 -- Indexes for table `detail_tipe`
@@ -457,21 +590,6 @@ ALTER TABLE `detail_tipe`
 --
 ALTER TABLE `gaji`
   ADD PRIMARY KEY (`kode_jenis`);
-
---
--- Indexes for table `gaji_pegawai_produksi`
---
-ALTER TABLE `gaji_pegawai_produksi`
-  ADD PRIMARY KEY (`kode_gaji`),
-  ADD KEY `kode` (`kode`),
-  ADD KEY `kode_produksi` (`kode_produksi`);
-
---
--- Indexes for table `gaji_pegawai_umum`
---
-ALTER TABLE `gaji_pegawai_umum`
-  ADD PRIMARY KEY (`kode_gaji`),
-  ADD KEY `kode` (`kode`);
 
 --
 -- Indexes for table `gudang_bahan`
@@ -498,7 +616,7 @@ ALTER TABLE `karyawan`
 --
 ALTER TABLE `keuangan`
   ADD PRIMARY KEY (`kode`),
-  ADD KEY `kode_pengguna` (`kode_pengguna`);
+  ADD UNIQUE KEY `kode_pengguna` (`kode_pengguna`);
 
 --
 -- Indexes for table `pengadaan`
@@ -527,7 +645,8 @@ ALTER TABLE `penjualan`
 --
 ALTER TABLE `produksi`
   ADD PRIMARY KEY (`kode_produksi`),
-  ADD KEY `kode_pengadaan` (`kode_pengadaan`);
+  ADD KEY `kode_pengadaan` (`kode_pengadaan`),
+  ADD KEY `kode_barang` (`kode_barang`);
 
 --
 -- Indexes for table `sanggan`
@@ -547,6 +666,16 @@ ALTER TABLE `supplier`
 --
 ALTER TABLE `tipe`
   ADD PRIMARY KEY (`kode`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `detail_pengadaan`
+--
+ALTER TABLE `detail_pengadaan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
@@ -572,100 +701,10 @@ ALTER TABLE `chat`
   ADD CONSTRAINT `chat_ibfk_2` FOREIGN KEY (`kode`) REFERENCES `pengguna` (`kode`);
 
 --
--- Constraints for table `detail_gudang_jadi`
---
-ALTER TABLE `detail_gudang_jadi`
-  ADD CONSTRAINT `detail_gudang_jadi_ibfk_1` FOREIGN KEY (`kode_gudang_jadi`) REFERENCES `gudang_jadi` (`kode`);
-
---
--- Constraints for table `detail_pelanggan`
---
-ALTER TABLE `detail_pelanggan`
-  ADD CONSTRAINT `detail_pelanggan_ibfk_1` FOREIGN KEY (`kode_akun`) REFERENCES `akun_pelanggan` (`kode`);
-
---
 -- Constraints for table `detail_pengadaan`
 --
 ALTER TABLE `detail_pengadaan`
-  ADD CONSTRAINT `detail_pengadaan_ibfk_1` FOREIGN KEY (`kode_pengadaan`) REFERENCES `pengadaan` (`kode_pengadaan`),
-  ADD CONSTRAINT `detail_pengadaan_ibfk_2` FOREIGN KEY (`kode_supplier`) REFERENCES `supplier` (`kode_supplier`);
-
---
--- Constraints for table `detail_penjualan`
---
-ALTER TABLE `detail_penjualan`
-  ADD CONSTRAINT `detail_penjualan_ibfk_1` FOREIGN KEY (`kode_penjualan`) REFERENCES `penjualan` (`kode`),
-  ADD CONSTRAINT `detail_penjualan_ibfk_2` FOREIGN KEY (`kode_detail_gudang_jadi`) REFERENCES `detail_gudang_jadi` (`kode`);
-
---
--- Constraints for table `detail_produksi`
---
-ALTER TABLE `detail_produksi`
-  ADD CONSTRAINT `detail_produksi_ibfk_1` FOREIGN KEY (`kode_produksi`) REFERENCES `produksi` (`kode_produksi`),
-  ADD CONSTRAINT `detail_produksi_ibfk_2` FOREIGN KEY (`kode_aset`) REFERENCES `aset` (`kode_aset`);
-
---
--- Constraints for table `detail_tipe`
---
-ALTER TABLE `detail_tipe`
-  ADD CONSTRAINT `detail_tipe_ibfk_1` FOREIGN KEY (`kode_tipe`) REFERENCES `tipe` (`kode`),
-  ADD CONSTRAINT `detail_tipe_ibfk_2` FOREIGN KEY (`kode_akun_pelanggan`) REFERENCES `akun_pelanggan` (`kode`);
-
---
--- Constraints for table `gudang_bahan`
---
-ALTER TABLE `gudang_bahan`
-  ADD CONSTRAINT `gudang_bahan_ibfk_1` FOREIGN KEY (`kode_produksi`) REFERENCES `produksi` (`kode_produksi`);
-
---
--- Constraints for table `gudang_jadi`
---
-ALTER TABLE `gudang_jadi`
-  ADD CONSTRAINT `gudang_jadi_ibfk_1` FOREIGN KEY (`kode_produksi`) REFERENCES `produksi` (`kode_produksi`);
-
---
--- Constraints for table `karyawan`
---
-ALTER TABLE `karyawan`
-  ADD CONSTRAINT `karyawan_ibfk_1` FOREIGN KEY (`kode_jenis`) REFERENCES `gaji` (`kode_jenis`);
-
---
--- Constraints for table `keuangan`
---
-ALTER TABLE `keuangan`
-  ADD CONSTRAINT `keuangan_ibfk_1` FOREIGN KEY (`kode_pengguna`) REFERENCES `pengguna` (`kode`);
-
---
--- Constraints for table `pengadaan`
---
-ALTER TABLE `pengadaan`
-  ADD CONSTRAINT `pengadaan_ibfk_1` FOREIGN KEY (`kode_pengguna`) REFERENCES `pengguna` (`kode`);
-
---
--- Constraints for table `pengguna`
---
-ALTER TABLE `pengguna`
-  ADD CONSTRAINT `pengguna_ibfk_2` FOREIGN KEY (`kode_akses`) REFERENCES `akses` (`kode`);
-
---
--- Constraints for table `penjualan`
---
-ALTER TABLE `penjualan`
-  ADD CONSTRAINT `penjualan_ibfk_1` FOREIGN KEY (`kode_tipe`) REFERENCES `tipe` (`kode`),
-  ADD CONSTRAINT `penjualan_ibfk_2` FOREIGN KEY (`kode_pelanggan`) REFERENCES `akun_pelanggan` (`kode`);
-
---
--- Constraints for table `produksi`
---
-ALTER TABLE `produksi`
-  ADD CONSTRAINT `produksi_ibfk_1` FOREIGN KEY (`kode_pengadaan`) REFERENCES `pengadaan` (`kode_pengadaan`);
-
---
--- Constraints for table `sanggan`
---
-ALTER TABLE `sanggan`
-  ADD CONSTRAINT `sanggan_ibfk_1` FOREIGN KEY (`kode_produksi`) REFERENCES `produksi` (`kode_produksi`),
-  ADD CONSTRAINT `sanggan_ibfk_2` FOREIGN KEY (`kode_karyawan`) REFERENCES `karyawan` (`kode`);
+  ADD CONSTRAINT `detail_pengadaan_ibfk_1` FOREIGN KEY (`kode_pengadaan`) REFERENCES `pengadaan` (`kode_pengadaan`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
