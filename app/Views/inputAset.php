@@ -12,7 +12,7 @@
                   <form action="/input_aset" method="post">
                     <div class="mb-3">
                       <label for="exampleInputEmail1" class="form-label">Kode Aset</label>
-                      <input value="<?php $a = (int)$aset; if($a == 0) :?> <?= 'AT-00'.$a+1; ?> <?php elseif($a < 10) :?> <?= 'AT-00'.$a+1; ?><?php elseif($a >= 10 && $a < 100) :?> <?= 'AT-0'.$a+1; ?><?php else :?> <?= 'AT-'.$a+1; ?><?php endif; ?>" name="kode_aset" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" readonly>
+                      <input value="<?php $a = (int)$aset[0]['kode_aset']; if($a == 0) :?> <?= 'AT-00'.$a; ?> <?php elseif($a < 10) :?> <?= 'AT-00'.$a; ?><?php elseif($a >= 10 && $a < 100) :?> <?= 'AT-0'.$a; ?><?php else :?> <?= 'AT-'.$a; ?><?php endif; ?>" name="kode_aset" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" readonly>
                     </div>
                     <div class="mb-3">
                       <label for="aset" class="form-label">Nama Barang</label>

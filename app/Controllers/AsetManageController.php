@@ -17,7 +17,17 @@ class AsetManageController extends BaseController
         $data = [
             'aset' => $this->aset->select('RIGHT(kode_aset, 3)+1 AS kode_aset')->orderBy('kode_aset', 'desc')->findAll(1)
         ];
-        
+
+        if(empty($data['aset'])){
+            $data = ['aset' => 
+
+            [
+                0 => [
+                    'kode_aset' => 1
+                    ]
+            ]];
+        }
+
         return view('inputAset', $data);
     }
     public function daftarAset(){
