@@ -86,6 +86,11 @@ $routes->get('/detail_pengadaan/(:any)', 'PengadaanController::detailPengadaan/$
 $routes->get('/data_gudang_jadi', 'GudangJadiController::dataGudangJadi');
 $routes->get('/input_gudang_jadi', 'GudangJadiController::inputGudangJadi');
 $routes->post('/simpan_gudang_jadi', 'GudangJadiController::simpanGudangJadi');
+$routes->get('/detail_gudang_jadi/(:any)', 'GudangJadiController::detailGudangJadi/$1');
+$routes->get('/edit_gudang_jadi/(:any)', 'GudangJadiController::editGudangJadi/$1');
+$routes->get('/delete_gudang_jadi/(:any)', 'GudangJadiController::deleteGudangJadi/$1');
+$routes->get('/item_gudang_jadi/(:any)/delete/(:any)', 'GudangJadiController::deleteItemGudangJadi/$1/$2');
+$routes->post('/update_gudang_jadi', 'GudangJadiController::updateGudangJadi');
 
 // PENJUALAN
 $routes->get('/transaksi_penjualan', 'TransaksiController::transaksi');
