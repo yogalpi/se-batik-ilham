@@ -71,7 +71,7 @@
                         success: function (data) {
                             $('#jumlah').val(data.absen[0].absen)
                             console.log(data.absen[0].absen);
-                            $('#total_gaji').val(data.absen[0].absen * <?= $gaji[1]['gaji']; ?>);
+                            $('#total_gaji').val(data.absen[0].absen * <?= $gaji[0]['gaji']; ?>);
                         }
                     });
                 }
