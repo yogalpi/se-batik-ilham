@@ -86,7 +86,15 @@
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
-                <span class="hide-menu">Daftar Data</span>
+                <span class="hide-menu">Daftar Data Aset</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/pemeliharaan_aset" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Biaya Pemeliharaan Aset</span>
               </a>
             </li>
 
@@ -141,11 +149,27 @@
               </a>
             </li>
             <li class="sidebar-item">
+              <a class="sidebar-link" href="/absensi_pegawai" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Absensi Pegawai</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/daftar_absensi" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Daftar Data Absensi</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
               <a class="sidebar-link" href="/daftar_pegawai" aria-expanded="false">
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
-                <span class="hide-menu">Daftar Data</span>
+                <span class="hide-menu">Daftar Data Pegawai</span>
               </a>
             </li>
             <li class="sidebar-item">

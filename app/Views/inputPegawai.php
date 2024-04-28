@@ -12,10 +12,6 @@
 
                   <form action="/input_pegawai" method="post">
                     <div class="mb-3">
-                      <label for="kode_karyawan" class="form-label">Kode karyawan</label>
-                      <input name="kode_karyawan" type="text" class="form-control" id="kode_karyawan" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
                       <label for="nama_karyawan" class="form-label">Nama Karyawan</label>
                       <input name="nama_karyawan" type="text" class="form-control" id="nama_karyawan">
                     </div>
@@ -23,14 +19,14 @@
                     <div class="row mb-3">
                       <label for="" class="form-label">Jenis Kelamin</label>
                     <div class="form-check m-3">
-                        <input name="jenis_kelamin" type="radio" class="form-check-input" id="laki-laki" value="Laki-Laki"><label class="form-check-label" for="laki-laki">Laki-laki</label>
+                        <input name="jenis_kelamin" type="radio" class="form-check-input" id="laki-laki" value="Laki-laki"><label class="form-check-label" for="laki-laki">Laki-laki</label>
                     </div>
                     <div class="form-check m-3">
                         <input name="jenis_kelamin" type="radio" class="form-check-input" id="perempuan" value="Perempuan"><label class="form-check-label" for="perempuan">Perempuan</label>
                     </div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-3 col-3">
                       <label for="tanggallahir" class="form-label">Tanggal Lahir</label>
                       <input name="tanggal_lahir" type="date" class="form-control" id="tanggallahir">
                     </div>

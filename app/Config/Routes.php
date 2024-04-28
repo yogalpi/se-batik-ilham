@@ -16,27 +16,27 @@ $routes->post('/login', 'Batik::loginAction');
 //PRODUKSI
 $routes->get('/data_produksi', 'ProduksiController::dataProduksi');
 $routes->get('/input_produksi', 'ProduksiController::inputProduksi');
-$routes->post('/simpan_produksi', 'ProduksiController::simpanProduksi');
-$routes->post('/produksi', 'ProduksiController::produksi');
-$routes->get('/editProduksi/(:any)', 'ProduksiController::editProduksi/$1');
-$routes->post('/updateProduksi', 'ProduksiController::updateProduksi');
-$routes->get('/detail_produksi/(:any)', 'ProduksiController::detailProduksi/$1');
 
 // GUDANG
 $routes->get('/data_gudang', 'GudangController::dataGudang');
 $routes->get('/input_gudang', 'GudangController::inputGudang');
 $routes->post('/input_gudang', 'GudangController::simpanBahan');
 $routes->post('/gudang', 'GudangController::gudangBahan');
-$routes->get('/editGudang/(:any)', 'GudangController::editGudang/$1');
-$routes->post('/updateGudang', 'GudangController::updateGudang');
 
 // ASSET_MANAGEMEN
 $routes->get('/manajemen_aset', 'AsetManageController::asetManage');
 $routes->get('/daftar_aset', 'AsetManageController::daftarAset');
 
 $routes->post('/input_aset', 'AsetManageController::inputAset');
+$routes->post('/input_biaya_aset', 'AsetManageController::simpanBiayaAset');
+$routes->get('/pemeliharaan_aset', 'AsetManageController::inputBiayaAset');
+
+$routes->get('/edit_aset/(:any)', 'AsetManageController::editAset/$1');
+$routes->post('/update_aset', 'AsetManageController::updateAset');
+$routes->post('/hapus_aset/(:any)', 'AsetManageController::hapusAset/$1');
 
 //KEPEGAWAIAN
+$routes->post('/cari_absen', 'PegawaiController::cariAbsen');
 $routes->get('/manajemen_pegawai', 'PegawaiController::pegawaiManage');
 $routes->get('/daftar_pegawai', 'PegawaiController::daftarPegawai');
 $routes->get('/manajemen_gaji', 'PegawaiController::manajemenGaji');
@@ -48,9 +48,17 @@ $routes->post('/input_gaji_umum', 'PegawaiController::inputGajiKaryawanUmum');
 
 $routes->get('/gaji_produksi', 'PegawaiController::gajiProduksi');
 $routes->get('/gaji_umum', 'PegawaiController::gajiUmum');
+$routes->get('/absensi_pegawai', 'PegawaiController::absensiPegawai');
+$routes->post('/input_absensi', 'PegawaiController::inputAbsensi');
+$routes->get('/daftar_absensi', 'PegawaiController::dataAbsensi');
+$routes->post('/filter_absen', 'PegawaiController::dataAbsensiBulanan');
 
 $routes->get('/input_gaji_produksi', 'PegawaiController::InputGajiProduksi');
 $routes->get('/input_gaji_umum', 'PegawaiController::InputGajiUmum');
+
+$routes->get('/edit_pegawai/(:any)', 'PegawaiController::editPegawai/$1');
+$routes->post('/update_pegawai', 'PegawaiController::updatePegawai');
+
 
 // PEMBELIAN
 $routes->get('/input_pembelian', 'PembelianController::inputPembelian');
@@ -63,8 +71,6 @@ $routes->get('/data_pengadaan', 'PengadaanController::dataPengadaan');
 $routes->post('/input_pengadaan', 'PengadaanController::simpanPengadaan');
 $routes->post('/pengadaan', 'PengadaanController::pengadaan');
 $routes->get('/detail_pengadaan/(:any)', 'PengadaanController::detailPengadaan/$1');
-$routes->get('/editPengadaan/(:any)', 'PengadaanController::editPengadaan/$1');
-$routes->post('/updatePengadaan', 'PengadaanController::updatePengadaan');
 
 // GUDANG Jadi
 $routes->get('/data_gudang_jadi', 'GudangJadiController::dataGudangJadi');

@@ -9,7 +9,13 @@
               <h5 class="card-title fw-semibold mb-4">Gaji Karyawan Produksi</h5>
               <div class="card">
                 <div class="card-body">
-
+                  <?php if(session()->getFlashdata('sukses')):?>
+                      <div onclick="(function(notif){
+                        notif.style.display = 'none';
+                        })(this)" id="notif" class="alert alert-success" role="alert">
+                        <?= session()->getFlashdata('sukses')?>
+                      </div>
+                    <?php endif; ?>
                     <table class="table table-hover mb-5">
                         <thead>
                           <tr>
@@ -57,5 +63,4 @@
             </div>
           </div>
         </div>
-
 <?= $this->endSection();?>

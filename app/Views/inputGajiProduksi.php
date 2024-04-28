@@ -33,12 +33,19 @@
                       <!-- <input name="kode_produksi" type="text" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp"> -->
                       <select onchange="(function(k){
                         <?php $kode = null; ?>
-                        <?php if(empty($kode_gaji['kode_gaji'])) :?>
+                        <?php if(empty($kode_gaji['kode_gaji'])) : ?>
                           $kode = 0;
                         <?php else :?>
                           <?php $kode = $kode_gaji['kode_gaji'];?>
                         <?php endif; ?>
-                        document.getElementById('kode_gaji').value = 'G-'+k.value.slice(2, 5)+'-'+'00<?= $kode+1; ?>'
+                        <?php if($kode+1 < 10) : ?>
+                          $nol = '00'
+                        <?php elseif($kode+1 >= 10 && $kode+1 < 100) : ?>
+                          $nol = '0'
+                        <?php else : ?>
+                          $nol = ''
+                        <?php endif; ?>
+                        document.getElementById('kode_gaji').value = 'G-'+k.value.slice(2, 5)+'-'+$nol+'<?= $kode+1; ?>'
                       })(this)" name="kode_produksi" type="text" class="form-control" id="kode_produksi" aria-describedby="emailHelp">
                         <option selected>-- Pilih Kode Produksi --</option>
                         <?php foreach($produksi as $p) : ?>
