@@ -4,14 +4,18 @@ namespace App\Controllers;
 use App\Models\AsetModel;
 use App\Models\KeuanganModel;
 use App\Models\PenggunaModel;
+use App\Models\PermintaanModel;
+use CodeIgniter\I18n\Time;
 
 class AsetManageController extends BaseController
 {
     private $aset;
     private $keuangan;
+    private $permintaan;
     public function __construct(){
         $this->aset = new AsetModel();
         $this->keuangan = new KeuanganModel();
+        $this->permintaan = new PermintaanModel();
     }
     public function asetManage(){
         $data = [
@@ -68,18 +72,24 @@ class AsetManageController extends BaseController
     public function simpanBiayaAset(){
         $post = $this->request->getPost(['kode_aset', 'biaya', 'keterangan', 'tanggal']);
 
-        $kode = $this->aset->select('kode_aset')->orderBy('kode_aset', 'desc')->findAll(1);
+        $hitungKode = [
+            'hitungan'  => $this->permintaan->selectCount('kode_permintaan', 'hitung')->findAll()
+        ];
 
-        $digit = $this->keuangan->countAllResults()+1;
-        
-        $this->keuangan->insert([
-            'kode'          => $kode[0]['kode_aset'].$digit,
-            'tanggal'       => $post['tanggal'],
-            'status'        => 'KREDIT',
-            'jumlah'        => $post['biaya'],
-            'keterangan'    => $post['keterangan'],
-            'kode_pengguna' => session()->get("user")[0]["kode"] 
+        $kode_permintaan = (int)$hitungKode['hitungan'][0]['hitung'] + 1;
+
+        $date = Time::today('Asia/Jakarta', );
+
+        $this->permintaan->insert([
+            'kode_permintaan'   => $kode_permintaan,
+            'tanggal'           => $date,
+            'keterangan'        => 'Pemeliharaan Aset '.$post['kode_aset'],
+            'nominal'           => $post['biaya'],
+            'kode'              => session()->get("user")[0]["kode"],
+            'file'              => '-',
+            'status'            => 'PENDING'
         ]);
+
         
         $data = $this->aset->select('nama_aset')->where('kode_aset', $post['kode_aset'])->findAll();
 

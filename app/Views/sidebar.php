@@ -74,25 +74,25 @@
               <span class="hide-menu">Manajemen Aset</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/manajemen_aset" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/manajemen_aset'){echo "active";} ?>" href="/manajemen_aset" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                <i class="fa-solid fa-plus"></i>
                 </span>
                 <span class="hide-menu">Tambah Data</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/daftar_aset" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/daftar_aset'){echo "active";} ?>" href="/daftar_aset" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                <i class="fa-solid fa-list-ul"></i>
                 </span>
                 <span class="hide-menu">Daftar Data Aset</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/pemeliharaan_aset" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/pemeliharaan_aset'){echo "active";} ?>" href="/pemeliharaan_aset" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                <i class="fa-solid fa-file-invoice-dollar"></i>
                 </span>
                 <span class="hide-menu">Biaya Pemeliharaan Aset</span>
               </a>
@@ -141,41 +141,41 @@
               <span class="hide-menu">Kepegawaian</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/manajemen_pegawai" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/manajemen_pegawai'){echo "active";} ?>" href="/manajemen_pegawai" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                  <i class="fa-solid fa-plus"></i>
                 </span>
                 <span class="hide-menu">Tambah Data</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/absensi_pegawai" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/absensi_pegawai'){echo "active";} ?>" href="/absensi_pegawai" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                  <i class="fa-solid fa-clipboard-user"></i>
                 </span>
                 <span class="hide-menu">Absensi Pegawai</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/daftar_absensi" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/daftar_absensi' || $_SERVER['REQUEST_URI'] == '/filter_absen' || str_contains($_SERVER['REQUEST_URI'], 'edit_absensi_pegawai')){echo "active";} ?>" href="/daftar_absensi" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                  <i class="fa-solid fa-list-ul"></i>
                 </span>
                 <span class="hide-menu">Daftar Data Absensi</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/daftar_pegawai" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/daftar_pegawai' || str_contains($_SERVER['REQUEST_URI'], '/edit_pegawai')){echo "active";} ?>" href="/daftar_pegawai" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                  <i class="fa-solid fa-user-group"></i>
                 </span>
                 <span class="hide-menu">Daftar Data Pegawai</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/manajemen_gaji" aria-expanded="false">
+              <a class="sidebar-link <?php if (str_contains($_SERVER['REQUEST_URI'], 'gaji')){echo "active";} ?>" href="/manajemen_gaji" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                <i class="fa-solid fa-hand-holding-dollar"></i>
                 </span>
                 <span class="hide-menu">Kelola Gaji</span>
               </a>

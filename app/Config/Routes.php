@@ -11,6 +11,10 @@ $routes->get('/', 'Batik::index');
 $routes->get('/login', 'Batik::login');
 $routes->post('/login', 'Batik::loginAction');
 
+$routes->post('/input_todo', 'Batik::inputTodo');
+$routes->post('/selesai_todo', 'Batik::selesaiTodo');
+
+
 //PEMBELIAN
 
 //PRODUKSI
@@ -56,6 +60,9 @@ $routes->post('/filter_absen', 'PegawaiController::dataAbsensiBulanan');
 $routes->get('/input_gaji_produksi', 'PegawaiController::InputGajiProduksi');
 $routes->get('/input_gaji_umum', 'PegawaiController::InputGajiUmum');
 
+$routes->post('/input_permintaan_gaji_produksi', 'PegawaiController::InputPermintaanGajiProduksi');
+$routes->post('/input_permintaan_gaji_umum', 'PegawaiController::InputPermintaanGajiUmum');
+
 $routes->get('/edit_absensi_pegawai/(:any)/(:any)', 'PegawaiController::editAbsensiPegawai/$1/$2');
 $routes->post('/update_absensi', 'PegawaiController::updateAbsensi');
 
@@ -69,6 +76,17 @@ $routes->post('/hapus_gaji_produksi/(:any)/(:any)/(:any)', 'PegawaiController::h
 $routes->get('/edit_gaji_pegawai_umum/(:any)', 'PegawaiController::editGajiPegawaiUmum/$1');
 $routes->post('/update_gaji_umum', 'PegawaiController::updateGajiPegawaiUmum');
 $routes->post('/hapus_gaji_umum/(:any)/(:any)/(:any)', 'PegawaiController::hapusGajiUmum/$1/$2/$3');
+
+$routes->post('/input_gaji', 'PegawaiController::inputGaji');
+
+$routes->get('/laporan_gaji_pegawai_umum_excel', 'PegawaiController::laporanGajiPegawaiUmumExcel');
+$routes->post('/laporan_gaji_pegawai_umum_pdf', 'PegawaiController::laporanGajiPegawaiUmumPdf');
+
+$routes->get('/laporan_gaji_pegawai_produksi_excel', 'PegawaiController::laporanGajiPegawaiProduksiExcel');
+$routes->post('/laporan_gaji_pegawai_produksi_pdf', 'PegawaiController::laporanGajiPegawaiProduksiPdf');
+// $routes->get('/laporan_gaji_pegawai_produksi', 'PegawaiController::laporanGajiPegawaiProduksi');
+
+$routes->get('/unduh_file/(:any)', 'PegawaiController::unduhFIle/$1');
 
 // PEMBELIAN
 $routes->get('/input_pembelian', 'PembelianController::inputPembelian');

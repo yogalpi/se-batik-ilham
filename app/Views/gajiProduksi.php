@@ -4,11 +4,71 @@
 <?= $this->include("sidebar");?>
 
         <div class="container-fluid">
+        <div class="container-aksi">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title fw-semibold mb-4">Permintaan Keuangan</h5>
+                    <?php if(session()->getFlashdata('permintaan')):?>
+                      <div onclick="(function(notif){
+                        notif.style.display = 'none';
+                        })(this)" id="notif" class="alert alert-info" role="alert">
+                        <?= session()->getFlashdata('permintaan')?>
+                      </div>
+                  <?php elseif(session()->getFlashdata('tolak')):?>
+                      <div onclick="(function(notif){
+                        notif.style.display = 'none';
+                        })(this)" id="notif" class="alert alert-warning" role="alert">
+                        <?= session()->getFlashdata('tolak')?>
+                      </div>
+                  <?php endif;?>
+                    <form action="/input_permintaan_gaji_produksi" method="post" enctype="multipart/form-data">
+                      <div class="row col-4">
+                      <label for="exampleInputEmail2" class="form-label mt-2">Pilih Kode Produksi</label>
+                        <select name="kode_produksi" type="text" class="form-control mb-3 ms-2" id="kode_produksi_gaji">
+                          <option selected value="0">-- Pilih Kode Produksi --</option>
+                            <?php if(isset($produksi)): ?>
+                            <?php foreach($produksi as $p) : ?>
+                              <option value="<?= $p['kode_produksi']?>"><?= $p['kode_produksi']?></option>
+                            <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+                      </div>
+                      <div class="row col-4">
+                    <div class="mb-4 mt-3">
+                      <label for="dokumen" class="form-label">Sisipkan Dokumen</label>
+                      <input name="laporan" type="file" class="form-control" id="dokumen">
+                    </div>
+                    </div>
+                      <button type="submit" class="btn btn-secondary mt-3" id="ajukan_permintaan">Ajukan Permintaan</button><br>
+                    </form>
+                  </div>
+              </div>
           <div class="card">
             <div class="card-body">
               <h5 class="card-title fw-semibold mb-4">Gaji Karyawan Produksi</h5>
               <div class="card">
                 <div class="card-body">
+                  <div class="row col-5">
+                    
+                    <form action="/laporan_gaji_pegawai_produksi_pdf" method="post">
+                      <label for="exampleInputEmail2" class="form-label mt-2">Pilih Kode Produksi</label>
+                      <select name="kode_produksi" type="text" class="form-control mb-3" id="kode_produksi_gaji">
+                        <option selected value="0">-- Pilih Kode Produksi --</option>
+                          <?php if(isset($produksi)): ?>
+                          <?php foreach($produksi as $p) : ?>
+                            <option value="<?= $p['kode_produksi']?>"><?= $p['kode_produksi']?></option>
+                          <?php endforeach; ?>
+                          <?php endif; ?>
+                      </select>
+                      </div>
+                      
+                      <button type="submit" class="btn btn-dark">Cetak Laporan Gaji Pegawai</button>
+
+                      </form>
+
+                      <a href="/input_gaji_produksi"><button class="btn btn-primary ms-3">+ Tambah Gaji Pegawai</button></a>
+                      
+                  <div class="container mb-4"></div>
                   <?php if(session()->getFlashdata('sukses')):?>
                       <div onclick="(function(notif){
                         notif.style.display = 'none';
@@ -27,8 +87,8 @@
                         })(this)" id="notif" class="alert alert-danger" role="alert">
                         <?= session()->getFlashdata('hapus')?>
                       </div>
-                    <?php endif; ?>
-                    <table class="table table-hover mb-5">
+                  <?php endif; ?>
+                    <table class="table table-hover mb-5 mt-5">
                         <thead>
                           <tr>
                             <th scope="col">KODE GAJI</th>
@@ -90,9 +150,6 @@
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-
-                    <a href="/input_gaji_produksi"><button type="submit" class="btn btn-primary">+ Tambah Gaji Pegawai</button></a>
-
                 </div>
               </div>
             </div>

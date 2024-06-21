@@ -7,6 +7,7 @@
     <title>Batik Ilham</title>
     <link rel="shortcut icon" type="image/png" href="<?php base_url();?>/assets/images/logos/favicon.png" />
     <link rel="stylesheet" href="<?php base_url();?>/assets/css/styles.min.css" />
+    <script src="https://kit.fontawesome.com/59ba3b5196.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
