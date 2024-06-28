@@ -29,6 +29,7 @@
             <table class="table" id="mytable">
               <thead>
                 <tr>
+                  <th scope="col">Kode</th>
                   <th scope="col">Ukuran</th>
                   <th scope="col">Jumlah</th>
                   <th scope="col">Harga</th>
@@ -37,6 +38,9 @@
               </thead>
               <tbody>
                 <tr id="mytr">
+                  <td>
+                    <input name="kode[]" type="text" class="form-control" id="exampleInputPassword1">
+                  </td>
                   <td>
                     <input name="ukuran[]" type="text" class="form-control" id="exampleInputPassword1">
                   </td>

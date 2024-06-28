@@ -34,7 +34,7 @@ class GudangJadiController extends BaseController
 
     public function simpanGudangJadi()
     {
-        $post = $this->request->getPost(['kode_barang', 'kode_produksi', 'nama_barang', 'ukuran', 'jumlah', 'harga']);
+        $post = $this->request->getPost(['kode', 'kode_barang', 'kode_produksi', 'nama_barang', 'ukuran', 'jumlah', 'harga']);
         $this->gudang_jadi->db->transStart();
         $this->gudang_jadi->insert([
             'kode_produksi' => $post["kode_produksi"],
@@ -44,7 +44,7 @@ class GudangJadiController extends BaseController
         for ($i = 0; $i < count($post["ukuran"]); $i++) {
             $this->detail_gudang_jadi->insert([
                 'kode_gudang_jadi' => $post["kode_barang"],
-                'kode' => $post["kode_barang"],
+                'kode' => $post["kode"][$i],
                 'ukuran' => $post["ukuran"][$i],
                 'jumlah' => $post["jumlah"][$i],
                 'harga' => $post["harga"][$i]
@@ -82,7 +82,7 @@ class GudangJadiController extends BaseController
 
     public function updateGudangJadi()
     {
-        $post = $this->request->getPost(['kode_barang', 'kode_produksi', 'nama_barang', 'ukuran', 'jumlah', 'harga']);
+        $post = $this->request->getPost(['kode', 'kode_barang', 'kode_produksi', 'nama_barang', 'ukuran', 'jumlah', 'harga']);
         $this->gudang_jadi->db->transStart();
 
         $this->gudang_jadi->where([
@@ -95,14 +95,14 @@ class GudangJadiController extends BaseController
         for ($i = 0; $i < count($post["ukuran"]); $i++) {
             $isExist = $this->detail_gudang_jadi->where([
                 'kode_gudang_jadi' => $post["kode_barang"],
-                'kode' => $post["kode_barang"],
+                'kode' => $post["kode"][$i],
                 'ukuran' => $post["ukuran"][$i],
             ])->first();
 
             if ($isExist != null) {
                 $this->detail_gudang_jadi->where([
                     'kode_gudang_jadi' => $post["kode_barang"],
-                    'kode' => $post["kode_barang"],
+                    'kode' => $post["kode"][$i],
                     'ukuran' => $post["ukuran"][$i],
                 ])->set([
                     'jumlah' => $post["jumlah"][$i],
@@ -111,7 +111,7 @@ class GudangJadiController extends BaseController
             } else {
                 $this->detail_gudang_jadi->insert([
                     'kode_gudang_jadi' => $post["kode_barang"],
-                    'kode' => $post["kode_barang"],
+                    'kode' => $post["kode"][$i],
                     'ukuran' => $post["ukuran"][$i],
                     'jumlah' => $post["jumlah"][$i],
                     'harga' => $post["harga"][$i]
@@ -129,5 +129,14 @@ class GudangJadiController extends BaseController
             'kode' => $kode,
         ])->delete();
         return redirect()->to("/data_gudang_jadi");
+    }
+
+    public function hapusItem($kode, $ukuran)
+    {
+        $this->detail_gudang_jadi->where([
+            'kode' => $kode,
+            'ukuran'    => $ukuran
+        ])->delete();
+        return redirect()->back();
     }
 }

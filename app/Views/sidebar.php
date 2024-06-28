@@ -25,15 +25,23 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="/input_pengadaan" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                  <i class="fa-solid fa-square-plus"></i>
                 </span>
                 <span class="hide-menu">Tambah Data</span>
               </a>
             </li>
             <li class="sidebar-item">
+              <a class="sidebar-link" href="/data_permintaan" aria-expanded="false">
+                <span>
+                  <i class="fa-solid fa-hand-point-up"></i>
+                </span>
+                <span class="hide-menu">Permintaan</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
               <a class="sidebar-link" href="/data_pengadaan" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                <i class="fa-solid fa-list-ul"></i>
                 </span>
                 <span class="hide-menu">Daftar Data</span>
               </a>
@@ -50,7 +58,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="/input_produksi" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                <i class="fa-solid fa-square-plus"></i>
                 </span>
                 <span class="hide-menu">Tambah Data</span>
               </a>
@@ -58,7 +66,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="/data_produksi" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                <i class="fa-solid fa-list-ul"></i>
                 </span>
                 <span class="hide-menu">Daftar Data</span>
               </a>
@@ -74,25 +82,25 @@
               <span class="hide-menu">Manajemen Aset</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/manajemen_aset" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/manajemen_aset'){echo "active";} ?>" href="/manajemen_aset" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                <i class="fa-solid fa-plus"></i>
                 </span>
                 <span class="hide-menu">Tambah Data</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/daftar_aset" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/daftar_aset'){echo "active";} ?>" href="/daftar_aset" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                <i class="fa-solid fa-list-ul"></i>
                 </span>
                 <span class="hide-menu">Daftar Data Aset</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/pemeliharaan_aset" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/pemeliharaan_aset'){echo "active";} ?>" href="/pemeliharaan_aset" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                <i class="fa-solid fa-file-invoice-dollar"></i>
                 </span>
                 <span class="hide-menu">Biaya Pemeliharaan Aset</span>
               </a>
@@ -141,41 +149,41 @@
               <span class="hide-menu">Kepegawaian</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/manajemen_pegawai" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/manajemen_pegawai'){echo "active";} ?>" href="/manajemen_pegawai" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                  <i class="fa-solid fa-plus"></i>
                 </span>
                 <span class="hide-menu">Tambah Data</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/absensi_pegawai" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/absensi_pegawai'){echo "active";} ?>" href="/absensi_pegawai" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                  <i class="fa-solid fa-clipboard-user"></i>
                 </span>
                 <span class="hide-menu">Absensi Pegawai</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/daftar_absensi" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/daftar_absensi'){echo "active";} ?>" href="/daftar_absensi" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                  <i class="fa-solid fa-list-ul"></i>
                 </span>
                 <span class="hide-menu">Daftar Data Absensi</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/daftar_pegawai" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/daftar_pegawai'){echo "active";} ?>" href="/daftar_pegawai" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                  <i class="fa-solid fa-user-group"></i>
                 </span>
                 <span class="hide-menu">Daftar Data Pegawai</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/manajemen_gaji" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/manajemen_gaji' || $_SERVER['REQUEST_URI'] == '/gaji_produksi' || $_SERVER['REQUEST_URI'] == '/gaji_umum'){echo "active";} ?>" href="/manajemen_gaji" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                <i class="fa-solid fa-hand-holding-dollar"></i>
                 </span>
                 <span class="hide-menu">Kelola Gaji</span>
               </a>
@@ -183,7 +191,7 @@
 
             <?php endif?>
 
-            <?php if(session()->get("user")[0]["kode_akses"] == "AOS" || session()->get("user")[0]["kode_akses"] ==  "KSR" || session()->get("user")[0]["kode_akses"] ==  "OWN"  ) :?> 
+            <?php if(session()->get("user")[0]["kode_akses"] == "AOS" || session()->get("user")[0]["kode_akses"] ==  "OWN"  ) :?> 
 
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -217,7 +225,7 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="/input_gudang" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                <i class="fa-solid fa-square-plus"></i>
                 </span>
                 <span class="hide-menu">Tambah Data</span>
               </a>
@@ -225,9 +233,17 @@
             <li class="sidebar-item">
               <a class="sidebar-link" href="/data_gudang" aria-expanded="false">
                 <span>
-                  <i class="ti ti-layout-dashboard"></i>
+                <i class="fa-solid fa-list-ul"></i>
                 </span>
                 <span class="hide-menu">Daftar Data</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/laporan_gudang" aria-expanded="false">
+                <span>
+                <i class="fa-solid fa-book-skull"></i>
+                </span>
+                <span class="hide-menu">Laporan Gudang</span>
               </a>
             </li>
 
@@ -277,6 +293,28 @@
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
                 <span class="hide-menu">Customer Service</span>
+              </a>
+            </li>
+            <?php endif?>
+            <?php if(session()->get("user")[0]["kode_akses"] == "KSR") :?> 
+              <li class="nav-small-cap">
+                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                <span class="hide-menu">Kasir</span>
+              </li>
+              <li class="sidebar-item">
+              <a class="sidebar-link" href="/kasir" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Kasir</span>
+              </a>
+            </li>
+              <li class="sidebar-item">
+              <a class="sidebar-link" href="/laporan_kasir" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Laporan</span>
               </a>
             </li>
             <?php endif?>

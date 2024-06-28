@@ -10,16 +10,27 @@
       <h5 class="card-title fw-semibold mb-4">Daftar List Pengadaan</h5>
       <div class="card">
         <div class="card-body">
-          
+
+        <?php if (session()->getFlashdata('sukses')): ?>
+            <div onclick="(function(notif){
+              notif.style.display = 'none';
+            })(this)" id="notif" class="alert alert-success" role="alert">
+              <?= session()->getFlashdata('sukses') ?>
+            </div>
+          <?php endif; ?>
+
           <table class="table table-hover mb-5">
             <thead>
               <tr>
                 <th scope="col">KODE PENGADAAN</th>
                 <th scope="col">NAMA PENGGUNA</th>
                 <th scope="col">TANGGAL</th>
-                <th scope="col">RENCANA PENGADAAN</th>
-                <th scope="col">JENIS</th>
-                <th scope="col">STATUS</th>
+                <th scope="col">NAMA BARANG</th>
+                <th scope="col">JUMLAH BARANG</th>
+                <th scope="col">SATUAN</th>
+                <th scope="col">HARGA</th>
+                <th scope="col">TOTAL HARGA</th>
+                <th scope="col">SUPPLIER</th>
                 <th scope="col">ACTION</th>
               </tr>
             </thead>
@@ -27,13 +38,16 @@
               <?php foreach ($pengadaan as $peng): ?>
                 <tr>
                   <td scope="row"><?= $peng["kode_pengadaan"] ?></td>
-                  <td scope="row"><?= $peng["nama"] ?></td>
+                  <td scope="row"><?= $peng["nama_pengguna"] ?></td>
                   <td scope="row"><?= $peng["tanggal"] ?></td>
-                  <td scope="row"><?= $peng["rencana_pengadaan"] ?></td>
+                  <td scope="row"><?= $peng["nama_barang"] ?></td>
 
-                  <td scope="row"><?= $peng["jenis"] ?></td>
-                  <td scope="row"><?= $peng["status"] ?></td>
-                  <td>
+                  <td scope="row"><?= $peng["jumlah_barang"] ?></td>
+                  <td scope="row"><?= $peng["satuan"] ?></td>
+                  <td scope="row"><?= $peng["harga"] ?></td>
+                  <td scope="row"><?= $peng["total_harga"] ?></td>
+                  <td scope="row"><?= $peng["nama_supplier"] ?></td>
+                  <td class="d-flex">
                     <a href="/editPengadaan/<?= $peng["kode_pengadaan"] ?>" class="me-3">
                       <i class="bi bi-pencil-square"></i>
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -44,14 +58,7 @@
                           d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                       </svg>
                     </a>
-                    <a href="/detail_pengadaan/<?= $peng["kode_pengadaan"] ?>" class="ms-3">
-                      <i class="bi bi-three-dots"></i>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-three-dots" viewBox="0 0 16 16">
-                        <path
-                          d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
-                      </svg>
-                    </a>
+                    
 
                   </td>
                 </tr>
@@ -59,7 +66,7 @@
             </tbody>
           </table>
 
-          <!-- <a href="/manajemen_aset"><button type="submit" class="btn btn-primary">+ Tambah Manajemen Asset</button></a> -->
+          <a href="/input_pengadaan"><button type="submit" class="btn btn-primary">+ Tambah Pengadaan</button></a>
 
         </div>
       </div>

@@ -1,16 +1,28 @@
 <?php
 
 namespace App\Controllers;
+
+use App\Models\KeuanganModel;
 use App\Models\PenggunaModel;
 
 class Batik extends BaseController
 {
+    private $keuangan;
+
+    public function __construct(){
+        $this->keuangan = new KeuanganModel();
+    }
     public function index()
     {
         if(session()->get("user") == null){
             return redirect()->to('/login');
         }
-        return view('index');
+
+        $data = [
+            'keuangan'  => $this->keuangan->findall()
+        ];
+
+        return view('index', $data);
     }
     public function login()
     {

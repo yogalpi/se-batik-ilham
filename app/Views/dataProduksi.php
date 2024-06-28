@@ -22,11 +22,10 @@
           <table class="table table-hover mb-5">
             <thead>
               <tr>
-                <th scope="col">KODE PENGADAAN</th>
-                <th scope="col">KODE BARANG</th>
-                <th scope="col">JUMLAH BARANG</th>
+                
                 <th scope="col">KODE PRODUKSI</th>
                 <th scope="col">TANGGAL MULAI</th>
+                <th scope="col">TANGGAL SELESAI</th>
                 <th scope="col">RENCANA PRODUKSI</th>
                 <th scope="col">ACTION</th>
               </tr>
@@ -34,11 +33,10 @@
             <tbody>
               <?php foreach ($produksi as $prod): ?>
                 <tr>
-                  <td scope="row"><?= $prod["kode_pengadaan"] ?></td>
-                  <td scope="row"><?= $prod["kode_barang"] ?></td>
-                  <td scope="row"><?= $prod["jumlah_barang"] ?></td>
+                  
                   <td scope="row"><?= $prod["kode_produksi"] ?></td>
                   <td scope="row"><?= $prod["tanggal_mulai"] ?></td>
+                  <td scope="row"><?= $prod["tanggal_selesai"] ?></td>
                   <td scope="row"><?= $prod["rencana_produksi"] ?></td>
                   <td>
                     <a href="/editProduksi/<?= $prod["kode_produksi"] ?>" class="me-3">
@@ -59,7 +57,7 @@
                           d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
                       </svg>
                     </a>
-
+                    
                   </td>
                 </tr>
               <?php endforeach ?>
@@ -67,6 +65,37 @@
           </table>
 
           <a href="/input_produksi"><button type="submit" class="btn btn-primary">+ Tambah Data Produksi</button></a>
+
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+
+        <h5 class="card-title fw-semibold mb-4">Stok Barang</h5>
+          <table class="table table-hover mb-5">
+            <thead>
+              <tr>
+                
+                <th scope="col">NAMA BARANG</th>
+                <th scope="col">JUMLAH</th>
+                <th scope="col">SATUAN</th>
+                <th scope="col">TANGGAL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($bahan_baku as $bb): ?>
+                <tr>
+                  
+                  <td scope="row"><?= $bb["nama_barang"] ?></td>
+                  <td scope="row"><?= $bb["jumlah"] ?></td>
+                  <td scope="row"><?= $bb["satuan"] ?></td>
+                  <td scope="row"><?= $bb["tanggal"] ?></td>
+                  
+                </tr>
+              <?php endforeach ?>
+            </tbody>
+          </table>
+
 
         </div>
       </div>

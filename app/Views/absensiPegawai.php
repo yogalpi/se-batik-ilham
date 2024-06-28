@@ -48,7 +48,7 @@
                             </td>
                             <td>
                             <div class="m-1">
-                                <select name="status[]" type="text" class="form-control" id="karyawan" aria-describedby="emailHelp">
+                                <select name="status[]" type="text" class="form-control border-secondary" id="karyawan" aria-describedby="emailHelp">
                                   <option value="HADIR" selected>HADIR</option>
                                 <option value="TIDAK MASUK">TIDAK MASUK</option>
                               </select>

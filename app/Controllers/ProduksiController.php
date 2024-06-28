@@ -22,41 +22,64 @@ class ProduksiController extends BaseController
     }
     public function dataProduksi(){
         $data = [
-            'produksi' => $this->produksi->findAll()
+            // 'detail_produksi' => $this->detail_produksi->select('detail_produksi.*, bahan_baku.*')
+            // ->join('bahan_baku', 'detail_produksi.kode_barang = bahan_baku.kode_barang')->findAll(),
+            'produksi' => $this->produksi->orderBy('tanggal_mulai')->findAll(),
+            'bahan_baku' => $this->bahan_baku->select('bahan_baku.*')->orderBy('tanggal')->findAll()
+
         ];
+        
+        // dd($data["bahan_baku"]);
         return view('dataProduksi', $data);
     }
     public function inputProduksi(){
         $data = [
             'bahan_baku' => $this->bahan_baku->orderBy('kode_barang', 'DESC')->findAll(),
-            'pengadaan' => $this->pengadaan->orderBy('kode_pengadaan', 'DESC')->findAll()
+            'pengadaan' => $this->pengadaan->orderBy('kode_pengadaan', 'DESC')->findAll(),
+            'produksi' => $this->produksi->select('RIGHT(kode_produksi, 3)+1 AS kode_produksi')->orderBy('kode_produksi', 'desc')->findAll(1)
         ];
+        if(empty($data['produksi'])){
+            $data ['produksi']= 
 
+            [
+                0 => [
+                    'kode_produksi' => 1
+                    ]
+            ];
+        }
+        
         return view('inputProduksi', $data);
     }
 
     public function simpanProduksi(){
-        $post = $this->request->getPost(['kode_pengadaan','kode_barang','jumlah_barang','kode_produksi', 'tanggal_mulai', 'rencana_produksi', 'jenis_baju', 'ukuran']);
+        $post = $this->request->getPost(['kode_produksi', 'tanggal_mulai', 'tanggal_selesai','rencana_produksi', 'kode_barang','jumlah_barang', 'satuan']);
         $this->produksi->db->transStart();
         $this->produksi->insert([
-            'kode_pengadaan'   => $post['kode_pengadaan'],
-            'kode_barang'   => $post['kode_barang'],
-            'jumlah_barang'   => $post['jumlah_barang'],
+            
             'kode_produksi'  => $post['kode_produksi'],
             'tanggal_mulai' => $post['tanggal_mulai'],
+            'tanggal_selesai' => $post['tanggal_selesai'],
             'rencana_produksi'    => $post['rencana_produksi']
         ]);
-
-        for ($i = 0; $i < count($post["jenis_baju"]); $i++) {
-            if ($post['jenis_baju'][$i] != "") {
-                $this->detail_produksi->insert([
-                    'kode_produksi' => $post['kode_produksi'],
-                    'jenis_baju' => $post['jenis_baju'][$i],
-                    'ukuran' => $post['ukuran'][$i],
-                    
-                ]);
+        
+        for ($i = 0; $i < count($post["kode_barang"]); $i++) {
+            $maxJumlah = $this->bahan_baku->select('jumlah')->where('kode_barang', $post['kode_barang'][$i])->findall(1);
+            if ($post['kode_barang'][$i] != "") 
+            {
+                if((int)$post['jumlah_barang'][$i] <= (int)$maxJumlah[0]['jumlah']){
+                    $this->detail_produksi->insert([
+                        'kode_produksi' => $post['kode_produksi'],
+                        'kode_barang' => $post['kode_barang'][$i],
+                        'jumlah_barang' => $post['jumlah_barang'][$i],
+                        'satuan' => $post['satuan'][$i],
+                    ]);
+                }else{
+                    session()->setFlashdata('max', 'STOK TIDAK CUKUP');
+                    return redirect()->back();
+                }
             }
         }
+
         // dd($post);
         $this->produksi->db->transComplete();
         return redirect()->to("/data_produksi");
@@ -80,7 +103,7 @@ class ProduksiController extends BaseController
     public function updateProduksi()
     {
     
-        $post = $this->request->getPost(['kode_pengadaan', 'kode_barang','jumlah_barang', 'kode_produksi','tanggal_mulai', 'rencana_produksi', 'jenis_baju', 'ukuran']);
+        $post = $this->request->getPost(['id', 'kode_produksi','tanggal_mulai','tanggal_selesai', 'rencana_produksi', 'kode_barang', 'jumlah_barang', 'satuan']);
         // dd($post);
         $this->produksi->db->transStart();
         $this->produksi->where([
@@ -90,34 +113,52 @@ class ProduksiController extends BaseController
         ])->set([
             'jumlah_barang' => $post['jumlah_barang'],
             'tanggal_mulai' => $post['tanggal_mulai'],
+            'tanggal_selesai' => $post['tanggal_selesai'],
             'rencana_produksi' => $post['rencana_produksi'],
             
         ])->update();
 
-        for ($i = 0; $i < count($post["jenis_baju"]); $i++) {
-            if ($post['jenis_baju'][$i] != "") {
+        for ($i = 0; $i < count($post["kode_barang"]); $i++) {
+            if ($post['kode_barang'][$i] != "") {
                 $this->detail_produksi->where([
+                    'id' => $post['id'][$i],
                     'kode_produksi' => $post['kode_produksi'],
+                    'kode_barang' => $post['kode_barang'][$i],
                     
                 ])->set([
-                    'jenis_baju' => $post['jenis_baju'][$i],
-                    'ukuran' => $post['ukuran'][$i],
+                    'jumlah_barang' => $post['jumlah_barang'][$i],
+                    'satuan' => $post['satuan'][$i],
                 ])->update();
             }
         }
         
         
         $this->produksi->db->transComplete();
-        session()->setFlashdata('sukses', 'Berhasil Di Ubah');
+        
+        $data = $this->produksi->select('kode_produksi')->where('kode_produksi', $post['kode_produksi'])->findAll();
+        session()->setFlashdata('sukses', 'Data  <strong>'.$data[0]['kode_produksi'].'</strong> Berhasil Diubah.');
+
         return redirect()->to("/data_produksi");
     }
 
-    public function detailProduksi($id)
+    public function detailProduksi($kode_produksi)
     {
         $data = [
-            'detail_produksi' => $this->detail_produksi->where(['kode_produksi' => $id])->get()->getResultArray()
+            'detail_produksi' => $this->detail_produksi->select('detail_produksi.*, bahan_baku.nama_barang')
+            ->join('bahan_baku', 'detail_produksi.kode_barang = bahan_baku.kode_barang')->where('detail_produksi.kode_produksi', $kode_produksi)->findAll()
+            // 'detail_produksi' => $this->detail_produksi->where(['kode_produksi' => $id])->get()->getResultArray(),
+            // 'bahan_baku' => $this->bahan_baku->select('bahan_baku.*, detail_produksi.kode_barang')->join('detail_produksi', 'bahan_baku.kode_barang = detail_produksi.kode_barang')->findAll()
         ];
+        // dd($data);
         return view('detailProduksi', $data);
+    
 
     }
+
+    public function deleteProduksi($kode_produksi)
+    {
+        $this->produksi->delete($kode_produksi);
+        return redirect()->to("/data_produksi");
+    }
+
 }

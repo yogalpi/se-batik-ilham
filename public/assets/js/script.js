@@ -2,6 +2,9 @@
 function addRow(){
     var tr = `<tr>
     <td>
+      <input name="kode[]" type="text" class="form-control" id="exampleInputPassword1">
+    </td>
+    <td>
       <input name="ukuran[]" type="text" class="form-control" id="exampleInputPassword1">
     </td>
     <td>
