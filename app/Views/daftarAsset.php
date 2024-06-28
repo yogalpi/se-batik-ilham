@@ -90,7 +90,7 @@
                         </tbody>
                     </table>
 
-                    <a href="/manajemen_aset"><button type="submit" class="btn btn-primary">+ Tambah Manajemen Aset</button></a>
+                    <a href="/manajemen_aset"><button type="submit" class="btn btn-primary">+ Tambah Data Aset</button></a>
 
                 </div>
               </div>

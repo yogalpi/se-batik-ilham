@@ -11,7 +11,7 @@
           <form action="/update_gudang_jadi" method="post">
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Kode Barang</label>
-              <input name="kode_barang" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?= $detail_gudang_jadi[0]["kode"] ?>" readonly>
+              <input name="kode_barang" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?= $detail_gudang_jadi[0]["kode_gudang_jadi"] ?>" readonly>
             </div>
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Kode Produksi</label>
@@ -29,6 +29,7 @@
             <table class="table" id="mytable">
               <thead>
                 <tr>
+                  <th scope="col">Kode</th>
                   <th scope="col">Ukuran</th>
                   <th scope="col">Jumlah</th>
                   <th scope="col">Harga</th>
@@ -39,6 +40,9 @@
                 <?php foreach ($detail_gudang_jadi as $dgj) : ?>
                   <tr>
                     <td>
+                      <input name="kode[]" type="text" class="form-control" id="exampleInputPassword1" value="<?= $dgj["kode"] ?>">
+                    </td>
+                    <td>
                       <input name="ukuran[]" type="text" class="form-control" id="exampleInputPassword1" value="<?= $dgj["ukuran"] ?>">
                     </td>
                     <td>
@@ -48,13 +52,13 @@
                       <input name="harga[]" type="number" class="form-control" id="exampleInputPassword1" value="<?= $dgj["harga"] ?>">
                     </td>
                     <td>
-                      <span href="#" class="btn btn-danger form-control delete-row" onclick="(function(){
+                      <a href="<?= site_url("hapus_item/".$dgj["kode"]."/".$dgj["ukuran"])?>" class="btn btn-danger form-control delete-row" onclick="(function(){
                       document.querySelectorAll('.delete-row').forEach(function(button) {
                           button.addEventListener('click', function() {
                             this.parentNode.parentNode.remove();
                           });
                       });
-                    }())">Hapus</span>
+                    }())">Hapus</a>
                     </td>
                   </tr>
                 <?php endforeach; ?>

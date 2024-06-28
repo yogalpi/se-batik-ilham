@@ -9,8 +9,13 @@ use App\Models\GajiUmumModel;
 use App\Models\KaryawanModel;
 use App\Models\KeuanganModel;
 use App\Models\PenggunaModel;
+use App\Models\PermintaanModel;
 use App\Models\ProduksiModel;
 use CodeIgniter\I18n\Time;
+use Dompdf\Dompdf;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx as WriterXlsx;
 
 class PegawaiController extends BaseController
 {
@@ -22,7 +27,7 @@ class PegawaiController extends BaseController
     private $keuangan;
     private $produksi;
     private $absensi;
-
+    private $permintaan;
     public function __construct(){
         $this->karyawan = new KaryawanModel();
         $this->gaji_pegawai_produksi = new GajiProduksiModel();
@@ -31,6 +36,7 @@ class PegawaiController extends BaseController
         $this->keuangan = new KeuanganModel();
         $this->produksi = new ProduksiModel();
         $this->absensi = new AbsensiModel();
+        $this->permintaan = new PermintaanModel();
     }
     public function pegawaiManage(){
         return view('inputPegawai');
@@ -46,7 +52,10 @@ class PegawaiController extends BaseController
     }
 
     public function manajemenGaji(){
-        return view('manajemenGaji');
+        $data = [
+            'gaji'  => $this->gaji->findAll()
+        ];
+        return view('manajemenGaji', $data);
     }
 
     public function absensiPegawai(){
@@ -183,6 +192,7 @@ class PegawaiController extends BaseController
                     ->where('karyawan.kode_jenis', 'KP')
                     ->where('karyawan.status', 'aktif')
                     ->findAll(),
+            'produksi'  => $this->produksi->orderBy('kode_produksi', 'DESC')->findAll(5),
         ]; 
 
         return view('gajiProduksi', $data);
@@ -211,16 +221,7 @@ class PegawaiController extends BaseController
             'total_gaji'        => $post['total_gaji']
         ]); 
 
-        $date = Time::today('Asia/Jakarta', );
-
-        $this->keuangan->insert([
-            'kode'          => $post['kode_gaji'],
-            'tanggal'       => $date->toDateString(),
-            'status'        => 'KREDIT',
-            'jumlah'        => $post['total_gaji'],
-            'keterangan'    => 'Gaji Karyawan Produksi Tanggal '. $date->toDateString(),
-            'kode_pengguna' => session()->get("user")[0]["kode"] 
-        ]);
+        // $date = Time::today('Asia/Jakarta', );
 
         $karyawan = $this->karyawan->select('nama')->where('kode', $post['kode_karyawan'])->findAll();
 
@@ -266,16 +267,7 @@ class PegawaiController extends BaseController
             'total_gaji'        => $post['total_gaji']
         ]); 
 
-        $date = Time::today('Asia/Jakarta', );
-
-        $this->keuangan->insert([
-            'kode'          => $post['kode_gaji'],
-            'tanggal'       => $date->toDateString(),
-            'status'        => 'KREDIT',
-            'jumlah'        => $post['total_gaji'],
-            'keterangan'    => 'Gaji Karyawan Umum Tanggal '. $date->toDateString(),
-            'kode_pengguna' => session()->get("user")[0]["kode"] 
-        ]);
+        // $date = Time::today('Asia/Jakarta', );
 
         $karyawan = $this->karyawan->select('nama')->where('kode', $post['kode_karyawan'])->findAll();
 
@@ -459,5 +451,322 @@ class PegawaiController extends BaseController
         session()->setFlashdata('hapus', 'Data Penggajian Untuk Karyawan <strong>'.$nama.' ('.$kode_karyawan.')</strong> Dengan Kode Penggajian <strong>'.$kode_gaji.'</strong> Berhasil Di Hapus.');
         
         return redirect()->to('gaji_umum');
+    }
+
+    public function inputGaji(){
+        $post = $this->request->getPost(['kode_jenis', 'gaji']);
+        for($i = 0; $i < count($post['kode_jenis']); $i++){
+            $this->gaji->where('kode_jenis', $post['kode_jenis'][$i])
+                            ->set(['gaji' => $post['gaji'][$i]])
+                            ->update();
+        }
+
+        session()->setFlashdata('edit', 'Data Gaji Berhasil Di Ubah.');
+
+        return redirect()->to('manajemen_gaji');
+    }
+
+    public function laporanGajiPegawaiUmumPdf(){
+        //Tabel Gaji tanggal gajian add
+        //Hanya dapat mengexport 1 file komentar kode berikut untuk mengexport file pdf
+        // $this->excelPegawaiUmum();
+        $post = $this->request->getPost(['bulan']);
+
+        if($post['bulan'] == 'Januari'){
+            $bulan = '01';
+        }elseif($post['bulan'] == 'Februari'){
+            $bulan = '02';
+        }elseif($post['bulan'] == 'Maret'){
+            $bulan = '03';
+        }elseif($post['bulan'] == 'April'){
+            $bulan = '04';
+        }elseif($post['bulan'] == 'Mei'){
+            $bulan = '05';
+        }elseif($post['bulan'] == 'Juni'){
+            $bulan = '06';
+        }elseif($post['bulan'] == 'Juli'){
+            $bulan = '07';
+        }elseif($post['bulan'] == 'Agustus'){
+            $bulan = '08';
+        }elseif($post['bulan'] == 'September'){
+            $bulan = '09';
+        }elseif($post['bulan'] == 'Oktober'){
+            $bulan = '10';
+        }elseif($post['bulan'] == 'November'){
+            $bulan = '11';
+        }elseif($post['bulan'] == 'Desember'){
+            $bulan = '12';
+        }else{
+            $bulan = '0';
+        }
+
+        $data = [
+            'absen' => $this->gaji_pegawai_umum->select('gaji_pegawai_umum.*, karyawan.*')
+                                            ->join('karyawan', 'gaji_pegawai_umum.kode = karyawan.kode')
+                                            ->where('karyawan.status', 'aktif')
+                                            ->where('MID(gaji_pegawai_umum.kode_gaji, 3, 2)', $bulan)
+                                            ->findAll(),
+            'total' => $this->gaji_pegawai_umum->selectSum('total_gaji')
+                                            ->join('karyawan', 'karyawan.kode = gaji_pegawai_umum.kode')
+                                            ->where('karyawan.status', 'aktif')
+                                            ->where('MID(gaji_pegawai_umum.kode_gaji, 3, 2)', $bulan)
+                                            ->findAll(),
+            'tanggal'   => date('d M Y')
+        ];
+
+        $namaFile = date('d-m-y'). '-Laporan_Gaji_Karyawan_Umum';
+
+        $dompdf = new Dompdf();
+
+        $dompdf->load_html(view('laporanGajiKaryawanUmum', $data));
+
+        $dompdf->render();
+
+        $dompdf->stream($namaFile);
+    }
+    public function laporanGajiPegawaiProduksiPdf(){
+        //Tabel Gaji tanggal gajian add
+        $post = $this->request->getPost(['kode_produksi']);
+
+        $data = [
+            'produksi' => $this->gaji_pegawai_produksi->select('gaji_pegawai_produksi.*, karyawan.*, sum(total_gaji) as gaji')
+                                            ->join('karyawan', 'gaji_pegawai_produksi.kode = karyawan.kode')
+                                            ->where('karyawan.status', 'aktif')
+                                            ->where('gaji_pegawai_produksi.kode_produksi', $post['kode_produksi'])
+                                            ->groupBy('gaji_pegawai_produksi.kode_gaji')
+                                            ->findAll(),
+            'total' => $this->gaji_pegawai_produksi->selectSum('total_gaji')
+                                            ->join('karyawan', 'karyawan.kode = gaji_pegawai_produksi.kode')
+                                            ->where('karyawan.status', 'aktif')
+                                            ->where('gaji_pegawai_produksi.kode_produksi', $post['kode_produksi'])
+                                            ->groupBy('gaji_pegawai_produksi.kode_produksi')
+                                            ->findAll(),
+            'tanggal'   => date('d M Y')
+        ];
+        // dd($data);
+        $namaFile = date('d-m-y'). '-Laporan_Gaji_Karyawan_Produksi';
+
+        $dompdf = new Dompdf();
+
+        $dompdf->load_html(view('laporanGajiKaryawanProduksi', $data));
+
+        $dompdf->render();
+
+        $dompdf->stream($namaFile);
+    }
+
+    public function InputPermintaanGajiProduksi(){
+        $post = $this->request->getPost('kode_produksi');
+
+        $file = $this->request->getFile('laporan');
+
+        $digitKode = $this->permintaan->select('RIGHT(keterangan, 3) AS digit, status')->findAll();
+
+        $kode = substr($post, 2, 5);
+
+        if($digitKode == null ){
+            $namaFile = $file->getName();
+
+            $file->move('dokumen');
+
+            $data = [
+                'gaji'  => $this->gaji_pegawai_produksi->select('SUM(gaji_pegawai_produksi.total_gaji) as nominal')
+                                                        ->join('karyawan', 'gaji_pegawai_produksi.kode = karyawan.kode')
+                                                        ->where('MID(kode_gaji, 3, 3)', $kode)
+                                                        ->where('karyawan.status', 'aktif')
+                                                        ->findAll(),
+                'hitungan'  => $this->permintaan->selectCount('kode_permintaan', 'hitung')
+                                                ->findAll()
+            ];
+    
+            $kode_permintaan = (int)$data['hitungan'][0]['hitung'] + 1;
+    
+            $date = Time::today('Asia/Jakarta', );
+    
+            $this->permintaan->insert([
+                'kode_permintaan'   => $kode_permintaan,
+                'tanggal'           => $date,
+                'keterangan'        => 'Penggajian Karyawan Produksi dengan kode produksi '.$post,
+                'nominal'           => $data['gaji'][0]['nominal'],
+                'kode'              => session()->get("user")[0]["kode"],
+                'file'              => $namaFile,
+                'status'            => 'PENDING'
+            ]);
+    
+            session()->setFlashdata('permintaan', 'Data Permintaan Keuangan Untuk Gaji Karyawan Produksi <strong>('.$post.')</strong> Berhasil Diinputkan.');
+        }else{
+
+        $cek = 0;
+        foreach($digitKode as $digit){
+            if($digit['digit'] == $kode && $digit['status'] == 'PENDING' || $digit['status'] == 'ACC'){
+                $cek = 1;
+            }
+        }
+
+        if($cek == 0){
+            $namaFile = $file->getName();
+
+            $file->move('dokumen');
+
+            $data = [
+                'gaji'  => $this->gaji_pegawai_produksi->select('SUM(gaji_pegawai_produksi.total_gaji) as nominal')
+                                                        ->join('karyawan', 'gaji_pegawai_produksi.kode = karyawan.kode')
+                                                        ->where('MID(kode_gaji, 3, 3)', $kode)
+                                                        ->where('karyawan.status', 'aktif')
+                                                        ->findAll(),
+                'hitungan'  => $this->permintaan->selectCount('kode_permintaan', 'hitung')
+                                                ->findAll()
+            ];
+
+            $kode_permintaan = (int)$data['hitungan'][0]['hitung'] + 1;
+    
+            $date = Time::today('Asia/Jakarta', );
+    
+            $this->permintaan->insert([
+                'kode_permintaan'   => $kode_permintaan,
+                'tanggal'           => $date,
+                'keterangan'        => 'Penggajian Karyawan Produksi dengan kode produksi '.$post,
+                'nominal'           => $data['gaji'][0]['nominal'],
+                'kode'              => session()->get("user")[0]["kode"],
+                'file'              => $namaFile,
+                'status'            => 'PENDING'
+            ]);
+    
+            session()->setFlashdata('permintaan', 'Data Permintaan Keuangan Untuk Gaji Karyawan Produksi <strong>('.$post.')</strong> Berhasil Diinputkan.');
+            
+        }else{
+            session()->setFlashdata('tolak', 'Data Permintaan Keuangan Untuk Gaji Karyawan Produksi <strong>('.$post.')</strong> Sudah Ada.');
+            return redirect()->to('/gaji_produksi');
+        }
+    }
+        return redirect()->to('/gaji_produksi');
+    }
+    public function InputPermintaanGajiUmum(){
+        $post = $this->request->getPost(['bulan']);
+
+        if($post['bulan'] == 'Januari'){
+            $bulan = 'Jan';
+            $nomorBulan = '01';
+        }elseif($post['bulan'] == 'Februari'){
+            $bulan = 'Feb';
+            $nomorBulan = '02';
+        }elseif($post['bulan'] == 'Maret'){
+            $bulan = 'Mar';
+            $nomorBulan = '03';
+        }elseif($post['bulan'] == 'April'){
+            $bulan = 'Apr';
+            $nomorBulan = '04';
+        }elseif($post['bulan'] == 'Mei'){
+            $bulan = 'Mei';
+            $nomorBulan = '05';
+        }elseif($post['bulan'] == 'Juni'){
+            $bulan = 'Jun';
+            $nomorBulan = '06';
+        }elseif($post['bulan'] == 'Juli'){
+            $bulan = 'Jul';
+            $nomorBulan = '07';
+        }elseif($post['bulan'] == 'Agustus'){
+            $bulan = 'Agu';
+            $nomorBulan = '08';
+        }elseif($post['bulan'] == 'September'){
+            $bulan = 'Sep';
+            $nomorBulan = '09';
+        }elseif($post['bulan'] == 'Oktober'){
+            $bulan = 'Okt';
+            $nomorBulan = '10';
+        }elseif($post['bulan'] == 'November'){
+            $bulan = 'Nov';
+            $nomorBulan = '11';
+        }elseif($post['bulan'] == 'Desember'){
+            $bulan = 'Des';
+            $nomorBulan = '12';
+        }else{
+            $bulan = '0';
+        }
+
+        $file = $this->request->getFile('laporan');
+
+        $digitKode = $this->permintaan->select('MID(keterangan, 32, 3) AS digit, status')->findAll();
+
+        if($digitKode == null ){
+            $namaFile = $file->getName();
+
+            $file->move('dokumen');
+
+            $data = [
+                'gaji'  => $this->gaji_pegawai_umum->select('SUM(gaji_pegawai_umum.total_gaji) as nominal')
+                                                        ->join('karyawan', 'gaji_pegawai_umum.kode = karyawan.kode')
+                                                        ->where('MID(kode_gaji, 3, 2)', $nomorBulan)
+                                                        ->where('karyawan.status', 'aktif')
+                                                        ->findAll(),
+                'hitungan'  => $this->permintaan->selectCount('kode_permintaan', 'hitung')
+                                                ->findAll()
+            ];
+
+            $kode_permintaan = (int)$data['hitungan'][0]['hitung'] + 1;
+    
+            $date = Time::today('Asia/Jakarta', );
+    
+            $this->permintaan->insert([
+                'kode_permintaan'   => $kode_permintaan,
+                'tanggal'           => $date,
+                'keterangan'        => 'Penggajian Karyawan Umum Bulan '.$post['bulan'],
+                'nominal'           => $data['gaji'][0]['nominal'],
+                'kode'              => session()->get("user")[0]["kode"],
+                'file'              => $namaFile,
+                'status'            => 'PENDING'
+            ]);
+    
+            session()->setFlashdata('permintaan', 'Data Permintaan Keuangan Untuk Gaji Karyawan Produksi <strong>('.$post['bulan'].')</strong> Berhasil Diinputkan.');
+        }else{
+
+        $cek = 0;
+        foreach($digitKode as $digit){
+            if($digit['digit'] == $bulan && $digit['status'] == 'PENDING' || $digit['status'] == 'ACC'){
+                $cek = 1;
+            }
+        }
+
+        if($cek == 0){
+            $namaFile = $file->getName();
+
+            $file->move('dokumen');
+
+            $data = [
+                'gaji'  => $this->gaji_pegawai_umum->select('SUM(gaji_pegawai_umum.total_gaji) as nominal')
+                                                        ->join('karyawan', 'gaji_pegawai_umum.kode = karyawan.kode')
+                                                        ->where('MID(kode_gaji, 3, 2)', $nomorBulan)
+                                                        ->where('karyawan.status', 'aktif')
+                                                        ->findAll(),
+                'hitungan'  => $this->permintaan->selectCount('kode_permintaan', 'hitung')
+                                                ->findAll()
+            ];
+    
+            $kode_permintaan = (int)$data['hitungan'][0]['hitung'] + 1;
+    
+            $date = Time::today('Asia/Jakarta', );
+    
+            $this->permintaan->insert([
+                'kode_permintaan'   => $kode_permintaan,
+                'tanggal'           => $date,
+                'keterangan'        => 'Penggajian Karyawan Umum Bulan '.$post['bulan'],
+                'nominal'           => $data['gaji'][0]['nominal'],
+                'kode'              => session()->get("user")[0]["kode"],
+                'file'              => $namaFile,
+                'status'            => 'PENDING'
+            ]);
+
+            session()->setFlashdata('permintaan', 'Data Permintaan Keuangan Untuk Gaji Karyawan Produksi <strong>('.$post['bulan'].')</strong> Berhasil Diinputkan.');
+            
+        }else{
+            session()->setFlashdata('tolak', 'Data Permintaan Keuangan Untuk Gaji Karyawan Produksi <strong>('.$post['bulan'].')</strong> Sudah Ada.');
+            return redirect()->to('/gaji_umum');
+        }
+    }
+        return redirect()->to('/gaji_umum');
+    }
+
+    public function unduhFile($nama){
+        return $this->response->download("dokumen"."/$nama", null);
     }
 }

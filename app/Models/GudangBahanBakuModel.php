@@ -9,5 +9,5 @@ class GudangBahanBakuModel extends Model
     protected $table      = 'bahan_baku';
     protected $primaryKey = 'kode_barang';
 
-    protected $allowedFields = ['kode_barang' ,'kode_produksi', 'nama_barang', 'jumlah', 'jenis', 'keterangan', 'tanggal'];
+    protected $allowedFields = ['kode_barang' , 'nama_barang', 'jumlah', 'satuan', 'keterangan', 'tanggal'];
 }

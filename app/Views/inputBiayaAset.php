@@ -40,7 +40,7 @@
                       <label for="tanggal"  class="form-label">Tanggal Pemeliharaan</label>
                       <input name="tanggal" type="date" id="tanggal" class="form-control" id="tanggal">
                     </div>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="submit" class="btn btn-primary">Ajukan Permintaan</button>
                   </form>
                 </div>
               </div>

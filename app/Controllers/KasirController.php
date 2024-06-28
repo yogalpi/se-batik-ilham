@@ -29,11 +29,13 @@ class KasirController extends BaseController
     public function index()
     {
         $lastPenjualan = $this->penjualan->orderBy("kode", "DESC")->first();
+
         if (is_null($lastPenjualan)) {
             $urut = '001';
         } else {
             $urut = explode("-", $lastPenjualan['kode']);
         }
+
         $data = [
             'barang'    => $this->gudang_jadi
                 ->join("detail_gudang_jadi", "detail_gudang_jadi.kode_gudang_jadi = gudang_jadi.kode")
@@ -62,6 +64,11 @@ class KasirController extends BaseController
             ->where('detail_gudang_jadi.ukuran', $items[1])
             ->first();
 
+        if($post['qty'] > $barang['jumlah'] || $post['qty'] <= 0) {
+            return redirect()->back()->withInput();
+        }
+
+
         $this->pre_sale->insert([
             'kode'                      => $post['kode_penjualan'],
             'tanggal'                   => $post['tanggal'],
@@ -84,6 +91,7 @@ class KasirController extends BaseController
 
     public function simpanTransaksi()
     {
+
         // Memulai transaksi
         $db = \Config\Database::connect();
         $db->transBegin();
@@ -106,7 +114,8 @@ class KasirController extends BaseController
             ]);
 
             // Loop untuk insert data ke tabel detail_penjualan dan update detail_gudang_jadi
-            foreach ($sale as $key => $value) {
+            foreach ($sale as $value) {
+
                 $this->detail_penjualan->insert([
                     'kode_penjualan'            => $value['kode'],
                     'kode_detail_gudang_jadi'   => $value['kode_detail_gudang_jadi'],

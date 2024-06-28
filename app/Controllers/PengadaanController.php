@@ -2,94 +2,143 @@
 
 namespace App\Controllers;
 
-use App\Models\DetailPengadaanModel;
+
 use App\Models\PengadaanModel;
 use App\Models\SupplierModel;
 use App\Models\PenggunaModel;
+use App\Models\GudangBahanBakuModel;
+use App\Models\PermintaanModel;
 class PengadaanController extends BaseController
 {
-    private $pengadaan, $detail_pengadaan, $supplier, $pengguna;
+    private $pengadaan, $detail_pengadaan, $supplier, $pengguna, $gudang_bahan, $permintaan;
     public function __construct()
     {
         $this->pengadaan = new PengadaanModel();
-        $this->detail_pengadaan = new DetailPengadaanModel();
+        $this->permintaan = new PermintaanModel();
+        
         $this->supplier = new SupplierModel();
         $this->pengguna = new PenggunaModel();
+        $this->gudang_bahan = new GudangBahanBakuModel();
     }
     public function pengadaan()
     {
-
+        
         return view('inputPengadaan');
+    }
+    public function permintaan()
+    {
+
+        return view('inputPermintaan');
     }
     public function dataPengadaan()
     {
         $data = [
-            'pengadaan' => $this->pengadaan->select('pengadaan.*, pengguna.nama')
-            ->join('pengguna', 'pengadaan.kode_pengguna = pengguna.kode')->findAll()
+            'pengadaan' => $this->pengadaan->select('pengadaan.*, pengguna.nama as nama_pengguna,bahan_baku.nama_barang,supplier.nama as nama_supplier, (jumlah_barang * harga) as total_harga')
+            ->join('pengguna', 'pengadaan.kode = pengguna.kode')->join('bahan_baku','pengadaan.kode_barang = bahan_baku.kode_barang ')->join('supplier','pengadaan.kode_supplier = supplier.kode_supplier')->orderBy('tanggal')->findAll(),
+            // 'total_harga' => $this->pengadaan->select('harga*jumlah_barang as total_harga')
+            // 'pengadaan' => $this->pengadaan->findAll()
+
+
+            
         ];
-        return view('dataPengadaan', $data);
+        // dd($data);
+        return view('dataPengadaan',$data);
+    }
+    public function dataPermintaan()
+    {
+        $data =[ 'permintaan' => $this->permintaan->select('permintaan.*')->where('kode',session()->get("user")[0]["kode"])->findAll()];
+        return view('dataPermintaan',$data);
     }
     public function inputPengadaan()
     {
-        return view('inputPengadaan');
+        $data = [
+
+            'pengguna' => $this->pengguna->orderBy('kode', 'DESC')->findAll(),
+            'gudang_bahan' => $this->gudang_bahan->orderBy('kode_barang', 'DESC')->findAll(),
+            'supplier' => $this->supplier->orderBy('kode_supplier', 'DESC')->findAll(),
+            'pengadaan' => $this->pengadaan->select('RIGHT(kode_pengadaan, 3)+1 AS kode_pengadaan')->orderBy('kode_pengadaan', 'desc')->findAll(1)
+        ];
+
+        if(empty($data['pengadaan'])){
+            $data['pengadaan'] =
+            [
+                0 => [
+                    'kode_pengadaan' => 1
+                    ]
+            ];
+        }
+        return view('inputPengadaan',$data );
+    }
+    public function inputPermintaan()
+    {
+        $data = [
+            'hitungan'  => $this->permintaan->selectCount('kode_permintaan', 'hitung')->findAll()
+        ];   
+
+        
+        return view('inputPermintaan', $data);
     }
 
     public function simpanPengadaan()
     {
-        $post = $this->request->getPost(['kode_pengadaan', 'kode_pengguna', 'tanggal', 'rencana_pengadaan', 'jenis', 'status', 'barang_kebutuhan', 'estimasi_pengeluaran', 'supplier']);
+        $post = $this->request->getPost(['kode_pengadaan', 'kode', 'tanggal', 'kode_barang', 'jumlah_barang', 'satuan', 'harga', 'kode_supplier']);
         $this->pengadaan->db->transStart();
         $this->pengadaan->insert([
             'kode_pengadaan' => $post['kode_pengadaan'],
-            'kode_pengguna' => $post['kode_pengguna'],
+            'kode' => $post['kode'],
             'tanggal' => $post['tanggal'],
-            'rencana_pengadaan' => $post['rencana_pengadaan'],
-            'jenis' => $post['jenis'],
-            'status' => $post['status'],
+            'kode_barang' => $post['kode_barang'],
+            'jumlah_barang' => $post['jumlah_barang'],
+            'satuan' => $post['satuan'],
+            'harga' => $post['harga'],
+            'kode_supplier' => $post['kode_supplier'],
         ]);
-        for ($i = 0; $i < count($post["barang_kebutuhan"]); $i++) {
-            if ($post['barang_kebutuhan'][$i] != "") {
-                $this->detail_pengadaan->insert([
-                    'kode_pengadaan' => $post['kode_pengadaan'],
-                    'kebutuhan' => $post['barang_kebutuhan'][$i],
-                    'biaya' => $post['estimasi_pengeluaran'][$i],
-                    'kode_supplier' => $post['supplier'][$i],
-                ]);
-            }
-        }
+        
         // dd($post);
         $this->pengadaan->db->transComplete();
         return redirect()->to("/data_pengadaan");
     }
-
-    public function detailPengadaan($id)
+    public function simpanPermintaan()
     {
-        $data = [
-            'detail_pengadaan' => $this->detail_pengadaan->select('detail_pengadaan.* , supplier.nama')
-            ->join('supplier', 'detail_pengadaan.kode_supplier = supplier.kode_supplier')
-            ->where(['detail_pengadaan.kode_pengadaan' => $id])->get()->getResultArray()
-        ];
-        return view('detailPengadaan', $data);
-
+        $post = $this->request->getPost(['kode_permintaan', 'tanggal', 'keterangan', 'nominal', '']);
+        $this->permintaan->insert([
+            'kode_permintaan' => $post['kode_permintaan'],
+            'tanggal' => $post['tanggal'],
+            'keterangan' => $post['keterangan'],
+            'nominal' => $post['nominal'],
+            'file' => '-',
+            'kode' => session()->get("user")[0]["kode"],
+            'status' => 'pending',
+        ]);
+        
+        // dd($post);
+        return redirect()->to("/data_permintaan");
     }
+
+    
 
     public function editPengadaan($kode_pengadaan)
     {
         $data = [
             // cara satu tabel
-            // 'pengadaan' => $this->pengadaan->where("kode_pengadaan",$kode_pengadaan)->first()
+            'pengadaan' => $this->pengadaan->where("kode_pengadaan",$kode_pengadaan)->findAll(),
+            'pengguna'  => $this->pengguna->findall(),
+            'gudang_bahan'  => $this->gudang_bahan->findall(),
+            'supplier'      => $this->supplier->findall()
+            
 
             // cara dua tabel yaitu pake join
-            'pengadaan' => $this->pengadaan->join("detail_pengadaan","detail_pengadaan.kode_pengadaan = pengadaan.kode_pengadaan")->where("pengadaan.kode_pengadaan",$kode_pengadaan)->findAll()
+            // 'pengadaan' => $this->pengadaan->join("detail_pengadaan","detail_pengadaan.kode_pengadaan = pengadaan.kode_pengadaan")->where("pengadaan.kode_pengadaan",$kode_pengadaan)->findAll()
 
         ];
-        // dd($data['pengadaan'][0]['biaya']);
+        // dd($data);
         return view('editPengadaan', $data);
         
     }
 
     public function updatePengadaan()
     {
-        $post = $this->request->getPost(['id','kode_pengadaan', 'kode_pengguna', 'tanggal', 'rencana_pengadaan', 'jenis', 'status', 'barang_kebutuhan', 'estimasi_pengeluaran', 'supplier']);
+        $post = $this->request->getPost(['kode_pengadaan', 'kode', 'tanggal', 'kode_barang', 'jumlah_barang', 'satuan', 'harga', 'kode_supplier']);
         $this->pengadaan->db->transStart();
         $this->pengadaan->where([
             'kode_pengadaan' => $post['kode_pengadaan'],
@@ -97,32 +146,31 @@ class PengadaanController extends BaseController
             
         ])->set([
             'tanggal' => $post['tanggal'],
-            'rencana_pengadaan' => $post['rencana_pengadaan'],
-            'jenis' => $post['jenis'],
-            'status' => $post['status'],
+            'kode' => $post['kode'],
+            'kode_barang' => $post['kode_barang'],
+            'jumlah_barang' => $post['jumlah_barang'],
+            'satuan' => $post['satuan'],
+            'harga' => $post['harga'],
+            'kode_supplier' => $post['kode_supplier'],
         ])->update();
         
-        for ($i = 0; $i < count($post["barang_kebutuhan"]); $i++) {
-            if ($post['barang_kebutuhan'][$i] != "") {
-                echo "popo";
-                $this->detail_pengadaan->where([
-                    'kode_pengadaan' => $post['kode_pengadaan'],
-                    'id' => $post['id'][$i],
-                    
-                ])->set([
-                    'kebutuhan' => $post['barang_kebutuhan'][$i],
-                    'biaya' => $post['estimasi_pengeluaran'][$i],
-                    'kode_supplier' => $post['supplier'][$i],
-                ])->update();
-            }
-        }
+        
         $this->pengadaan->db->transComplete();
 
-        session()->setFlashdata('sukses', 'Berhasil Di Ubah');
+        $data = $this->gudang_bahan->select('nama_barang')->where('kode_barang', $post['kode_barang'])->findAll();
+        session()->setFlashdata('sukses', 'Data Pengadaan <strong>'.$data[0]['nama_barang'].'</strong> Berhasil Diubah.');
 
         // dd($post['barang_kebutuhan'][0]);
 
         return redirect()->to("/data_pengadaan");
     }
+
+    public function deletePengadaan($kode_pengadaan)
+    {
+        $this->pengadaan->delete($kode_pengadaan);
+        return redirect()->to("/data_pengadaan");
+    }
+
+    
 
 }
