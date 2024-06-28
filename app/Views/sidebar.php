@@ -297,10 +297,6 @@
             </li>
             <?php endif?>
             <?php if(session()->get("user")[0]["kode_akses"] == "KSR") :?> 
-              <li class="nav-small-cap">
-                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                <span class="hide-menu">Kasir</span>
-              </li>
               <li class="sidebar-item">
               <a class="sidebar-link" href="/kasir" aria-expanded="false">
                 <span>

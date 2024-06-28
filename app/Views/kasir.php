@@ -2,6 +2,25 @@
 
 <?= $this->section("content"); ?>
 <?= $this->include("sidebar"); ?>
+
+<?php if (!is_null(session()->get('error'))) : ?>
+    <?= '<script>
+        Swal.fire({
+            text: "' . session()->get('error') . '",
+            icon: "error"
+        });
+    </script>' ?>
+<?php endif ?>
+
+<?php if (!is_null(session()->get('success'))) : ?>
+    <?= '<script>
+        Swal.fire({
+            text: "' . session()->get('success') . '",
+            icon: "success"
+        });
+    </script>' ?>
+<?php endif ?>
+
 <div class="container-fluid">
     <form action="<?= site_url("/pre_sale") ?>" method="post">
         <div class="card">
@@ -128,9 +147,8 @@
     }
 
     const inputBayar = document.getElementById('bayar')
-    
     inputBayar.addEventListener('keydown', function(evt) {
-        if(evt.keyCode == 13){
+        if (evt.keyCode == 13) {
             evt.preventDefault()
         }
     })

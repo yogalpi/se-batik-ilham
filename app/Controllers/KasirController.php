@@ -29,7 +29,13 @@ class KasirController extends BaseController
     public function index()
     {
         $lastPenjualan = $this->penjualan->orderBy("kode", "DESC")->first();
-        $urut = explode("-", $lastPenjualan['kode']);
+
+        if (is_null($lastPenjualan)) {
+            $urut = '001';
+        } else {
+            $urut = explode("-", $lastPenjualan['kode']);
+        }
+
         $data = [
             'barang'    => $this->gudang_jadi
                 ->join("detail_gudang_jadi", "detail_gudang_jadi.kode_gudang_jadi = gudang_jadi.kode")
@@ -62,6 +68,7 @@ class KasirController extends BaseController
             return redirect()->back()->withInput();
         }
 
+
         $this->pre_sale->insert([
             'kode'                      => $post['kode_penjualan'],
             'tanggal'                   => $post['tanggal'],
@@ -84,14 +91,18 @@ class KasirController extends BaseController
 
     public function simpanTransaksi()
     {
+
+        // Memulai transaksi
         $db = \Config\Database::connect();
         $db->transBegin();
-        
-        try {
-            $sale = $this->pre_sale->where([
-                'kode_pengguna' => session()->get('user')[0]['kode']
-            ])->findAll();
 
+        // Mengambil data pre_sale berdasarkan kode pengguna dari sesi
+        $sale = $this->pre_sale->where([
+            'kode_pengguna' => session()->get('user')[0]['kode']
+        ])->findAll();
+
+        try {
+            // Insert data ke tabel penjualan
             $this->penjualan->insert([
                 'kode'              => $sale[0]['kode'],
                 'kode_tipe'         => 'OFF',
@@ -102,39 +113,52 @@ class KasirController extends BaseController
                 'jenis_pengiriman'  => 'Offline',
             ]);
 
+            // Loop untuk insert data ke tabel detail_penjualan dan update detail_gudang_jadi
             foreach ($sale as $value) {
+
                 $this->detail_penjualan->insert([
                     'kode_penjualan'            => $value['kode'],
                     'kode_detail_gudang_jadi'   => $value['kode_detail_gudang_jadi'],
                     'ukuran'                    => $value['ukuran'],
-                    'qty'                       => $value['qty'],
-                    'harga'                     => $value['harga'],
+                    'qty'                       => (int) $value['qty'],
+                    'harga'                     => (int) $value['harga'],
                 ]);
-
+                
+                // Mengambil data detail_gudang_jadi
                 $detail_gudang_jadi = $this->detail_gudang_jadi->where([
                     'kode'  => $value['kode_detail_gudang_jadi'],
                     'ukuran'    => $value['ukuran'],
-                ])
-                ->join("gudang_jadi", "gudang_jadi.kode = detail_gudang_jadi.kode_gudang_jadi")
-                ->first();
-
+                ])->first();
+                
+                // Mengurangi jumlah stok di detail_gudang_jadi
                 $this->detail_gudang_jadi->where([
-                    'kode_gudang_jadi'  => $detail_gudang_jadi['kode_gudang_jadi'],
                     'kode'  => $value['kode_detail_gudang_jadi'],
                     'ukuran'    => $value['ukuran'],
                 ])->set('jumlah', $detail_gudang_jadi['jumlah'] - $value['qty'])
                     ->update();
             }
+
+            // Menghapus data pre_sale berdasarkan kode pengguna dari sesi
             $this->pre_sale->where('kode_pengguna', session()->get('user')[0]['kode'])->delete();
-            $db->transCommit();
-        } catch (\Throwable $th) {
+
+            // Commit transaksi jika semua operasi berhasil
+            if ($db->transStatus() === FALSE) {
+                // Rollback transaksi jika ada kesalahan
+                $db->transRollback();
+                return redirect()->back()->with('error', 'Gagal melakukan transaksi!' . $db->error());
+            } else {
+                // Commit transaksi jika semua operasi berhasil
+                $db->transCommit();
+                return redirect()->back()->with('success', 'Berhasil melakukan transaksi!');
+            }
+        } catch (\Exception $e) {
+            // Rollback transaksi jika ada exception
             $db->transRollback();
-            $db->transComplete();
-            return redirect()->back()->with('error', 'Gagal melakukan transaksi!');
+            return redirect()->back()->with('error', 'Gagal melakukan transaksi: ' . $e->getMessage());
         }
-        $db->transComplete();
-        return redirect()->back()->with('succes', 'Berhasil melakukan transaksi!');
+        return redirect()->back()->with('success', 'Berhasil melakukan transaksi.');
     }
+
 
     public function laporanKasir()
     {
