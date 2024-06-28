@@ -165,7 +165,7 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/daftar_absensi'){echo "active";} ?>" href="/daftar_absensi" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/daftar_absensi' || $_SERVER['REQUEST_URI'] == '/filter_absen' || str_contains($_SERVER['REQUEST_URI'], 'edit_absensi_pegawai')){echo "active";} ?>" href="/daftar_absensi" aria-expanded="false">
                 <span>
                   <i class="fa-solid fa-list-ul"></i>
                 </span>
@@ -173,7 +173,7 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/daftar_pegawai'){echo "active";} ?>" href="/daftar_pegawai" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/daftar_pegawai' || str_contains($_SERVER['REQUEST_URI'], '/edit_pegawai')){echo "active";} ?>" href="/daftar_pegawai" aria-expanded="false">
                 <span>
                   <i class="fa-solid fa-user-group"></i>
                 </span>
@@ -181,7 +181,7 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/manajemen_gaji' || $_SERVER['REQUEST_URI'] == '/gaji_produksi' || $_SERVER['REQUEST_URI'] == '/gaji_umum'){echo "active";} ?>" href="/manajemen_gaji" aria-expanded="false">
+              <a class="sidebar-link <?php if (str_contains($_SERVER['REQUEST_URI'], 'gaji')){echo "active";} ?>" href="/manajemen_gaji" aria-expanded="false">
                 <span>
                 <i class="fa-solid fa-hand-holding-dollar"></i>
                 </span>

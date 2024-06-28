@@ -11,6 +11,10 @@ $routes->get('/', 'Batik::index');
 $routes->get('/login', 'Batik::login');
 $routes->post('/login', 'Batik::loginAction');
 
+$routes->post('/input_todo', 'Batik::inputTodo');
+$routes->post('/selesai_todo', 'Batik::selesaiTodo');
+
+
 //PEMBELIAN
 
 //PRODUKSI
