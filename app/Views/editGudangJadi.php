@@ -36,7 +36,7 @@
                 </tr>
               </thead>
               <tbody>
-                <?php foreach ($detail_gudang_jadi as $dgj) :?>
+                <?php foreach ($detail_gudang_jadi as $dgj) : ?>
                   <tr>
                     <td>
                       <input name="ukuran[]" type="text" class="form-control" id="exampleInputPassword1" value="<?= $dgj["ukuran"] ?>">
@@ -48,7 +48,13 @@
                       <input name="harga[]" type="number" class="form-control" id="exampleInputPassword1" value="<?= $dgj["harga"] ?>">
                     </td>
                     <td>
-                      <a href="/item_gudang_jadi/<?= $dgj["kode"] ?>/delete/<?= $dgj["ukuran"] ?>" class="btn btn-danger form-control" onclick="return confirm('Ingin menghapus data ini?')">Hapus</a>
+                      <span href="#" class="btn btn-danger form-control delete-row" onclick="(function(){
+                      document.querySelectorAll('.delete-row').forEach(function(button) {
+                          button.addEventListener('click', function() {
+                            this.parentNode.parentNode.remove();
+                          });
+                      });
+                    }())">Hapus</span>
                     </td>
                   </tr>
                 <?php endforeach; ?>

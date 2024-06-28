@@ -99,6 +99,14 @@ $routes->get('/invoice', 'TransaksiController::invoice');
 $routes->get('/detail_invoice/(:any)', 'TransaksiController::detailInvoice/$1');
 $routes->post('/simpanStatus', 'TransaksiController::simpanStatus');
 
+// kasir
+$routes->get('/kasir', 'KasirController::index');
+$routes->post('/pre_sale', 'KasirController::preSale');
+$routes->get('/delete_item/(:num)', 'KasirController::deleteItem/$1');
+$routes->post('/simpan_transaksi', 'KasirController::simpanTransaksi');
+$routes->get('/laporan_kasir', 'KasirController::laporanKasir');
+$routes->post('/laporan_kasir/export', 'KasirController::exportLaporanKasir');
+
 // KEUANGAN
 // $routes->get('/uang_masuk', 'KeuanganController::uangMasuk');
 // $routes->get('/uang_keluar', 'KeuanganController::uangKeluar');

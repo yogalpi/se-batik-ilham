@@ -183,7 +183,7 @@
 
             <?php endif?>
 
-            <?php if(session()->get("user")[0]["kode_akses"] == "AOS" || session()->get("user")[0]["kode_akses"] ==  "KSR" || session()->get("user")[0]["kode_akses"] ==  "OWN"  ) :?> 
+            <?php if(session()->get("user")[0]["kode_akses"] == "AOS" || session()->get("user")[0]["kode_akses"] ==  "OWN"  ) :?> 
 
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -277,6 +277,24 @@
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
                 <span class="hide-menu">Customer Service</span>
+              </a>
+            </li>
+            <?php endif?>
+            <?php if(session()->get("user")[0]["kode_akses"] == "KSR"  ) :?> 
+              <li class="sidebar-item">
+              <a class="sidebar-link" href="/kasir" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Kasir</span>
+              </a>
+            </li>
+              <li class="sidebar-item">
+              <a class="sidebar-link" href="/laporan_kasir" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Laporan</span>
               </a>
             </li>
             <?php endif?>
