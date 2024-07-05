@@ -595,7 +595,8 @@ class PegawaiController extends BaseController
 
         $digitKode = $this->permintaan->select('RIGHT(keterangan, 3) AS digit, status')->findAll();
 
-        $kode = substr($post, 4, 5);
+        $kode = substr($post, 3, 6);
+        // dd($digitKode);
 
         if($digitKode == null ){
             $namaFile = $file->getName();
@@ -631,7 +632,7 @@ class PegawaiController extends BaseController
 
         $cek = 0;
         foreach($digitKode as $digit){
-            if($digit['digit'] == $kode && $digit['status'] == 'PENDING' || $digit['status'] == 'ACC'){
+            if($digit['digit'] == $kode && $digit['status'] == 'PENDING'){
                 $cek = 1;
             }
         }
