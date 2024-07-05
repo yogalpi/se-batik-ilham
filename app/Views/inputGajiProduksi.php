@@ -49,7 +49,7 @@
                         <?php else : ?>
                           $nol = ''
                         <?php endif; ?>
-                        document.getElementById('kode_gaji').value = 'G-'+k.value.slice(4, 7)+'-'+$nol+'<?= $kode+1; ?>'
+                        document.getElementById('kode_gaji').value = 'G-'+k.value.slice(3, 6)+'-'+$nol+'<?= $kode+1; ?>'
                       })(this)" name="kode_produksi" type="text" class="form-control" id="kode_produksi" aria-describedby="emailHelp">
                         <option value="0" selected>-- Pilih Kode Produksi --</option>
                         <?php foreach($produksi as $p) : ?>
