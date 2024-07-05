@@ -18,7 +18,7 @@
               <select name="kode_produksi" id="" class="form-control">
                 <option selected disabled>Silahkan Pilih Dari Produksi apa</option>
                 <?php foreach ($produksi as $prod) : ?>
-                  <option value="<?= $prod["kode_produksi"] ?>">[ <?= $prod["tanggal_mulai"] ?> ] <?= $prod["kode_produksi"] ?></option>
+                  <option value="<?= $prod["kode_produksi"] ?>">[ <?= $prod["tanggal_mulai"] ?> ] <?= $prod["kode_produksi"] . '-' . $prod["rencana_produksi"] ?></option>
                 <?php endforeach; ?>
               </select>
             </div>
@@ -29,7 +29,6 @@
             <table class="table" id="mytable">
               <thead>
                 <tr>
-                  <th scope="col">Kode</th>
                   <th scope="col">Ukuran</th>
                   <th scope="col">Jumlah</th>
                   <th scope="col">Harga</th>
@@ -38,9 +37,7 @@
               </thead>
               <tbody>
                 <tr id="mytr">
-                  <td>
-                    <input name="kode[]" type="text" class="form-control" id="exampleInputPassword1">
-                  </td>
+                  <input name="kode[]" type="hidden" class="form-control" id="exampleInputPassword1">
                   <td>
                     <input name="ukuran[]" type="text" class="form-control" id="exampleInputPassword1">
                   </td>
@@ -76,5 +73,32 @@
     </div>
   </div>
 </div>
+
+<script>
+  function addRow() {
+    var tr = `<tr>
+    <input name="kode[]" type="hidden" class="form-control" id="exampleInputPassword1">
+    <td>
+      <input name="ukuran[]" type="text" class="form-control" id="exampleInputPassword1">
+    </td>
+    <td>
+      <input name="jumlah[]" type="number" class="form-control" id="exampleInputPassword1">
+    </td>
+    <td>
+      <input name="harga[]" type="number" class="form-control" id="exampleInputPassword1">
+    </td>
+    <td>
+      <span href="#" class="btn btn-danger form-control delete-row" onclick="(function(){
+        document.querySelectorAll('.delete-row').forEach(function(button) {
+            button.addEventListener('click', function() {
+              this.parentNode.parentNode.remove();
+            });
+        });
+      }())">Hapus</span>
+    </td>
+    </tr>`
+    document.getElementById('mytable').getElementsByTagName('tbody')[0].insertAdjacentHTML('beforeend', tr);
+  }
+</script>
 
 <?= $this->endSection(); ?>
