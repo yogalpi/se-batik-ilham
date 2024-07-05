@@ -142,7 +142,6 @@ $routes->post('/simpan_transaksi', 'KasirController::simpanTransaksi');
 $routes->get('/laporan_kasir', 'KasirController::laporanKasir');
 $routes->post('/laporan_kasir/export', 'KasirController::exportLaporanKasir');
 
-
 // KEUANGAN
 // $routes->get('/uang_masuk', 'KeuanganController::uangMasuk');
 // $routes->get('/uang_keluar', 'KeuanganController::uangKeluar');
