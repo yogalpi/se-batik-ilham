@@ -10,7 +10,13 @@
       <h5 class="card-title fw-semibold mb-4">Daftar List Permintaan</h5>
       <div class="card">
         <div class="card-body">
-
+        <?php if (session()->getFlashdata('sukses')): ?>
+            <div onclick="(function(notif){
+              notif.style.display = 'none';
+            })(this)" id="notif" class="alert alert-success" role="alert">
+              <?= session()->getFlashdata('sukses') ?>
+            </div>
+            <?php endif; ?>
           <table class="table table-hover mb-5">
             <thead>
               <tr>
@@ -27,9 +33,9 @@
               <?php foreach ($permintaan as $peng): ?>
                 <tr>
                   <td scope="row"><?= $peng["kode_permintaan"] ?></td>
-                  <td scope="row"><?= $peng["tanggal"] ?></td>
+                  <td scope="row"><?= date_format(date_create($peng['tanggal']), "d F Y"); ?></td>
                   <td scope="row"><?= $peng["keterangan"] ?></td>
-                  <td scope="row"><?= $peng["nominal"] ?></td>
+                  <td scope="row">Rp.<?= number_format( $peng["nominal"],0,'.','.') ?></td>
                   <td scope="row"><?= $peng["kode"] ?></td>
                   <td scope="row"><?= $peng["status"] ?></td>
                     

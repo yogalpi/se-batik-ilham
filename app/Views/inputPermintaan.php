@@ -16,7 +16,7 @@
           <form action="/simpan_permintaan" method="post">
             <div class="col-4">
               <label for="exampleInputEmail1" class="form-label">Kode Permintaan</label>
-              <input name="kode_permintaan" type="text" value="<?= $kode_permintaan; ?>" class="form-control" id="exampleInputEmail1" readonly
+              <input name="kode_permintaan" type="text" value="<?php $permintaan = (int)$permintaan[0]['kode_permintaan']; if($permintaan == 0) :?> <?= '1'.$permintaan; ?> <?php elseif($permintaan < 10) :?> <?= ''.$permintaan; ?><?php elseif($permintaan >= 10 && $permintaan < 100) :?> <?= ''.$permintaan ?><?php else :?> <?= '-'.$permintaan; ?><?php endif; ?>" class="form-control" id="exampleInputEmail1" readonly
                 aria-describedby="emailHelp">
             </div>
             <div class="col-4">

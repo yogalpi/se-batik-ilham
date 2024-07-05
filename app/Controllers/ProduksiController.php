@@ -66,6 +66,7 @@ class ProduksiController extends BaseController
             $maxJumlah = $this->bahan_baku->select('jumlah')->where('kode_barang', $post['kode_barang'][$i])->findall(1);
             if ($post['kode_barang'][$i] != "") 
             {
+                $namaBarang = $this->bahan_baku->select('nama_barang')->where('kode_barang', $post['kode_barang'][$i])->findall(1);
                 if((int)$post['jumlah_barang'][$i] <= (int)$maxJumlah[0]['jumlah']){
                     $this->detail_produksi->insert([
                         'kode_produksi' => $post['kode_produksi'],
@@ -74,13 +75,15 @@ class ProduksiController extends BaseController
                         'satuan' => $post['satuan'][$i],
                     ]);
                 }else{
-                    session()->setFlashdata('max', 'STOK TIDAK CUKUP');
+                    session()->setFlashdata('max', 'STOK' .$namaBarang[0]['nama_barang'] . 'TIDAK CUKUP');
                     return redirect()->back();
                 }
             }
         }
 
         // dd($post);
+        $data = $this->produksi->select('kode_produksi')->where('kode_produksi', $post['kode_produksi'])->findAll();
+        session()->setFlashdata('sukses', 'Data  <strong>'.$data[0]['kode_produksi'].'</strong> Berhasil Di Input.');
         $this->produksi->db->transComplete();
         return redirect()->to("/data_produksi");
     }
@@ -97,6 +100,7 @@ class ProduksiController extends BaseController
 
         ];
         // dd($data['produksi']);
+        
         return view('editProduksi', $data);
     }
 

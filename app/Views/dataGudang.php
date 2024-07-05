@@ -16,7 +16,15 @@
             })(this)" id="notif" class="alert alert-success" role="alert">
               <?= session()->getFlashdata('sukses') ?>
             </div>
-          <?php endif; ?>
+         
+
+          <?php elseif(session()->getFlashdata('hapus')):?>
+                    <div onclick="(function(notif){
+                      notif.style.display = 'none';
+                      })(this)" id="notif" class="alert alert-danger" role="alert">
+                      <?= session()->getFlashdata('hapus')?>
+                    </div>
+                  <?php endif; ?>
 
           <table class="table table-hover mb-5">
             <thead>
@@ -40,7 +48,7 @@
                   <td scope="row"><?= $dp["jumlah"] ?></td>
                   <td scope="row"><?= $dp["satuan"] ?></td>
                   <td scope="row"><?= $dp["keterangan"] ?></td>
-                  <td scope="row"><?= $dp["tanggal"] ?></td>
+                  <td scope="row"><?= date_format(date_create($dp['tanggal']), "d F Y"); ?></td>
                   <td class="d-flex">
                     <a href="/editGudang/<?= $dp["kode_barang"] ?>" class="mx-1">
                       <i class="bi bi-pencil-square"></i>
@@ -52,7 +60,7 @@
                           d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                       </svg>
                     </a>
-                    <a href="/deleteGudang/<?= $dp["kode_barang"] ?>" class="mx-1">
+                    <a href="/deleteGudang/<?= $dp["kode_barang"] ?>" onclick="return confirm('Apakah anda yakin ingin menghapusnya?')" class="mx-1">
                       <i class="bi bi-trash"></i>
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-trash" viewBox="0 0 16 16">

@@ -8,6 +8,7 @@ use App\Models\SupplierModel;
 use App\Models\PenggunaModel;
 use App\Models\GudangBahanBakuModel;
 use App\Models\PermintaanModel;
+use CodeIgniter\I18n\Time;
 class PengadaanController extends BaseController
 {
     private $pengadaan, $detail_pengadaan, $supplier, $pengguna, $gudang_bahan, $permintaan;
@@ -72,8 +73,18 @@ class PengadaanController extends BaseController
     public function inputPermintaan()
     {
         $data = [
-            'hitungan'  => $this->permintaan->selectCount('kode_permintaan', 'hitung')->findAll()
+            'hitungan'  => $this->permintaan->selectCount('kode_permintaan', 'hitung')->findAll(),
+            'permintaan' => $this->permintaan->select('RIGHT(kode_permintaan, 3)+1 AS kode_permintaan')->orderBy('kode_permintaan', 'desc')->findAll(1)
         ];   
+        if(empty($data['permintaan'])){
+            $data ['permintaan']= 
+
+            [
+                0 => [
+                    'kode_permintaan' => 1
+                    ]
+            ];
+        }
 
         
         return view('inputPermintaan', $data);
@@ -81,6 +92,7 @@ class PengadaanController extends BaseController
 
     public function simpanPengadaan()
     {
+        
         $post = $this->request->getPost(['kode_pengadaan', 'kode', 'tanggal', 'kode_barang', 'jumlah_barang', 'satuan', 'harga', 'kode_supplier']);
         $this->pengadaan->db->transStart();
         $this->pengadaan->insert([
@@ -96,11 +108,14 @@ class PengadaanController extends BaseController
         
         // dd($post);
         $this->pengadaan->db->transComplete();
+        $data = $this->gudang_bahan->select('nama_barang')->where('kode_barang', $post['kode_barang'])->findAll();
+        session()->setFlashdata('sukses', 'Data Pengadaan <strong>'.$data[0]['nama_barang'].'</strong> Berhasil Di Input.');
         return redirect()->to("/data_pengadaan");
     }
     public function simpanPermintaan()
     {
         $post = $this->request->getPost(['kode_permintaan', 'tanggal', 'keterangan', 'nominal', '']);
+        
         $this->permintaan->insert([
             'kode_permintaan' => $post['kode_permintaan'],
             'tanggal' => $post['tanggal'],
@@ -108,10 +123,12 @@ class PengadaanController extends BaseController
             'nominal' => $post['nominal'],
             'file' => '-',
             'kode' => session()->get("user")[0]["kode"],
-            'status' => 'pending',
+            'status' => 'PENDING',
         ]);
         
         // dd($post);
+        $data = $this->permintaan->select('keterangan')->where('kode_permintaan', $post['kode_permintaan'])->findAll();
+        session()->setFlashdata('sukses', 'Data Pengadaan <strong>'.$data[0]['keterangan'].'</strong> Berhasil Di Input.');
         return redirect()->to("/data_permintaan");
     }
 
