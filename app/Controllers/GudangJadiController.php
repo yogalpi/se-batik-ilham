@@ -44,7 +44,7 @@ class GudangJadiController extends BaseController
         for ($i = 0; $i < count($post["ukuran"]); $i++) {
             $this->detail_gudang_jadi->insert([
                 'kode_gudang_jadi' => $post["kode_barang"],
-                'kode' => $post["kode"][$i],
+                // 'kode' => $post["kode"][$i],
                 'ukuran' => $post["ukuran"][$i],
                 'jumlah' => $post["jumlah"][$i],
                 'harga' => $post["harga"][$i]
@@ -95,7 +95,7 @@ class GudangJadiController extends BaseController
         for ($i = 0; $i < count($post["ukuran"]); $i++) {
             $isExist = $this->detail_gudang_jadi->where([
                 'kode_gudang_jadi' => $post["kode_barang"],
-                'kode' => $post["kode"][$i],
+                // 'kode' => $post["kode"][$i],
                 'ukuran' => $post["ukuran"][$i],
             ])->first();
 
@@ -111,7 +111,7 @@ class GudangJadiController extends BaseController
             } else {
                 $this->detail_gudang_jadi->insert([
                     'kode_gudang_jadi' => $post["kode_barang"],
-                    'kode' => $post["kode"][$i],
+                    // 'kode' => $post["kode"][$i],
                     'ukuran' => $post["ukuran"][$i],
                     'jumlah' => $post["jumlah"][$i],
                     'harga' => $post["harga"][$i]

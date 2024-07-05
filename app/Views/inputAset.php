@@ -16,19 +16,19 @@
                     </div>
                     <div class="mb-4">
                       <label for="aset" class="form-label">Nama Barang</label>
-                      <input name="aset" type="text" class="form-control" id="aset">
+                      <input name="aset" type="text" class="form-control" id="aset" required>
                     </div>
                     <div class="mb-4">
                       <label for="jenis" class="form-label">Jenis Aset</label>
-                      <input name="jenis_aset" type="text" class="form-control" id="jenis">
+                      <input name="jenis_aset" type="text" class="form-control" id="jenis" required>
                     </div>
                     <div class="mb-4">
                       <label for="jumlah" class="form-label">Jumlah</label>
-                      <input name="jumlah" type="number" class="form-control" id="jumlah">
+                      <input name="jumlah" type="number" class="form-control" id="jumlah" required>
                     </div>
                     <div class="mb-5 col-3">
                       <label for="tanggal" class="form-label">Tanggal Pembelian</label>
-                      <input name="tanggal" type="date" class="form-control" id="tanggal">
+                      <input name="tanggal" type="date" class="form-control" id="tanggal"required>
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                   </form>

@@ -9,6 +9,13 @@
               <h5 class="card-title fw-semibold mb-4">Form Input Gaji Karyawan Umum</h5>
               <div class="card">
                 <div class="card-body">
+                <?php if(session()->getFlashdata('salah')):?>
+                      <div onclick="(function(notif){
+                        notif.style.display = 'none';
+                        })(this)" id="notif" class="alert alert-danger" role="alert">
+                        <?= session()->getFlashdata('salah')?>
+                      </div>
+                <?php endif;?>
                   <form action="input_gaji_umum" method="post">
                     <div class="mb-3">
                       
@@ -37,10 +44,12 @@
                     <div class="mb-3">
                       <label for="exampleInputEmail1" class="form-label">ID Karyawan</label>
                       <select name="kode_karyawan" type="text" class="form-control" id="karyawan" aria-describedby="emailHelp">
-                        <option selected>-- Pilih Karyawan --</option>
-                        <?php foreach($gaji as $g) : ?>
-                          <option id="id_karyawan" value="<?= $g['kode']?>"><?= $g['kode']?> - - <?= $g['nama']?></option>
-                        <?php endforeach; ?>
+                        <option value="0" selected>-- Pilih Karyawan --</option>
+                          <?php if(isset($gaji)):?>
+                            <?php foreach($gaji as $g) : ?>
+                              <option id="id_karyawan" value="<?= $g['kode']?>"><?= $g['kode']?> - - <?= $g['nama']?></option>
+                              <?php endforeach; ?>
+                            <?php endif;?>
                       </select>
                     </div>
                     <div class="mb-3">
@@ -70,15 +79,16 @@
                         dataType: 'json',
                         success: function (data) {
                             $('#jumlah').val(data.absen[0].absen)
-                            console.log(data.absen[0].absen);
-                            $('#total_gaji').val(data.absen[0].absen * <?= $gaji[0]['gaji']; ?>);
+                            console.log("e,ee");
+                            // console.log(data.absen[0].absen);
+                            $('#total_gaji').val(data.absen[0].absen * <?php if(isset($gaji[0]['gaji'])){echo $gaji[0]['gaji'];}else{echo 0;} ?>);
                         }
                     });
                 }
 
                 $('#karyawan').on('change', function () {
                   var searchTerm = $(this).val();
-                  console.log(searchTerm);
+                  // console.log(searchTerm);
                     cariAbsen(searchTerm); 
                 });
             });

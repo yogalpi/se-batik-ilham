@@ -29,10 +29,23 @@ class Batik extends BaseController
         $date = Time::today('Asia/Jakarta', );
 
         $data = [
-            'permintaan'  => $this->permintaan->select('permintaan.* , pengguna.nama')
+            'permintaanAcc'  => $this->permintaan->select('permintaan.* , pengguna.nama')
                                                 ->join('pengguna', 'pengguna.kode = permintaan.kode')
                                                 ->orderBy('permintaan.tanggal')
                                                 ->where('permintaan.kode', session()->get("user")[0]['kode'])
+                                                ->where('status', 'ACC')
+                                                ->findAll(),
+            'permintaanPending'  => $this->permintaan->select('permintaan.* , pengguna.nama')
+                                                ->join('pengguna', 'pengguna.kode = permintaan.kode')
+                                                ->orderBy('permintaan.tanggal')
+                                                ->where('permintaan.kode', session()->get("user")[0]['kode'])
+                                                ->where('status', 'PENDING')
+                                                ->findAll(),
+            'permintaanRevisi'  => $this->permintaan->select('permintaan.* , pengguna.nama')
+                                                ->join('pengguna', 'pengguna.kode = permintaan.kode')
+                                                ->orderBy('permintaan.tanggal')
+                                                ->where('permintaan.kode', session()->get("user")[0]['kode'])
+                                                ->where('status', 'REVISI')
                                                 ->findAll(),
             'notifikasi'    => $this->permintaan->selectCount('kode_permintaan', 'notifikasi')
                                                 ->where('kode', session()->get("user")[0]['kode'])

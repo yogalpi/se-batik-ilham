@@ -257,7 +257,7 @@
           <span class="hide-menu">Gudang Jadi</span>
         </li>
         <li class="sidebar-item">
-          <a class="sidebar-link" href="/input_gudang_jadi" aria-expanded="false">
+          <a class="sidebar-link <?= ($_SERVER['REQUEST_URI'] == '/input_gudang_jadi') ? 'active' : '' ?>" href="/input_gudang_jadi" aria-expanded="false">
             <span>
               <i class="ti ti-layout-dashboard"></i>
             </span>
@@ -265,7 +265,7 @@
           </a>
         </li>
         <li class="sidebar-item">
-          <a class="sidebar-link" href="/data_gudang_jadi" aria-expanded="false">
+          <a class="sidebar-link <?= ($_SERVER['REQUEST_URI'] == '/data_gudang_jadi') ? 'active' : '' ?>" href="/data_gudang_jadi" aria-expanded="false">
             <span>
               <i class="ti ti-layout-dashboard"></i>
             </span>
@@ -299,11 +299,11 @@
             <?php endif?>
             <?php if(session()->get("user")[0]["kode_akses"] == "KSR") :?> 
               <li class="nav-small-cap">
-                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                <span class="hide-menu">Kasir</span>
-              </li>
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">Penjualan</span>
+            </li>
               <li class="sidebar-item">
-              <a class="sidebar-link" href="/kasir" aria-expanded="false">
+              <a class="sidebar-link <?= ($_SERVER['REQUEST_URI'] == '/kasir') ? 'active' : '' ?>" href="/kasir" aria-expanded="false">
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
@@ -311,7 +311,7 @@
               </a>
             </li>
               <li class="sidebar-item">
-              <a class="sidebar-link" href="/laporan_kasir" aria-expanded="false">
+              <a class="sidebar-link <?= ($_SERVER['REQUEST_URI'] == '/laporan_kasir') ? 'active' : '' ?>" href="/laporan_kasir" aria-expanded="false">
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
