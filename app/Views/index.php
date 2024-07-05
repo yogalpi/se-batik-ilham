@@ -7,7 +7,7 @@
     <div class="col-8">
     <div class="card">
             <div class="card-body">
-              <div class="d-flex"><h5 class="card-title fw-semibold mt-2">Notifikasi</h5>
+              <div class="d-flex"><h5 class="card-title fw-semibold mt-1">Notifikasi</h5>
               <div style="width: 2svw; height: 2svw; background-color: <?php if((int)$notifikasi[0]['notifikasi'] > 0): ?><?= '#5AB2FF'?><?php else:?><?= '#DDE6ED'?><?php endif;?>; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-left: 1svw; color: <?php if((int)$notifikasi[0]['notifikasi'] > 0): ?><?= 'white'?><?php else:?><?= '#27374D'?><?php endif;?>;" class="circle">
                 <?= $notifikasi[0]['notifikasi']; ?>
               </div>
@@ -15,7 +15,7 @@
               <!-- <div class="card"> -->
                 <!-- <div class="card-body"> -->
                 <div class="d-flex justify-content-center">
-                      <table class="table">
+                      <table class="table mt-3">
                         <tr>
                           <!-- <th>KODE</th> -->
                           <th>TANGGAL</th>
@@ -24,7 +24,55 @@
                           <th>LAMPIRAN</th>
                           <th class="d-flex justify-content-center">STATUS</th>
                         </tr>
-                        <?php foreach($permintaan as $p) : ?>
+                        <tr>
+                          <td colspan="4" class="text-center">Permintaan ACC</td>
+                        </tr>
+                        <?php if(count($permintaanAcc) == 0):?>
+                        <tr>
+                          <td colspan="4" class="text-center">-</td>  
+                        </tr>
+                        <?php endif; ?>
+                        <?php foreach($permintaanAcc as $p) : ?>
+                        <tr>
+                          <td><?= date_format(date_create($p['tanggal']), "d F Y"); ?></td>
+                          <td class=""><?= $p['keterangan']; ?></td>
+                          <td><?php if($p['file'] == '-'):?>-<?php else:?><a class="text-info" href="/unduh_file/<?= $p['file']; ?>"><i class="fa-solid fa-file-pdf me-1"></i>Unduh</a><?php endif; ?></td>
+                          <td>
+                            <div class="d-flex w-full">
+                              <button class="w-100 btn btn-<?php if($p['status'] == 'ACC'){echo'success';}elseif($p['status'] == 'PENDING'){echo'warning';}else{echo'danger';};?>"><?= $p['status'];?></button>
+                            </div>
+                          </td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <tr>
+                          <td colspan="4" class="text-center">Permintaan REVISI</td>
+                        </tr>
+                        <?php if(count($permintaanRevisi) == 0):?>
+                        <tr>
+                          <td colspan="4" class="text-center">-</td>  
+                        </tr>
+                        <?php endif; ?> 
+                        <?php foreach($permintaanRevisi as $p) : ?>
+                        <tr>
+                          <td><?= date_format(date_create($p['tanggal']), "d F Y"); ?></td>
+                          <td class=""><?= $p['keterangan']; ?></td>
+                          <td><?php if($p['file'] == '-'):?>-<?php else:?><a class="text-info" href="/unduh_file/<?= $p['file']; ?>"><i class="fa-solid fa-file-pdf me-1"></i>Unduh</a><?php endif; ?></td>
+                          <td>
+                            <div class="d-flex w-full">
+                              <button class="w-100 btn btn-<?php if($p['status'] == 'ACC'){echo'success';}elseif($p['status'] == 'PENDING'){echo'warning';}else{echo'danger';};?>"><?= $p['status'];?></button>
+                            </div>
+                          </td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <tr>
+                          <td colspan="4" class="text-center">Permintaan PENDING</td>
+                        </tr>
+                        <?php if(count($permintaanPending) == 0):?>
+                        <tr>
+                          <td colspan="4" class="text-center">-</td>  
+                        </tr>
+                        <?php endif; ?>
+                        <?php foreach($permintaanPending as $p) : ?>
                         <tr>
                           <td><?= date_format(date_create($p['tanggal']), "d F Y"); ?></td>
                           <td class=""><?= $p['keterangan']; ?></td>

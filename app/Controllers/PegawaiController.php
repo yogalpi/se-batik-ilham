@@ -208,11 +208,28 @@ class PegawaiController extends BaseController
             'kode_gaji'             => $this->gaji_pegawai_produksi->select('RIGHT(kode_gaji, 3) AS kode_gaji')->orderBy('kode_gaji', 'desc')->first()
         ]; 
 
+        if(empty($data['gaji'])){
+            $data['gaji'] = null;
+        };
+        
         return view('inputGajiProduksi', $data);
     }
 
     public function inputGajiKaryawanProduksi(){
         $post = $this->request->getPost(['kode_gaji' ,'kode_karyawan', 'kode_produksi', 'jumlah_produksi', 'total_gaji']);
+        if($post['kode_produksi'] == '0' && $post['kode_karyawan'] == '0'){
+            session()->setFlashdata('salah', 'Mohon Pilih Karyawan dan Kode Produksi!');
+
+            return redirect()->to('input_gaji_produksi');
+        }elseif($post['kode_produksi'] == '0'){
+            session()->setFlashdata('salah', 'Mohon Pilih Kode Produksi!');
+
+            return redirect()->to('input_gaji_produksi');
+        }elseif($post['kode_karyawan'] == '0'){
+            session()->setFlashdata('salah', 'Mohon Pilih Karyawan!');
+
+            return redirect()->to('input_gaji_produksi');
+        }
         $this->gaji_pegawai_produksi->insert([
             'kode_gaji'         => $post['kode_gaji'],
             'kode'              => $post['kode_karyawan'],
@@ -260,6 +277,11 @@ class PegawaiController extends BaseController
 
     public function inputGajiKaryawanUmum(){
         $post = $this->request->getPost(['kode_gaji' ,'kode_karyawan', 'jumlah_absensi', 'total_gaji']);
+        if($post['kode_karyawan'] == '0'){
+            session()->setFlashdata('salah', 'Mohon Pilih Karyawan!');
+
+            return redirect()->to('input_gaji_umum');
+        }
         $this->gaji_pegawai_umum->insert([
             'kode_gaji'         => $post['kode_gaji'],
             'kode'              => $post['kode_karyawan'],
@@ -472,6 +494,10 @@ class PegawaiController extends BaseController
         // $this->excelPegawaiUmum();
         $post = $this->request->getPost(['bulan']);
 
+        if($post['bulan'] == '0'){
+            return redirect()->to('gaji_umum');
+        }
+
         if($post['bulan'] == 'Januari'){
             $bulan = '01';
         }elseif($post['bulan'] == 'Februari'){
@@ -525,8 +551,11 @@ class PegawaiController extends BaseController
         $dompdf->stream($namaFile);
     }
     public function laporanGajiPegawaiProduksiPdf(){
-        //Tabel Gaji tanggal gajian add
         $post = $this->request->getPost(['kode_produksi']);
+
+        if($post['kode_produksi'] == '0'){
+            return redirect()->to('gaji_produksi');
+        }
 
         $data = [
             'produksi' => $this->gaji_pegawai_produksi->select('gaji_pegawai_produksi.*, karyawan.*, sum(total_gaji) as gaji')
@@ -558,11 +587,15 @@ class PegawaiController extends BaseController
     public function InputPermintaanGajiProduksi(){
         $post = $this->request->getPost('kode_produksi');
 
+        if($post == '0'){
+            return redirect()->to('gaji_produksi');
+        }
+
         $file = $this->request->getFile('laporan');
 
         $digitKode = $this->permintaan->select('RIGHT(keterangan, 3) AS digit, status')->findAll();
 
-        $kode = substr($post, 2, 5);
+        $kode = substr($post, 4, 5);
 
         if($digitKode == null ){
             $namaFile = $file->getName();
@@ -643,6 +676,10 @@ class PegawaiController extends BaseController
     }
     public function InputPermintaanGajiUmum(){
         $post = $this->request->getPost(['bulan']);
+
+        if($post['bulan'] == '0'){
+            return redirect()->to('gaji_umum');
+        }
 
         if($post['bulan'] == 'Januari'){
             $bulan = 'Jan';

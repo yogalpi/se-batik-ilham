@@ -72,6 +72,12 @@ class AsetManageController extends BaseController
     public function simpanBiayaAset(){
         $post = $this->request->getPost(['kode_aset', 'biaya', 'keterangan', 'tanggal']);
 
+        if($post['kode_aset'] == '0'){
+            session()->setFlashdata('error', 'Pilih ID Aset Terlebih Dahulu.');
+
+            return redirect()->to('pemeliharaan_aset');
+        }
+
         $hitungKode = [
             'hitungan'  => $this->permintaan->selectCount('kode_permintaan', 'hitung')->findAll()
         ];

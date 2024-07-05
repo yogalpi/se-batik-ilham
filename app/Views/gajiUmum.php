@@ -24,6 +24,7 @@
                       <div class="row col-4">
                       <label for="exampleInputEmail2" class="form-label mt-2">Pilih Bulan</label>
                         <select name="bulan" type="text" class="form-control mb-3 ms-2" id="kode_produksi_gaji">
+                          <option value="0" selected>-- Pilih Bulan --</option>
                           <option value="Januari">Januari</option>
                           <option value="Februari">Februari</option>
                           <option value="Maret">Maret</option>
@@ -58,6 +59,7 @@
                     <form action="/laporan_gaji_pegawai_umum_pdf" method="post">
                       <label for="exampleInputEmail2" class="form-label mt-2">Pilih Bulan</label>
                       <select name="bulan" type="text" class="form-control mb-3" id="kode_produksi_gaji">
+                        <option value="0" selected>-- Pilih Bulan --</option>
                         <option value="Januari">Januari</option>
                         <option value="Februari">Februari</option>
                         <option value="Maret">Maret</option>
