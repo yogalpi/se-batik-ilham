@@ -37,8 +37,8 @@
                             class="fa-solid fa-file-pdf me-1"></i>Unduh</a><?php endif; ?></td>
                     <td>
                       <div class="d-flex w-full gap-3">
-                        <a href="<?= site_url('update-status-permintaan/' . $p['kode_permintaan'] . '/acc') ?>"
-                          class="w-100 btn btn<?= ($p['status'] == 'ACC') ? '' : '-outline' ?>-success">ACC</a>
+                        <a href="<?= site_url('update-status-permintaan/' . $p['kode_permintaan'] . '/kredit') ?>"
+                          class="w-100 btn btn<?= ($p['status'] == 'KREDIT') ? '' : '-outline' ?>-success">ACC</a>
                         <a href="<?= site_url('update-status-permintaan/' . $p['kode_permintaan'] . '/pending') ?>"
                           class="w-100 btn btn<?= ($p['status'] == 'PENDING') ? '' : '-outline' ?>-warning">PENDING</a>
                         <a href="<?= site_url('update-status-permintaan/' . $p['kode_permintaan'] . '/tolak') ?>"

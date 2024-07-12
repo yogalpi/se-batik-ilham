@@ -76,7 +76,7 @@ class KeuanganController extends BaseController
                     'status' => strtoupper($status)
                 ])->update();
 
-        if(strtoupper($status) == 'ACC'){
+        if(strtoupper($status) == 'KREDIT'){
             $permintaan = $this->permintaan->where('kode_permintaan', $kode_permintaan)->first();
             $this->uangMasukdanKeluar->insert([
                 'kode' => $permintaan['kode_permintaan'],
