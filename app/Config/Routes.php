@@ -151,7 +151,13 @@ $routes->post('/laporan_kasir/export', 'KasirController::exportLaporanKasir');
 // KEUANGAN
 $routes->get('/uangMasukdanKeluar', 'KeuanganController::uangMasukdanKeluar');
 $routes->get('/buku_besar', 'KeuanganController::bukuBesar');
+$routes->get('/detail_buku_besar/(:any)', 'KeuanganController::detailbukuBesar');
+
+$routes->get('/uangMasukdanKeluar', 'KeuanganController::uangMasukdanKeluar');
+$routes->get('/permintaanKeuangan', 'KeuanganController::dataPermintaanKeuangan');
+$routes->get('/buku_besar', 'KeuanganController::bukuBesar');
 $routes->get('/detail_buku_besar/(:any)', 'KeuanganController::detailbukuBesar/$1');
+$routes->get('/update-status-permintaan/(:any)/(:any)', 'KeuanganController::updatePermintaanKeuangan/$1/$2');
 
 $routes->get('/datauangMasukdanKeluar', 'KeuanganController::datauangMasukdanKeluar');
 $routes->post('/simpanUang', 'KeuanganController::simpanUangMasukdanKeluar');
@@ -166,3 +172,7 @@ $routes->get('/testPdf', 'testPdf::index');
 
 $routes->get('/GudangController/downloadPdf', 'GudangController::downloadPdf');
 $routes->post('/pdf','testPdf::pdf');
+
+// pdf bana
+$routes->get('/KeuanganController/downloadPdf', 'KeuanganController::downloadPdf');
+$routes->post('/pdfUang','pdfK::pdf');

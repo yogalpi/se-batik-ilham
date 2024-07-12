@@ -140,6 +140,14 @@
                 <span class="hide-menu">Data Uang Masuk dan Keluar</span>
               </a>
             </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/permintaanKeuangan" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Permintaan Keuangan</span>
+              </a>
+            </li>
 
             <?php endif?>
 
