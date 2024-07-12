@@ -57,6 +57,7 @@ class GudangController extends BaseController
     }
 
     public function simpanBahan(){
+        
         $post = $this->request->getPost(['kode_barang', 'nama_barang', 'jumlah', 'satuan', 'keterangan', 'tanggal']);
         $this->gudangBahan->insert([
             'kode_barang'   => $post['kode_barang'],
@@ -67,7 +68,11 @@ class GudangController extends BaseController
             'keterangan'    => $post['keterangan'],
             'tanggal'    => $post['tanggal'],
         ]);
+
+        $data = $this->gudangBahan->select('nama_barang')->where('kode_barang', $post['kode_barang'])->findAll();
+        session()->setFlashdata('sukses', 'Data <strong>'.$data[0]['nama_barang'].'</strong> Berhasil Di Input.');
         return redirect()->to("/data_gudang");
+        
     }
 
     public function editGudang($kode_barang)
@@ -111,6 +116,8 @@ class GudangController extends BaseController
     public function deleteGudang($kode_barang)
     {
         $this->gudangBahan->delete($kode_barang);
+
+        session()->setFlashdata('hapus', 'Data Berhasil Di Hapus.');
         return redirect()->to("/data_gudang");
     }
 
@@ -120,9 +127,11 @@ class GudangController extends BaseController
 
         $detail_produksi = $this->detail_produksi->select('detail_produksi.*, bahan_baku.nama_barang,produksi.*')->join('bahan_baku', 'detail_produksi.kode_barang = bahan_baku.kode_barang')->join('produksi','detail_produksi.kode_produksi = produksi.kode_produksi')->findAll();
         $pengadaan = $this->pengadaan->select('pengadaan.*,(jumlah_barang * harga) as total_harga, bahan_baku.nama_barang')->join('bahan_baku','pengadaan.kode_barang = bahan_baku.kode_barang')->findAll();
+        $produksi = $this->produksi->select('produksi.*')->findAll();
         $data = [
             'detail_produksi' => $detail_produksi,
             'pengadaan' => $pengadaan,
+            'produksi'=> $produksi,
             // 'nama_admin'        => user()->username
         ];
 

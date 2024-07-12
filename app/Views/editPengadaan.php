@@ -40,7 +40,7 @@
             </div>
             <div class="col-4">
               <label for="exampleInputPassword1" class="form-label">Jumlah Barang</label>
-              <input name="jumlah_barang" type="text" value="<?= $pengadaan[0]["jumlah_barang"] ?>" class="form-control"
+              <input name="jumlah_barang" type="number" value="<?= $pengadaan[0]["jumlah_barang"] ?>" class="form-control"
                 id="exampleInputPassword1">
             </div>
             <div class="col-4">
@@ -54,7 +54,7 @@
             </div>
             <div class="col-4">
               <label for="exampleInputPassword1" class="form-label">Harga</label>
-              <input name="harga" type="text" value="<?= $pengadaan[0]["harga"] ?>" class="form-control"
+              <input name="harga" type="number" value="<?= $pengadaan[0]["harga"] ?>" class="form-control"
                 id="exampleInputPassword1">
             </div>
             <div class="col-4">

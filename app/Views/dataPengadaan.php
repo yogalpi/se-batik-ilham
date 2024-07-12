@@ -3,13 +3,18 @@
 <?= $this->section("content"); ?>
 <?= $this->include("sidebar"); ?>
 
+<style>
+::-webkit-scrollbar {
+  display:none;
+}
+</style>
 
 <div class="container-fluid">
   <div class="card">
     <div class="card-body">
       <h5 class="card-title fw-semibold mb-4">Daftar List Pengadaan</h5>
       <div class="card">
-        <div class="card-body">
+        <div class="card-body overflow-scroll">
 
         <?php if (session()->getFlashdata('sukses')): ?>
             <div onclick="(function(notif){
@@ -19,17 +24,17 @@
             </div>
           <?php endif; ?>
 
-          <table class="table table-hover mb-5">
+          <table class="table table-hover mb-5 text-nowrap">
             <thead>
               <tr>
                 <th scope="col">KODE PENGADAAN</th>
                 <th scope="col">NAMA PENGGUNA</th>
-                <th scope="col">TANGGAL</th>
+                <th scope="col" class="px-5" >TANGGAL</th>
                 <th scope="col">NAMA BARANG</th>
                 <th scope="col">JUMLAH BARANG</th>
                 <th scope="col">SATUAN</th>
-                <th scope="col">HARGA</th>
-                <th scope="col">TOTAL HARGA</th>
+                <th scope="col" class="px-5" >HARGA</th>
+                <th scope="col" class="px-5">TOTAL HARGA</th>
                 <th scope="col">SUPPLIER</th>
                 <th scope="col">ACTION</th>
               </tr>
@@ -39,13 +44,13 @@
                 <tr>
                   <td scope="row"><?= $peng["kode_pengadaan"] ?></td>
                   <td scope="row"><?= $peng["nama_pengguna"] ?></td>
-                  <td scope="row"><?= $peng["tanggal"] ?></td>
+                  <td scope="row"><?= date_format(date_create($peng['tanggal']), "d F Y"); ?></td>
                   <td scope="row"><?= $peng["nama_barang"] ?></td>
 
                   <td scope="row"><?= $peng["jumlah_barang"] ?></td>
                   <td scope="row"><?= $peng["satuan"] ?></td>
-                  <td scope="row"><?= $peng["harga"] ?></td>
-                  <td scope="row"><?= $peng["total_harga"] ?></td>
+                  <td scope="row">Rp.<?= number_format( $peng["harga"],0,'.','.') ?></td>
+                  <td scope="row">Rp. <?= number_format( $peng["total_harga"],0,'.','.') ?></td>
                   <td scope="row"><?= $peng["nama_supplier"] ?></td>
                   <td class="d-flex">
                     <a href="/editPengadaan/<?= $peng["kode_pengadaan"] ?>" class="me-3">

@@ -40,7 +40,7 @@
             </div>
               <div class="col-4">
                 <label for="exampleInputPassword1" class="form-label">Jumlah Barang</label>
-                <input name="jumlah_barang" type="text" class="form-control" id="exampleInputPassword1">
+                <input name="jumlah_barang" type="number" class="form-control" id="exampleInputPassword1">
               </div>
               <div class="col-4">
                 <label for="exampleInputPassword1" class="form-label">Satuan</label>
@@ -52,7 +52,7 @@
               </div>
               <div class="col-4">
                 <label for="exampleInputPassword1" class="form-label">Harga</label>
-                <input name="harga" type="text" class="form-control" id="exampleInputPassword1">
+                <input name="harga" type="number" class="form-control" id="exampleInputPassword1">
               </div>
               <div class="col-4">
               <label for="exampleInputEmail1" class="form-label">Nama Supplier</label>

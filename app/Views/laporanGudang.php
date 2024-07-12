@@ -60,7 +60,7 @@
               <?php foreach ($pengadaan as $p): ?>
                 <tr>
                   
-                  <td scope="row"><?= $p["tanggal"] ?></td>
+                <td scope="row"><?= date_format(date_create($p['tanggal']), "d F Y"); ?></td>
                   <td scope="row"><?= $p["nama_barang"] ?></td>
                   <td scope="row"><?= $p["jumlah_barang"] ?></td>
                   <td scope="row"><?= $p["satuan"] ?></td>
@@ -86,9 +86,7 @@
           <table class="table table-hover mb-5">
             <thead>
               <tr>
-                <th scope="col">TANGGAL</th>
                 <th scope="col">NAMA BARANG</th>
-                
                 <th scope="col">JUMLAH BARANG</th>
                 <th scope="col">SATUAN</th>
                 
@@ -97,7 +95,6 @@
             <tbody>
               <?php foreach ($detail_produksi as $dp): ?>
                 <tr>
-                  <td scope="row"><?= $dp["tanggal_mulai"] ?></td>
                   <td scope="row"><?= $dp["nama_barang"] ?></td>
                   <td scope="row"><?= $dp["jumlah_barang"] ?></td>
                   <td scope="row"><?= $dp["satuan"] ?></td>

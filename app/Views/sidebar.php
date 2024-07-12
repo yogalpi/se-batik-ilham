@@ -1,6 +1,6 @@
 <?= $this->renderSection("content"); ?>
-
 <aside class="left-sidebar">
+
       <!-- Sidebar scroll-->
       <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
@@ -19,11 +19,11 @@
         <?php if(session()->get("user")[0]["kode_akses"] == "AGBB" || session()->get("user")[0]["kode_akses"] ==  "OWN") :?> 
 
             <li class="nav-small-cap">
-              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+            <i class="fa-solid fa-cart-arrow-down"></i>
               <span class="hide-menu">PENGADAAN</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/input_pengadaan" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/input_pengadaan'){echo "active";} ?>" href="/input_pengadaan" aria-expanded="false">
                 <span>
                   <i class="fa-solid fa-square-plus"></i>
                 </span>
@@ -31,19 +31,20 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/data_permintaan" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/data_permintaan'){echo "active";} ?>" href="/data_permintaan" aria-expanded="false">
                 <span>
                   <i class="fa-solid fa-hand-point-up"></i>
                 </span>
                 <span class="hide-menu">Permintaan</span>
+              
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/data_pengadaan" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/data_pengadaan'){echo "active";} ?>" href="/data_pengadaan" aria-expanded="false">
                 <span>
                 <i class="fa-solid fa-list-ul"></i>
                 </span>
-                <span class="hide-menu">Daftar Data</span>
+                <span class="hide-menu">Data Pengadaan</span>
               </a>
             </li>
 
@@ -52,11 +53,11 @@
             <?php if(session()->get("user")[0]["kode_akses"] == "KP" || session()->get("user")[0]["kode_akses"] ==  "OWN" ) :?> 
 
             <li class="nav-small-cap">
-              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+            <i class="fa-solid fa-industry"></i>
               <span class="hide-menu">Produksi</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/input_produksi" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/input_produksi'){echo "active";} ?>" href="/input_produksi" aria-expanded="false">
                 <span>
                 <i class="fa-solid fa-square-plus"></i>
                 </span>
@@ -64,11 +65,11 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/data_produksi" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/data_produksi'){echo "active";} ?>" href="/data_produksi" aria-expanded="false">
                 <span>
                 <i class="fa-solid fa-list-ul"></i>
                 </span>
-                <span class="hide-menu">Daftar Data</span>
+                <span class="hide-menu">Data Produksi</span>
               </a>
             </li>
 
@@ -219,11 +220,11 @@
             <?php if(session()->get("user")[0]["kode_akses"] == "AGBB" || session()->get("user")[0]["kode_akses"] ==  "OWN" ) :?> 
 
             <li class="nav-small-cap">
-              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+            <i class="fa-solid fa-warehouse"></i>
               <span class="hide-menu">Gudang Bahan</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/input_gudang" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/input_gudang'){echo "active";} ?>" href="/input_gudang" aria-expanded="false">
                 <span>
                 <i class="fa-solid fa-square-plus"></i>
                 </span>
@@ -231,17 +232,17 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/data_gudang" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/data_gudang'){echo "active";} ?>" href="/data_gudang" aria-expanded="false">
                 <span>
                 <i class="fa-solid fa-list-ul"></i>
                 </span>
-                <span class="hide-menu">Daftar Data</span>
+                <span class="hide-menu">Data Gudang</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/laporan_gudang" aria-expanded="false">
+              <a class="sidebar-link <?php if ($_SERVER['REQUEST_URI'] == '/laporan_gudang'){echo "active";} ?>" href="/laporan_gudang" aria-expanded="false">
                 <span>
-                <i class="fa-solid fa-book-skull"></i>
+                <i class="fa-solid fa-file"></i>
                 </span>
                 <span class="hide-menu">Laporan Gudang</span>
               </a>

@@ -35,8 +35,8 @@
                 <tr>
                   
                   <td scope="row"><?= $prod["kode_produksi"] ?></td>
-                  <td scope="row"><?= $prod["tanggal_mulai"] ?></td>
-                  <td scope="row"><?= $prod["tanggal_selesai"] ?></td>
+                  <td scope="row"><?= date_format(date_create($prod['tanggal_mulai']), "d F Y"); ?></td>
+                  <td scope="row"><?= date_format(date_create($prod['tanggal_selesai']), "d F Y"); ?></td>
                   <td scope="row"><?= $prod["rencana_produksi"] ?></td>
                   <td>
                     <a href="/editProduksi/<?= $prod["kode_produksi"] ?>" class="me-3">

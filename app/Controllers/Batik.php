@@ -103,4 +103,7 @@ class Batik extends BaseController
 
         return redirect('/');
     }
+
+    
+      
 }

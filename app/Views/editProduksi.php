@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-4">
                   <label for="detail_produksi" class="col-sm-12 col-form-label">Jumlah Barang</label>
-                  <input type="text" value="<?= $prod["jumlah_barang"] ?>" class="form-control col-6"  id="detail_produksi"
+                  <input type="number" value="<?= $prod["jumlah_barang"] ?>" class="form-control col-6"  id="detail_produksi"
                     name="jumlah_barang[]" readonly>
                 </div>
                 <div class="col-4">

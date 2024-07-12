@@ -8,9 +8,14 @@
             border-collapse: collapse;
         }
         th, td {
-            border: 1px solid black;
+            border: 1px solid mediumpurple;
             padding: 5px;
             text-align: left;
+        }
+
+        th {
+            background-color: mediumpurple;
+            color: white;
         }
     </style>
 </head>
@@ -25,7 +30,7 @@
             date_default_timezone_set('Asia/Jakarta');
 
             // mengambil format jam
-            $currentDate = date('d-m-Y');
+            $currentDate = date('d-F-Y');
 
             echo "Tanggal : $currentDate";
         ?>
@@ -47,13 +52,13 @@
             <?php foreach ($pengadaan as $peng): ?>
             <tr>
                   <td scope="row"><?= $peng["kode_pengadaan"] ?></td>
-                  <td scope="row"><?= $peng["tanggal"] ?></td>
+                  <td scope="row"><?= date_format(date_create($peng['tanggal']), "d F Y"); ?></td>
                   <td scope="row"><?= $peng["nama_barang"] ?></td>
 
                   <td scope="row"><?= $peng["jumlah_barang"] ?></td>
                   <td scope="row"><?= $peng["satuan"] ?></td>
-                  <td scope="row"><?= $peng["harga"] ?></td>
-                  <td scope="row"><?= $peng["total_harga"] ?></td>
+                  <td scope="row">Rp.<?= number_format( $peng["harga"],0,'.','.') ?></td>
+                  <td scope="row">Rp.<?= number_format( $peng["total_harga"],0,'.','.') ?></td>
             </tr>
             <?php endforeach; ?>
         </tbody>
