@@ -634,6 +634,8 @@ class PegawaiController extends BaseController
         foreach($digitKode as $digit){
             if($digit['digit'] == $kode && $digit['status'] == 'PENDING'){
                 $cek = 1;
+            }else if($digit['digit'] == $kode && $digit['status'] == 'ACC'){
+                $cek = 1;
             }
         }
 
@@ -760,7 +762,9 @@ class PegawaiController extends BaseController
 
         $cek = 0;
         foreach($digitKode as $digit){
-            if($digit['digit'] == $bulan && $digit['status'] == 'PENDING' || $digit['status'] == 'ACC'){
+            if($digit['digit'] == $bulan && $digit['status'] == 'PENDING'){
+                $cek = 1;
+            }else if($digit['digit'] == $bulan && $digit['status'] == 'ACC'){
                 $cek = 1;
             }
         }

@@ -21,7 +21,7 @@
               
             <div class="col-4">
               <label for="exampleInputEmail1" class="form-label">Kode Produksi</label>
-              <input value="<?php $prod = (int)$produksi[0]['kode_produksi']; if($prod == 0) :?><?= 'PR-00'.$prod; ?><?php elseif($prod < 10) :?><?= 'PR-00'.$prod; ?><?php elseif($prod >= 10 && $prod < 100) :?><?= 'PR-0'.$prod ?><?php else :?><?= 'PR-'.$prod; ?><?php endif; ?>" name="kode_produksi" type="text" class="form-control border-secondary" id="exampleInputEmail1" aria-describedby="emailHelp" readonly>
+              <input value="<?php $prod = (int)$produksi[0]['kode_produksi'];if($prod == 0) :?><?= 'PR-00'.$prod; ?><?php elseif($prod < 10) :?><?= 'PR-00'.$prod; ?><?php elseif($prod >= 10 && $prod < 100) :?><?= 'PR-0'.$prod ?><?php else :?><?= 'PR-'.$prod; ?><?php endif; ?>" name="kode_produksi" type="text" class="form-control border-secondary" id="exampleInputEmail1" aria-describedby="emailHelp" readonly>
             </div>
             <div class="col-4">
               <label for="exampleInputPassword1" class="form-label">Tanggal Mulai</label>
